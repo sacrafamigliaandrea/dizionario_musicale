@@ -117,72 +117,124 @@ a{color:inherit}
 }
 .eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--rosa-deep);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.hero h1{
-  font-family:var(--display);font-size:clamp(56px,8vw,116px);
-  font-weight:700;line-height:.95;letter-spacing:-3.5px;margin-bottom:28px;
-  color:var(--text);
+/* HOME — no scroll */
+.home-noscroll{
+  height:calc(100vh - var(--topbar-h));
+  display:flex;align-items:center;justify-content:center;
+  padding:32px 32px;
+  overflow:hidden;
 }
-.hero h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--rosa-deep);letter-spacing:-4px}
-.hero .lead{
-  font-family:var(--serif);font-size:24px;font-style:italic;color:var(--text-2);
-  max-width:820px;margin:0 auto;line-height:1.45;
+.home-grid{
+  display:grid;
+  grid-template-columns:minmax(0, 1.05fr) minmax(0, 1fr);
+  gap:64px;align-items:center;
+  width:100%;max-width:1480px;
 }
-.hero-image{
-  margin-top:56px;border-radius:32px;overflow:hidden;position:relative;
+@media(max-width:1100px){
+  .home-noscroll{
+    height:auto;min-height:calc(100vh - var(--topbar-h));
+    overflow:visible;padding:48px 28px;
+  }
+  .home-grid{grid-template-columns:1fr;gap:40px}
+}
+
+.home-text{display:flex;flex-direction:column;gap:18px}
+.home-text .eyebrow{align-self:flex-start;margin-bottom:0}
+.home-text h1{
+  font-family:var(--display);
+  font-size:clamp(44px, 5.4vw, 76px);
+  font-weight:700;line-height:.95;letter-spacing:-2.4px;
+  color:var(--text);margin:0;
+}
+.home-text h1 em{
+  font-family:var(--serif);font-style:italic;font-weight:500;
+  color:var(--rosa-deep);letter-spacing:-2.8px;
+}
+.home-text .lead{
+  font-family:var(--serif);font-size:20px;font-style:italic;
+  color:var(--text-2);line-height:1.45;margin:0;
+  max-width:560px;
+}
+
+/* Steps compatti */
+.steps-compact{
+  display:flex;flex-direction:column;gap:10px;
+  margin-top:8px;
+}
+.step-c{
+  display:flex;align-items:center;gap:18px;
+  padding:14px 18px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  position:relative;overflow:hidden;
+  transition:transform .2s, border-color .2s;
+}
+.step-c:hover{transform:translateX(4px)}
+.step-c::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px}
+.step-c:nth-child(1)::before{background:var(--verde)}
+.step-c:nth-child(2)::before{background:var(--azzurro)}
+.step-c:nth-child(3)::before{background:var(--rosa)}
+.step-c:nth-child(1):hover{border-color:var(--verde-soft)}
+.step-c:nth-child(2):hover{border-color:var(--azzurro-soft)}
+.step-c:nth-child(3):hover{border-color:var(--rosa-soft)}
+.step-c-num{
+  font-family:var(--mono);font-weight:700;font-size:13px;
+  letter-spacing:1.5px;flex-shrink:0;
+  width:32px;text-align:center;
+}
+.step-c:nth-child(1) .step-c-num{color:var(--verde-deep)}
+.step-c:nth-child(2) .step-c-num{color:var(--azzurro-deep)}
+.step-c:nth-child(3) .step-c-num{color:var(--rosa-deep)}
+.step-c-icon{
+  width:42px;height:42px;border-radius:12px;
+  display:grid;place-items:center;flex-shrink:0;
+}
+.step-c:nth-child(1) .step-c-icon{background:var(--verde-soft);color:var(--verde-deep)}
+.step-c:nth-child(2) .step-c-icon{background:var(--azzurro-soft);color:var(--azzurro-deep)}
+.step-c:nth-child(3) .step-c-icon{background:var(--rosa-soft);color:var(--rosa-deep)}
+.step-c-icon svg{width:20px;height:20px}
+.step-c-text{display:flex;flex-direction:column;gap:2px;min-width:0}
+.step-c-text strong{
+  font-family:var(--display);font-weight:700;font-size:17px;
+  letter-spacing:-.3px;color:var(--text);
+}
+.step-c-text span{
+  font-family:var(--serif);font-style:italic;font-size:15px;
+  color:var(--text-2);line-height:1.35;
+}
+
+.home-text .btn-cta-big{
+  align-self:flex-start;margin-top:14px;
+}
+
+/* Immagine */
+.home-image{
+  border-radius:28px;overflow:hidden;position:relative;
   box-shadow:
     0 0 0 1px var(--border),
     0 24px 60px rgba(31,41,55,.10),
-    0 50px 100px rgba(255,197,66,.10);
+    0 40px 80px rgba(255,197,66,.08);
+  aspect-ratio:auto;
+  max-height:calc(100vh - var(--topbar-h) - 64px);
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg-2);
 }
-.hero-image img{display:block;width:100%;height:auto}
-
-/* FASI */
-.fasi{margin-bottom:96px}
-.fasi-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:40px;gap:24px;flex-wrap:wrap}
-.fasi-head h2{font-family:var(--display);font-weight:700;font-size:clamp(40px,4.5vw,60px);letter-spacing:-1.8px;line-height:1;color:var(--text)}
-.fasi-head h2 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--rosa-deep)}
-.fasi-head p{font-family:var(--serif);font-style:italic;color:var(--text-2);font-size:19px;max-width:480px;line-height:1.45}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-@media(max-width:900px){.steps{grid-template-columns:1fr}}
-.step{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:24px;padding:36px 32px;position:relative;overflow:hidden;
-  transition:border-color .25s, transform .25s, box-shadow .25s;
+.home-image img{
+  display:block;width:100%;height:100%;
+  object-fit:cover;
+  max-height:calc(100vh - var(--topbar-h) - 64px);
 }
-.step:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(31,41,55,.06)}
-.step::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
-.step:nth-child(1)::before{background:var(--verde)}
-.step:nth-child(1):hover{border-color:var(--verde-soft)}
-.step:nth-child(2)::before{background:var(--azzurro)}
-.step:nth-child(2):hover{border-color:var(--azzurro-soft)}
-.step:nth-child(3)::before{background:var(--rosa)}
-.step:nth-child(3):hover{border-color:var(--rosa-soft)}
-.step-num{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:2px;display:block;margin-bottom:24px}
-.step:nth-child(1) .step-num{color:var(--verde-deep)}
-.step:nth-child(2) .step-num{color:var(--azzurro-deep)}
-.step:nth-child(3) .step-num{color:var(--rosa-deep)}
-.step-icon{
-  width:68px;height:68px;border-radius:20px;
-  display:grid;place-items:center;margin-bottom:24px;
-}
-.step:nth-child(1) .step-icon{background:var(--verde-soft);color:var(--verde-deep)}
-.step:nth-child(2) .step-icon{background:var(--azzurro-soft);color:var(--azzurro-deep)}
-.step:nth-child(3) .step-icon{background:var(--rosa-soft);color:var(--rosa-deep)}
-.step-icon svg{width:32px;height:32px}
-.step h3{font-family:var(--display);font-weight:700;font-size:30px;letter-spacing:-1px;line-height:1.1;margin-bottom:14px;color:var(--text)}
-.step h3 em{font-family:var(--serif);font-style:italic;font-weight:500}
-.step p{font-family:var(--serif);font-size:19px;color:var(--text-2);line-height:1.5}
 
 /* CTA */
-.cta-section{text-align:center;padding:32px 0}
 .btn-cta-big{
-  padding:20px 36px;border-radius:99px;
-  font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:-.2px;
+  padding:18px 32px;border-radius:99px;
+  font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:-.2px;
   background:linear-gradient(135deg, var(--verde), var(--verde-deep));
   color:#fff;
   display:inline-flex;align-items:center;gap:12px;transition:all .2s;
   box-shadow:0 8px 24px rgba(91,168,108,.3);
+  border:0;cursor:pointer;
 }
 .btn-cta-big:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(91,168,108,.4)}
 .btn-cta-big svg{width:18px;height:18px}
@@ -218,6 +270,21 @@ a{color:inherit}
   display:grid;place-items:center;
 }
 .cover-art{position:relative;z-index:1;width:62%;height:62%}
+.cover-art.vinyl{width:88%;height:88%}
+
+/* Rotazione del vinile */
+.vinyl-disc{
+  transform-origin:100px 100px;
+  animation:vinyl-spin 6s linear infinite;
+}
+.traccia:hover .vinyl-disc{animation-duration:3s}
+@keyframes vinyl-spin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+@media (prefers-reduced-motion: reduce){
+  .vinyl-disc{animation:none}
+}
 .traccia-eyebrow{
   font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
   color:var(--text-3);display:flex;align-items:center;gap:9px;
@@ -276,6 +343,7 @@ a{color:inherit}
   display:grid;place-items:center;
 }
 .cover-mini .cover-art{width:62%;height:62%}
+.cover-mini .cover-art.vinyl{width:88%;height:88%}
 .player-titles{flex:1;min-width:0}
 .player-eyebrow{
   font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
@@ -525,6 +593,9 @@ a{color:inherit}
   content:'';width:8px;height:8px;border-radius:50%;
   background:linear-gradient(135deg, var(--verde), var(--rosa));
 }
+/* Footer nascosto quando home no-scroll è attiva */
+body.home-active .footer{display:none}
+@media(max-width:1100px){body.home-active .footer{display:flex}}
 </style>
 </head>
 <body>
@@ -592,48 +663,49 @@ a{color:inherit}
 </header>
 
 <main class="view active" data-view="home">
-  <div class="wrap">
-    <section class="hero">
-      <span class="eyebrow">un viaggio nella musica · in cuffia</span>
-      <h1>Le canzoni che<br>ti regalano <em>parole</em>.</h1>
-      <p class="lead">Le canzoni d'autore italiane sono piene di parole che a scuola non si studiano e nei messaggi non si scrivono. Mettile in cuffia, esplora il glossario, prova quanto hai capito. Le parole nuove diventano tue.</p>
-      <div class="hero-image">
+  <div class="home-noscroll">
+    <div class="home-grid">
+      <div class="home-text">
+        <span class="eyebrow">un viaggio nella musica · in cuffia</span>
+        <h1>Le canzoni che<br>ti regalano <em>parole</em>.</h1>
+        <p class="lead">Le canzoni d'autore italiane sono piene di parole che a scuola non si studiano e nei messaggi non si scrivono. Mettile in cuffia, esplora il glossario, prova quanto hai capito.</p>
+
+        <div class="steps-compact">
+          <div class="step-c">
+            <span class="step-c-num">01</span>
+            <div class="step-c-icon"><svg><use href="#i-cuffie"/></svg></div>
+            <div class="step-c-text">
+              <strong>Ascolto</strong>
+              <span>la canzone gira, le parole si illuminano</span>
+            </div>
+          </div>
+          <div class="step-c">
+            <span class="step-c-num">02</span>
+            <div class="step-c-icon"><svg><use href="#i-libro"/></svg></div>
+            <div class="step-c-text">
+              <strong>Glossario</strong>
+              <span>definizione, etimologia, esempi</span>
+            </div>
+          </div>
+          <div class="step-c">
+            <span class="step-c-num">03</span>
+            <div class="step-c-icon"><svg><use href="#i-trofeo"/></svg></div>
+            <div class="step-c-text">
+              <strong>Test finale</strong>
+              <span>cinque domande, parole padroneggiate</span>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-cta-big" id="cta-home">
+          <svg><use href="#i-cuffie"/></svg> Inizia dal catalogo
+        </button>
+      </div>
+
+      <div class="home-image">
         <img src="vocabolario.jpg" alt="Studenti che ascoltano canzoni e raccolgono parole letterarie">
       </div>
-    </section>
-
-    <section class="fasi">
-      <div class="fasi-head">
-        <div><h2>Tre <em>fasi</em>.</h2></div>
-        <p>Una struttura semplice e ricorrente. Si ripete uguale per ogni canzone.</p>
-      </div>
-      <div class="steps">
-        <div class="step">
-          <span class="step-num">01 · ASCOLTO</span>
-          <div class="step-icon"><svg><use href="#i-cuffie"/></svg></div>
-          <h3>Metti in cuffia <em>la canzone</em></h3>
-          <p>L'audio gira. A ogni passaggio importante, una parola letteraria si illumina nel pannello e ti aspetta lì, pronta da esplorare.</p>
-        </div>
-        <div class="step">
-          <span class="step-num">02 · GLOSSARIO</span>
-          <div class="step-icon"><svg><use href="#i-libro"/></svg></div>
-          <h3>Esplora <em>le parole</em></h3>
-          <p>Per ogni parola: definizione, etimologia, famiglia, esempio, curiosità. Tutto quello che serve per capirla davvero — e non dimenticarla.</p>
-        </div>
-        <div class="step">
-          <span class="step-num">03 · TEST FINALE</span>
-          <div class="step-icon"><svg><use href="#i-trofeo"/></svg></div>
-          <h3>Verifica <em>cosa hai capito</em></h3>
-          <p>Cinque domande veloci sulle parole della canzone. Vedi subito quali padroneggi e quali rivedere prima di passare a un altro brano.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="cta-section">
-      <button class="btn-cta-big" id="cta-home">
-        <svg><use href="#i-cuffie"/></svg> Inizia dal catalogo
-      </button>
-    </section>
+    </div>
   </div>
 </main>
 
@@ -707,7 +779,7 @@ a{color:inherit}
 </footer>
 
 <script>
-/* COVER ART — palette in armonia con l'illustrazione */
+/* COVER ART — vinile che gira, palette in armonia con l'illustrazione */
 function coverSVG(letter, palette){
   const palettes = {
     battisti:  ['#FFEFCC','#FFC542','#F5A623','#A05A2C'],   /* sole */
@@ -720,23 +792,71 @@ function coverSVG(letter, palette){
     cremonini: ['#FFD89B','#FF7E5F','#C0392B','#5C1F1A']    /* estate */
   };
   const p = palettes[palette] || palettes.battisti;
-  const id = `g-${palette}-${letter}-${Math.floor(Math.random()*9999)}`;
+  const uid = `${palette}-${letter}-${Math.floor(Math.random()*9999)}`;
+  // Sfondo del riquadro: pastello chiaro coerente con la palette
+  // Vinile: nero profondo, etichetta colorata, foro centrale, lettera, riflesso
   return `
-    <div style="position:absolute;inset:0;background:linear-gradient(135deg, ${p[0]}, ${p[2]} 80%);"></div>
-    <svg class="cover-art" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <div style="position:absolute;inset:0;background:linear-gradient(140deg, ${p[0]} 0%, ${p[1]} 100%);"></div>
+    <svg class="cover-art vinyl" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="${id}" cx="40%" cy="40%">
-          <stop offset="0%" stop-color="${p[0]}" stop-opacity=".95"/>
-          <stop offset="100%" stop-color="${p[3]}" stop-opacity=".95"/>
+        <radialGradient id="vinyl-disc-${uid}" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#1a1a1a"/>
+          <stop offset="60%" stop-color="#0a0a0a"/>
+          <stop offset="100%" stop-color="#000"/>
         </radialGradient>
+        <radialGradient id="vinyl-label-${uid}" cx="40%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="${p[0]}" stop-opacity="1"/>
+          <stop offset="100%" stop-color="${p[3]}" stop-opacity="1"/>
+        </radialGradient>
+        <linearGradient id="vinyl-shine-${uid}" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+          <stop offset="40%" stop-color="#ffffff" stop-opacity="0"/>
+          <stop offset="60%" stop-color="#ffffff" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#ffffff" stop-opacity="0.10"/>
+        </linearGradient>
       </defs>
-      <circle cx="100" cy="100" r="92" fill="url(#${id})"/>
-      <circle cx="100" cy="100" r="92" fill="none" stroke="${p[3]}" stroke-width="2" opacity=".5"/>
-      <circle cx="100" cy="100" r="28" fill="${p[3]}" opacity=".75"/>
-      <circle cx="100" cy="100" r="6" fill="${p[0]}"/>
-      <text x="100" y="78" text-anchor="middle" fill="${p[3]}"
-            font-family="Fraunces, serif" font-style="italic" font-weight="700"
-            font-size="58" opacity=".9">${letter}</text>
+
+      <!-- Ombra del disco -->
+      <ellipse cx="100" cy="186" rx="78" ry="6" fill="#000" opacity="0.12"/>
+
+      <!-- DISCO che gira -->
+      <g class="vinyl-disc">
+        <!-- Disco nero -->
+        <circle cx="100" cy="100" r="92" fill="url(#vinyl-disc-${uid})"/>
+
+        <!-- Solchi concentrici -->
+        <circle cx="100" cy="100" r="86" fill="none" stroke="#222" stroke-width="0.4" opacity="0.7"/>
+        <circle cx="100" cy="100" r="80" fill="none" stroke="#222" stroke-width="0.4" opacity="0.6"/>
+        <circle cx="100" cy="100" r="74" fill="none" stroke="#222" stroke-width="0.4" opacity="0.7"/>
+        <circle cx="100" cy="100" r="68" fill="none" stroke="#222" stroke-width="0.4" opacity="0.6"/>
+        <circle cx="100" cy="100" r="62" fill="none" stroke="#222" stroke-width="0.4" opacity="0.7"/>
+        <circle cx="100" cy="100" r="56" fill="none" stroke="#222" stroke-width="0.4" opacity="0.6"/>
+        <circle cx="100" cy="100" r="50" fill="none" stroke="#222" stroke-width="0.4" opacity="0.7"/>
+        <circle cx="100" cy="100" r="44" fill="none" stroke="#222" stroke-width="0.4" opacity="0.5"/>
+
+        <!-- Riflesso obliquo della luce -->
+        <circle cx="100" cy="100" r="92" fill="url(#vinyl-shine-${uid})"/>
+
+        <!-- Etichetta colorata centrale -->
+        <circle cx="100" cy="100" r="36" fill="url(#vinyl-label-${uid})"/>
+        <circle cx="100" cy="100" r="36" fill="none" stroke="${p[3]}" stroke-width="0.8" opacity="0.5"/>
+
+        <!-- Lettera autore (in italico Fraunces) -->
+        <text x="100" y="108" text-anchor="middle"
+              fill="${p[3]}"
+              font-family="Fraunces, serif"
+              font-style="italic"
+              font-weight="700"
+              font-size="38"
+              opacity="0.92">${letter}</text>
+
+        <!-- Foro centrale -->
+        <circle cx="100" cy="100" r="3.5" fill="#0a0a0a"/>
+        <circle cx="100" cy="100" r="2" fill="#000"/>
+      </g>
+
+      <!-- Punto di luce fisso (non gira) per dare profondità -->
+      <circle cx="65" cy="62" r="3" fill="#fff" opacity="0.18"/>
     </svg>
   `;
 }
@@ -1586,7 +1706,8 @@ function vai(viewName, payload){
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
   document.querySelector(`.view[data-view="${viewName}"]`)?.classList.add('active');
   document.querySelector(`.nav-btn[data-go="${viewName}"]`)?.classList.add('active');
-  window.scrollTo({top:0, behavior:'smooth'});
+  document.body.classList.toggle('home-active', viewName === 'home');
+  if(viewName !== 'home') window.scrollTo({top:0, behavior:'smooth'});
   if(viewName === 'catalogo') renderCatalogo();
   if(viewName === 'lettura' && payload) apriCanzone(payload);
   if(viewName === 'quiz') avviaQuiz();
@@ -1900,6 +2021,7 @@ function renderQuizFine(){
 }
 
 renderCatalogo();
+document.body.classList.add('home-active');
 </script>
 </body>
 </html>
