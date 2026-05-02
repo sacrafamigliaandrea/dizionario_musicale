@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vocabolario d'autore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A0A12;
+  --bg-2:#10101C;
+  --surface:#14141F;
+  --surface-hi:#1A1A28;
+  --border:#22222F;
+  --border-hi:#2E2E40;
+  --text:#F5F5F0;
+  --text-2:#B5B5C0;
+  --text-3:#7A7A88;
+  --lime:#D9FF3A;
+  --lime-soft:#E8FF7A;
+  --lime-deep:#9FCC00;
+  --magenta:#FF4D8B;
+  --magenta-soft:#FFB0CC;
+  --ciano:#5EEAD4;
+  --warm-1:#F4A261;
+  --warm-2:#E76F51;
+  --warm-3:#E9C46A;
+  --warm-4:#A05A2C;
+  --display:'Bricolage Grotesque', -apple-system, system-ui, sans-serif;
+  --serif:'Fraunces', Georgia, serif;
+  --mono:'JetBrains Mono', ui-monospace, monospace;
+  --shadow:0 0 0 1px var(--border), 0 12px 40px rgba(0,0,0,.5);
+  --shadow-hi:0 0 0 1px var(--border-hi), 0 20px 60px rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--display);
+  font-size:15px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+  background-image:
+    radial-gradient(1200px 700px at 90% -20%, rgba(217,255,58,.05), transparent 70%),
+    radial-gradient(900px 600px at -10% 110%, rgba(255,77,139,.06), transparent 70%);
+  background-attachment:fixed;
+}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+a{color:inherit}
+
+/* ========== NOISE OVERLAY ========== */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
+  opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ========== TOPBAR ========== */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:rgba(10,10,18,.78);
+  backdrop-filter:blur(20px) saturate(140%);
+  -webkit-backdrop-filter:blur(20px) saturate(140%);
+  border-bottom:1px solid var(--border);
+}
+.topbar-inner{
+  max-width:1320px;margin:0 auto;
+  padding:14px 28px;
+  display:flex;align-items:center;gap:24px;
+}
+.brand{
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+}
+.brand-mark{
+  width:38px;height:38px;border-radius:11px;
+  background:var(--lime);color:var(--bg);
+  display:grid;place-items:center;
+  position:relative;overflow:hidden;
+  font-family:var(--serif);font-style:italic;font-weight:600;
+  font-size:24px;letter-spacing:-1px;line-height:1;
+}
+.brand-mark::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg, transparent 50%, rgba(0,0,0,.15));
+}
+.brand-text{display:flex;flex-direction:column;line-height:1.05}
+.brand-text strong{
+  font-family:var(--display);font-weight:700;font-size:17px;
+  letter-spacing:-.4px;
+}
+.brand-text small{
+  font-family:var(--mono);font-size:10px;letter-spacing:1px;
+  color:var(--text-3);text-transform:uppercase;font-weight:500;
+  margin-top:2px;
+}
+.nav{display:flex;gap:6px;margin-left:auto;align-items:center}
+.nav-btn{
+  padding:9px 16px;border-radius:99px;
+  font-size:13px;font-weight:600;
+  color:var(--text-2);
+  display:flex;align-items:center;gap:7px;
+  transition:background .18s, color .18s;
+  font-family:var(--display);
+  letter-spacing:-.1px;
+}
+.nav-btn:hover{background:rgba(255,255,255,.05);color:var(--text)}
+.nav-btn.active{background:var(--text);color:var(--bg)}
+.nav-btn svg{width:14px;height:14px}
+.nav-counter{
+  background:var(--lime);color:var(--bg);
+  padding:2px 8px;border-radius:99px;
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  margin-left:4px;line-height:1.4;
+  transition:transform .3s cubic-bezier(.2,.9,.3,1.4);
+}
+.nav-counter.bump{transform:scale(1.4)}
+.nav-btn.active .nav-counter{background:var(--bg);color:var(--lime)}
+
+/* ========== VIEW ========== */
+.view{display:none;position:relative;z-index:2}
+.view.active{display:block}
+.wrap{max-width:1320px;margin:0 auto;padding:48px 28px 100px}
+
+/* ========== DIZIONARIO (HOME) ========== */
+.diz-hero{
+  display:grid;grid-template-columns:1fr 360px;gap:56px;
+  margin-bottom:56px;align-items:end;
+}
+@media(max-width:880px){.diz-hero{grid-template-columns:1fr;gap:32px}}
+
+.diz-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px;border-radius:99px;
+  background:rgba(217,255,58,.1);
+  border:1px solid rgba(217,255,58,.25);
+  color:var(--lime);
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:24px;
+}
+.diz-eyebrow::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--lime);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.diz-h1{
+  font-family:var(--display);
+  font-size:clamp(48px,7vw,88px);
+  font-weight:700;line-height:.95;
+  letter-spacing:-2.5px;
+  margin-bottom:8px;
+}
+.diz-h1 em{
+  font-family:var(--serif);
+  font-style:italic;
+  font-weight:500;
+  color:var(--lime);
+  letter-spacing:-3px;
+}
+.diz-sub{
+  font-family:var(--serif);
+  font-size:21px;
+  font-style:italic;
+  color:var(--text-2);
+  max-width:540px;
+  margin-top:14px;
+  line-height:1.4;
+}
+
+.diz-counter-card{
+  background:linear-gradient(140deg, var(--surface) 0%, var(--bg-2) 100%);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:32px;
+  position:relative;overflow:hidden;
+}
+.diz-counter-card::before{
+  content:'';position:absolute;
+  width:200px;height:200px;border-radius:50%;
+  background:radial-gradient(circle, rgba(217,255,58,.15), transparent 70%);
+  top:-50px;right:-50px;
+}
+.dcc-num{
+  font-family:var(--display);font-weight:800;
+  font-size:96px;line-height:.9;
+  letter-spacing:-5px;
+  background:linear-gradient(180deg, var(--text), var(--text-2));
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  position:relative;
+}
+.dcc-num.has-words{
+  background:linear-gradient(180deg, var(--lime), var(--lime-deep));
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.dcc-lbl{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-3);margin-top:6px;
+}
+.dcc-bar-wrap{
+  margin-top:22px;
+  display:flex;flex-direction:column;gap:8px;
+}
+.dcc-bar-row{
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:.5px;
+  color:var(--text-3);
+}
+.dcc-bar-row strong{color:var(--magenta);font-weight:700}
+.dcc-bar{
+  height:6px;background:rgba(255,255,255,.06);
+  border-radius:99px;overflow:hidden;
+  position:relative;
+}
+.dcc-bar-fill{
+  position:absolute;left:0;top:0;bottom:0;
+  background:linear-gradient(90deg, var(--magenta), var(--magenta-soft));
+  border-radius:99px;
+  transition:width .6s cubic-bezier(.2,.8,.3,1);
+}
+
+/* ========== EMPTY STATE ========== */
+.empty-shell{
+  text-align:center;padding:80px 20px;
+  background:var(--surface);
+  border:1px dashed var(--border-hi);
+  border-radius:24px;
+  position:relative;overflow:hidden;
+}
+.empty-shell::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0%, rgba(217,255,58,.06), transparent 60%);
+}
+.empty-words{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
+  margin-bottom:32px;position:relative;
+  max-width:520px;margin-left:auto;margin-right:auto;
+}
+.empty-word{
+  font-family:var(--serif);font-style:italic;font-weight:500;
+  font-size:22px;color:var(--text-3);
+  padding:6px 16px;border-radius:99px;
+  border:1px dashed var(--border-hi);
+  opacity:.7;
+}
+.empty-word:nth-child(2n){transform:rotate(-2deg)}
+.empty-word:nth-child(3n){transform:rotate(1deg);color:var(--lime);border-color:rgba(217,255,58,.3)}
+.empty-shell h2{
+  font-family:var(--display);font-size:32px;font-weight:600;
+  letter-spacing:-1px;margin-bottom:8px;
+  position:relative;
+}
+.empty-shell p{
+  font-family:var(--serif);font-style:italic;font-size:18px;
+  color:var(--text-2);max-width:440px;margin:0 auto 28px;
+  position:relative;
+}
+.empty-shell .btn-cta{position:relative}
+
+/* ========== FILTERS ========== */
+.diz-filters{
+  display:flex;gap:8px;flex-wrap:wrap;
+  margin:8px 0 24px;
+}
+.diz-filter{
+  padding:8px 16px;border-radius:99px;
+  font-family:var(--display);font-size:13px;font-weight:500;
+  background:transparent;border:1px solid var(--border);
+  color:var(--text-2);
+  transition:all .15s;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.diz-filter:hover{border-color:var(--text-3);color:var(--text)}
+.diz-filter.active{
+  background:var(--text);color:var(--bg);
+  border-color:var(--text);font-weight:600;
+}
+.diz-filter .num{
+  font-family:var(--mono);font-weight:700;
+  font-size:11px;
+  background:rgba(255,255,255,.1);
+  padding:1px 6px;border-radius:99px;
+}
+.diz-filter.active .num{background:rgba(0,0,0,.15);color:var(--bg)}
+
+/* ========== DIZIONARIO GRID ========== */
+.diz-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;
+}
+.diz-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:22px 22px 20px;
+  position:relative;overflow:hidden;
+  transition:transform .25s, border-color .25s, background .25s;
+}
+.diz-card:hover{
+  transform:translateY(-2px);
+  border-color:var(--border-hi);
+  background:var(--surface-hi);
+}
+.diz-card.padr{
+  border-color:rgba(255,77,139,.4);
+}
+.diz-card.padr::before{
+  content:'';position:absolute;inset:-1px;
+  background:linear-gradient(135deg, rgba(255,77,139,.4), transparent 60%);
+  border-radius:18px;
+  -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  padding:1px;
+  pointer-events:none;
+}
+.diz-card-tag{
+  position:absolute;top:18px;right:18px;
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:4px 9px;border-radius:99px;
+  background:rgba(255,77,139,.15);color:var(--magenta);
+  display:none;align-items:center;gap:5px;
+}
+.diz-card-tag svg{width:9px;height:9px}
+.diz-card.padr .diz-card-tag{display:inline-flex}
+.diz-card-lemma{
+  font-family:var(--serif);font-style:italic;font-weight:600;
+  font-size:34px;line-height:1;
+  letter-spacing:-1.2px;
+  color:var(--text);
+  margin-right:60px;
+  margin-bottom:4px;
+}
+.diz-card.padr .diz-card-lemma{
+  background:linear-gradient(120deg, var(--text) 30%, var(--magenta-soft));
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.diz-card-cat{
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:.5px;
+  color:var(--text-3);text-transform:lowercase;
+  margin-bottom:14px;
+}
+.diz-card-def{
+  font-family:var(--serif);font-size:14px;line-height:1.5;
+  color:var(--text-2);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.diz-card-fonte{
+  margin-top:14px;padding-top:12px;
+  border-top:1px solid var(--border);
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:.5px;
+  color:var(--text-3);
+  display:flex;align-items:center;gap:6px;
+}
+.diz-card-fonte em{color:var(--text-2);font-style:normal;font-weight:500}
+.diz-card-fonte svg{width:10px;height:10px;color:var(--lime)}
+
+/* ========== CATALOGO ========== */
+.cat-head{
+  display:flex;align-items:end;justify-content:space-between;gap:24px;
+  margin-bottom:32px;
+}
+.cat-head h1{
+  font-family:var(--display);
+  font-size:clamp(40px,5vw,64px);
+  font-weight:700;letter-spacing:-2px;line-height:1;
+}
+.cat-head h1 em{
+  font-family:var(--serif);font-style:italic;font-weight:500;
+  color:var(--lime);
+}
+.cat-head p{
+  font-family:var(--serif);font-style:italic;
+  color:var(--text-2);font-size:17px;
+  max-width:480px;margin-top:10px;
+}
+
+.tracce{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:18px;
+}
+.traccia{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:18px;cursor:pointer;
+  transition:transform .25s, border-color .25s;
+  position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:14px;
+}
+.traccia:hover{transform:translateY(-3px);border-color:var(--border-hi)}
+.traccia-cover{
+  aspect-ratio:1/1;border-radius:14px;
+  position:relative;overflow:hidden;
+  display:grid;place-items:center;
+  background:linear-gradient(135deg, var(--warm-3), var(--warm-2) 60%, var(--warm-4));
+}
+.traccia-cover::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,.15), transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(0,0,0,.2), transparent 50%);
+}
+.traccia-cover::after{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+.cover-art{position:relative;z-index:1;width:62%;height:62%}
+.traccia-eyebrow{
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text-3);
+  display:flex;align-items:center;gap:8px;
+}
+.traccia-eyebrow .dot{
+  width:4px;height:4px;border-radius:50%;background:var(--text-3);
+}
+.traccia h3{
+  font-family:var(--display);font-weight:700;
+  font-size:24px;line-height:1.1;letter-spacing:-.8px;
+}
+.traccia .artista{
+  font-family:var(--serif);font-style:italic;
+  color:var(--text-2);font-size:15px;margin-top:2px;
+}
+.traccia-meta{
+  margin-top:auto;display:flex;align-items:center;
+  justify-content:space-between;gap:10px;padding-top:6px;
+  font-family:var(--mono);font-size:11px;
+  color:var(--text-3);letter-spacing:.5px;
+}
+.traccia-meta-l{display:flex;gap:14px}
+.traccia-meta span{display:inline-flex;align-items:center;gap:5px}
+.traccia-meta svg{width:11px;height:11px}
+.livello{display:inline-flex;gap:3px}
+.livello span{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--border-hi);
+}
+.livello span.on{background:var(--lime)}
+
+.traccia-stato{
+  position:absolute;top:30px;right:30px;z-index:2;
+  width:32px;height:32px;border-radius:50%;
+  background:var(--magenta);color:var(--bg);
+  display:none;align-items:center;justify-content:center;
+  box-shadow:0 6px 20px rgba(255,77,139,.5);
+}
+.traccia-stato svg{width:14px;height:14px}
+.traccia.completata .traccia-stato{display:flex}
+
+/* ========== LETTURA ========== */
+.player-back{
+  font-family:var(--display);font-size:13px;font-weight:500;
+  color:var(--text-2);
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 14px;margin-bottom:24px;
+  border-radius:99px;border:1px solid var(--border);
+  transition:all .15s;
+}
+.player-back:hover{border-color:var(--border-hi);color:var(--text)}
+.player-back svg{width:13px;height:13px}
+
+.player-grid{
+  display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);
+  gap:48px;align-items:start;
+}
+@media(max-width:1000px){.player-grid{grid-template-columns:1fr}}
+
+.player-side{position:sticky;top:88px}
+
+.cover-big{
+  aspect-ratio:1/1;border-radius:24px;overflow:hidden;
+  background:linear-gradient(135deg, var(--warm-3), var(--warm-2) 60%, var(--warm-4));
+  position:relative;
+  box-shadow:0 30px 80px rgba(231,111,81,.25), 0 0 0 1px var(--border);
+  display:grid;place-items:center;
+}
+.cover-big::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 25% 20%, rgba(255,255,255,.18), transparent 60%),
+    radial-gradient(circle at 75% 85%, rgba(0,0,0,.25), transparent 60%);
+}
+.cover-big::after{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+.cover-big .cover-art{width:60%;height:60%}
+
+.player-eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--lime);margin-top:24px;
+  display:flex;align-items:center;gap:8px;
+}
+.player-eyebrow .dot{width:4px;height:4px;border-radius:50%;background:var(--lime)}
+.player-title{
+  font-family:var(--display);font-weight:700;
+  font-size:42px;line-height:1.05;letter-spacing:-1.5px;
+  margin-top:8px;
+}
+.player-title em{font-family:var(--serif);font-style:italic;font-weight:500}
+.player-artist{
+  font-family:var(--serif);font-style:italic;font-size:17px;
+  color:var(--text-2);margin-top:6px;
+}
+
+.player-yt{
+  margin-top:18px;
+  aspect-ratio:16/9;border-radius:14px;overflow:hidden;
+  background:#000;border:1px solid var(--border);
+}
+.player-yt iframe{width:100%;height:100%;border:0}
+
+.player-progress-wrap{
+  margin-top:14px;
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-size:11px;
+  color:var(--text-3);
+}
+.player-progress{
+  flex:1;height:5px;background:var(--surface-hi);
+  border-radius:99px;overflow:hidden;cursor:pointer;
+}
+.player-progress-fill{
+  height:100%;background:var(--lime);
+  width:0%;transition:width .25s linear;
+}
+
+.parola-corrente{
+  margin-top:18px;padding:20px 22px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  display:flex;align-items:center;gap:16px;
+  min-height:78px;
+  position:relative;overflow:hidden;
+  transition:border-color .3s, background .3s;
+}
+.parola-corrente.active{
+  border-color:var(--lime);
+  background:linear-gradient(120deg, var(--surface) 60%, rgba(217,255,58,.08));
+}
+.parola-corrente.active::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--lime);
+}
+.parola-corrente-icon{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--surface-hi);
+  display:grid;place-items:center;flex-shrink:0;
+  color:var(--text-3);
+  transition:background .3s, color .3s;
+}
+.parola-corrente.active .parola-corrente-icon{
+  background:var(--lime);color:var(--bg);
+}
+.parola-corrente-icon svg{width:16px;height:16px}
+.parola-corrente-lbl{
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text-3);
+}
+.parola-corrente-lemma{
+  font-family:var(--serif);font-style:italic;font-weight:600;
+  font-size:26px;line-height:1.1;letter-spacing:-.5px;
+  margin-top:2px;color:var(--text);
+}
+.parola-corrente.idle .parola-corrente-lemma{
+  font-family:var(--display);font-style:normal;
+  font-size:14px;font-weight:400;color:var(--text-3);
+  letter-spacing:0;
+}
+
+.player-actions{
+  margin-top:18px;display:flex;gap:8px;flex-wrap:wrap;
+}
+.btn-cta, .btn-ghost{
+  padding:11px 18px;border-radius:99px;
+  font-family:var(--display);font-size:13px;font-weight:600;
+  letter-spacing:-.1px;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:all .15s;
+}
+.btn-cta{background:var(--lime);color:var(--bg)}
+.btn-cta:hover{transform:translateY(-1px);background:var(--lime-soft)}
+.btn-cta[disabled]{opacity:.4;cursor:not-allowed;transform:none}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text-2)}
+.btn-ghost:hover{border-color:var(--text-3);color:var(--text)}
+.btn-cta svg, .btn-ghost svg{width:13px;height:13px}
+
+/* ========== GLOSSARIO ========== */
+.glossario-head{
+  display:flex;align-items:end;justify-content:space-between;
+  margin-bottom:18px;gap:16px;
+}
+.glossario-head h3{
+  font-family:var(--display);font-size:28px;font-weight:700;
+  letter-spacing:-.8px;
+}
+.glossario-head h3 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--lime)}
+.glossario-head .meta{
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:1px;color:var(--text-3);
+  text-transform:uppercase;
+}
+.glossario-list{display:flex;flex-direction:column;gap:8px}
+
+.parola{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+  transition:all .3s cubic-bezier(.2,.8,.3,1);
+  position:relative;
+}
+.parola:hover{border-color:var(--border-hi)}
+.parola.attiva{
+  border-color:var(--lime);
+  box-shadow:0 0 0 4px rgba(217,255,58,.15);
+  transform:translateX(4px);
+}
+.parola.padroneggiata{
+  border-color:rgba(255,77,139,.4);
+}
+
+.parola-head{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 18px;
+  width:100%;text-align:left;
+}
+.parola-head:hover{background:rgba(255,255,255,.02)}
+.parola-time{
+  font-family:var(--mono);font-size:11px;font-weight:600;
+  color:var(--text-3);letter-spacing:.5px;
+  width:42px;flex-shrink:0;
+}
+.parola.attiva .parola-time{color:var(--lime)}
+.parola-lemma{
+  font-family:var(--serif);font-style:italic;font-weight:600;
+  font-size:22px;line-height:1.1;letter-spacing:-.4px;
+  color:var(--text);flex:1;
+}
+.parola.attiva .parola-lemma{color:var(--lime)}
+.parola-cat{
+  font-family:var(--mono);font-size:10px;font-weight:500;
+  color:var(--text-3);letter-spacing:.3px;
+  text-transform:lowercase;
+}
+.parola-toggle{
+  width:26px;height:26px;border-radius:50%;
+  background:transparent;border:1px solid var(--border);
+  display:grid;place-items:center;flex-shrink:0;
+  color:var(--text-3);
+  transition:all .25s;
+}
+.parola-toggle svg{width:11px;height:11px}
+.parola.aperta .parola-toggle{
+  transform:rotate(180deg);
+  background:var(--lime);color:var(--bg);border-color:var(--lime);
+}
+.parola.in-dizionario .parola-time::after{
+  content:'·';color:var(--magenta);margin-left:4px;
+}
+
+.parola-body{
+  display:none;
+  padding:0 18px 18px;
+  border-top:1px solid var(--border);
+  margin-top:0;padding-top:18px;
+}
+.parola.aperta .parola-body{display:block;animation:fade-in .25s}
+@keyframes fade-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+.scheda-row{margin-bottom:14px}
+.scheda-row:last-child{margin-bottom:0}
+.scheda-lbl{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--lime);margin-bottom:4px;
+}
+.scheda-def{
+  font-family:var(--serif);font-size:17px;line-height:1.45;
+  color:var(--text);
+}
+.scheda-etim{
+  font-family:var(--serif);font-style:italic;font-size:14px;
+  color:var(--text-2);line-height:1.5;
+}
+.scheda-fam, .scheda-syn{
+  font-family:var(--display);font-size:13px;
+  color:var(--text-2);line-height:1.5;
+}
+.scheda-fam strong, .scheda-syn strong{color:var(--text);font-weight:600}
+.scheda-ex{
+  font-family:var(--serif);font-style:italic;font-size:15px;
+  color:var(--text);background:var(--bg-2);
+  padding:11px 14px;border-radius:10px;
+  border-left:3px solid var(--magenta);
+  line-height:1.45;
+}
+.scheda-curio{
+  font-family:var(--display);font-size:13px;line-height:1.55;
+  color:var(--text-2);
+  background:rgba(94,234,212,.05);
+  border:1px solid rgba(94,234,212,.15);
+  padding:12px 14px;border-radius:10px;
+}
+.scheda-curio strong{color:var(--ciano);font-weight:600}
+.scheda-registro{
+  display:inline-block;
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:3px 9px;border-radius:99px;
+  background:var(--text);color:var(--bg);
+  margin-bottom:10px;
+}
+.scheda-add{
+  margin-top:16px;padding-top:14px;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:flex-end;gap:10px;
+}
+.btn-add{
+  padding:9px 16px;border-radius:99px;
+  font-family:var(--display);font-size:12px;font-weight:600;
+  letter-spacing:-.1px;
+  background:var(--lime);color:var(--bg);
+  display:inline-flex;align-items:center;gap:7px;
+  transition:transform .15s, background .15s;
+}
+.btn-add:hover{background:var(--lime-soft);transform:scale(1.03)}
+.btn-add svg{width:12px;height:12px}
+.parola.in-dizionario .btn-add{
+  background:var(--surface-hi);color:var(--text-2);
+  border:1px solid var(--border);
+}
+.parola.in-dizionario .btn-add svg{display:none}
+.parola.in-dizionario .btn-add-txt::before{content:'Già nel dizionario'}
+.parola.in-dizionario .btn-add-txt::after{content:''}
+.parola.in-dizionario .btn-add-txt span{display:none}
+.parola.padroneggiata .btn-add{
+  background:rgba(255,77,139,.12);color:var(--magenta);
+  border:1px solid rgba(255,77,139,.3);
+}
+.parola.padroneggiata .btn-add-txt::before{content:'Padroneggiata ★'}
+
+/* ========== TOAST ========== */
+.toast-wrap{
+  position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
+  z-index:200;pointer-events:none;
+  display:flex;flex-direction:column;gap:10px;align-items:center;
+}
+.toast{
+  background:var(--text);color:var(--bg);
+  padding:14px 22px 14px 18px;border-radius:99px;
+  font-family:var(--display);font-size:14px;font-weight:600;
+  display:flex;align-items:center;gap:12px;
+  box-shadow:0 24px 60px rgba(0,0,0,.6);
+  animation:toast-in .4s cubic-bezier(.2,.8,.3,1.2), toast-out .4s 2.6s forwards;
+}
+.toast em{font-family:var(--serif);font-style:italic;font-weight:600}
+.toast-icon{
+  width:26px;height:26px;border-radius:50%;
+  background:var(--lime);
+  display:grid;place-items:center;
+  color:var(--bg);
+}
+.toast-icon svg{width:13px;height:13px}
+.toast.padr .toast-icon{background:var(--magenta);color:#fff}
+@keyframes toast-in{from{transform:translateY(30px) scale(.9);opacity:0}to{transform:none;opacity:1}}
+@keyframes toast-out{to{transform:translateY(20px);opacity:0}}
+
+/* ========== QUIZ ========== */
+.quiz-shell{
+  max-width:680px;margin:0 auto;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:40px;
+  position:relative;overflow:hidden;
+}
+.quiz-shell::before{
+  content:'';position:absolute;
+  top:-100px;right:-100px;
+  width:300px;height:300px;border-radius:50%;
+  background:radial-gradient(circle, rgba(217,255,58,.06), transparent 70%);
+  pointer-events:none;
+}
+
+.quiz-progress{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:28px;position:relative;
+}
+.quiz-progress-bar{
+  flex:1;height:5px;background:var(--surface-hi);
+  border-radius:99px;overflow:hidden;
+}
+.quiz-progress-fill{
+  height:100%;background:var(--lime);
+  width:0%;transition:width .4s cubic-bezier(.2,.8,.3,1);
+}
+.quiz-progress-num{
+  font-family:var(--mono);font-size:11px;
+  letter-spacing:1px;color:var(--text-3);font-weight:600;
+}
+.quiz-eyebrow{
+  font-family:var(--mono);font-size:10px;font-weight:600;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--lime);margin-bottom:10px;
+}
+.quiz-q{
+  font-family:var(--display);font-size:28px;font-weight:600;
+  line-height:1.2;letter-spacing:-.8px;
+  margin-bottom:10px;position:relative;
+}
+.quiz-q em{font-family:var(--serif);font-style:italic;color:var(--lime);font-weight:600}
+.quiz-sub{
+  font-family:var(--serif);font-style:italic;
+  color:var(--text-2);font-size:17px;
+  margin-bottom:24px;line-height:1.4;position:relative;
+}
+.quiz-options{display:flex;flex-direction:column;gap:8px;position:relative}
+.quiz-opt{
+  text-align:left;padding:16px 20px;
+  background:var(--bg-2);border:1px solid var(--border);
+  border-radius:14px;
+  font-family:var(--serif);font-size:16px;line-height:1.4;
+  color:var(--text);
+  transition:all .15s;
+}
+.quiz-opt:hover{border-color:var(--lime);transform:translateX(4px);background:rgba(217,255,58,.04)}
+.quiz-opt.giusta{
+  border-color:var(--lime);background:rgba(217,255,58,.1);
+}
+.quiz-opt.giusta::after{
+  content:' ✓';color:var(--lime);font-weight:700;
+}
+.quiz-opt.sbagliata{
+  border-color:var(--warm-2);background:rgba(231,111,81,.08);opacity:.6;
+}
+.quiz-opt[disabled]{cursor:default}
+.quiz-feedback{
+  margin-top:20px;padding:16px 20px;
+  background:var(--bg-2);border-radius:14px;
+  font-family:var(--display);font-size:14px;line-height:1.55;
+  color:var(--text-2);
+  display:none;border-left:3px solid var(--lime);
+}
+.quiz-feedback strong{color:var(--text);font-weight:600}
+.quiz-feedback em{font-family:var(--serif);font-style:italic;color:var(--lime)}
+.quiz-feedback.show{display:block;animation:fade-in .3s}
+.quiz-next{
+  margin-top:18px;width:100%;
+  padding:14px;border-radius:14px;
+  background:var(--text);color:var(--bg);
+  font-family:var(--display);font-size:14px;font-weight:600;
+  letter-spacing:-.2px;
+  display:none;
+}
+.quiz-next:hover{background:var(--lime)}
+.quiz-next.show{display:block;animation:fade-in .3s}
+
+.quiz-fine{text-align:center;padding:10px;position:relative}
+.quiz-fine-num{
+  font-family:var(--display);font-weight:800;font-size:120px;
+  line-height:.85;letter-spacing:-6px;
+  background:linear-gradient(180deg, var(--lime), var(--lime-deep));
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+.quiz-fine-num .tot{
+  font-size:48px;color:var(--text-3);font-weight:500;
+  -webkit-text-fill-color:var(--text-3);letter-spacing:-2px;
+}
+.quiz-fine h2{
+  font-family:var(--display);font-size:28px;font-weight:600;
+  letter-spacing:-.8px;margin-top:14px;line-height:1.15;
+}
+.quiz-fine h2 em{font-family:var(--serif);font-style:italic;color:var(--magenta);font-weight:600}
+.quiz-fine p{
+  font-family:var(--serif);font-style:italic;font-size:17px;
+  color:var(--text-2);margin-top:10px;
+  max-width:440px;margin-left:auto;margin-right:auto;
+}
+.quiz-fine-actions{
+  margin-top:30px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+}
+.quiz-fine-bilancio{
+  margin-top:32px;padding:24px;
+  background:var(--bg-2);border-radius:16px;
+  text-align:left;
+}
+.quiz-fine-bilancio-title{
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:10px;
+}
+.bilancio-riga{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 0;border-bottom:1px solid var(--border);
+}
+.bilancio-riga:last-child{border-bottom:0}
+.bilancio-lemma{
+  font-family:var(--serif);font-style:italic;font-weight:600;
+  font-size:19px;letter-spacing:-.3px;
+}
+.bilancio-tag{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:4px 10px;border-radius:99px;
+}
+.bilancio-tag.ok{background:rgba(255,77,139,.12);color:var(--magenta)}
+.bilancio-tag.ko{background:rgba(231,111,81,.1);color:var(--warm-2)}
+
+/* ========== CONFETTI HINT ========== */
+@keyframes float-up{
+  0%{transform:translateY(0) scale(.5);opacity:0}
+  20%{opacity:1}
+  100%{transform:translateY(-200px) scale(1);opacity:0}
+}
+.float-bit{
+  position:fixed;font-family:var(--serif);font-style:italic;
+  font-weight:600;font-size:24px;color:var(--lime);
+  pointer-events:none;z-index:300;
+  animation:float-up 1.4s cubic-bezier(.2,.8,.3,1) forwards;
+}
+
+/* ========== FOOTER ========== */
+.footer{
+  max-width:1320px;margin:80px auto 0;
+  padding:24px 28px;
+  border-top:1px solid var(--border);
+  font-family:var(--mono);font-size:10px;
+  letter-spacing:1px;color:var(--text-3);
+  display:flex;justify-content:space-between;align-items:center;
+  text-transform:uppercase;
+}
+.footer-mark{display:flex;align-items:center;gap:10px}
+.footer-mark::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:var(--lime);
+}
+</style>
+</head>
+<body>
+
+<!-- ========== ICONE ========== -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <symbol id="i-libro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M2 4.5C2 3.7 2.7 3 3.5 3H10C11.1 3 12 3.9 12 5V20C12 19 11.1 18 10 18H3.5C2.7 18 2 17.3 2 16.5V4.5Z"/>
+    <path d="M22 4.5C22 3.7 21.3 3 20.5 3H14C12.9 3 12 3.9 12 5V20C12 19 12.9 18 14 18H20.5C21.3 18 22 17.3 22 16.5V4.5Z"/>
+  </symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+    <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+    <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+    <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+  </symbol>
+  <symbol id="i-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="4 12 10 18 20 6"/>
+  </symbol>
+  <symbol id="i-stella" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2L14.85 8.55L22 9.27L16.5 14L18 21L12 17.5L6 21L7.5 14L2 9.27L9.15 8.55L12 2Z"/>
+  </symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+    <line x1="12" y1="5" x2="12" y2="19"/>
+    <line x1="5" y1="12" x2="19" y2="12"/>
+  </symbol>
+  <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6 9 12 15 18 9"/>
+  </symbol>
+  <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="19" y1="12" x2="5" y2="12"/>
+    <polyline points="12 19 5 12 12 5"/>
+  </symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="9"/>
+    <polyline points="12 7 12 12 15 14"/>
+  </symbol>
+  <symbol id="i-trofeo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 4H18V10C18 13.3 15.3 16 12 16C8.7 16 6 13.3 6 10V4Z"/>
+    <path d="M6 6H3V8C3 9.7 4.3 11 6 11"/>
+    <path d="M18 6H21V8C21 9.7 19.7 11 18 11"/>
+    <line x1="9" y1="20" x2="15" y2="20"/>
+    <line x1="12" y1="16" x2="12" y2="20"/>
+  </symbol>
+  <symbol id="i-nota" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9 18V5L20 3V16"/>
+    <circle cx="6" cy="18" r="3"/>
+    <circle cx="17" cy="16" r="3"/>
+  </symbol>
+  <symbol id="i-cuore" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 21S3 13.5 3 8C3 5 5 3 7.5 3C9 3 10.5 3.8 12 5.5C13.5 3.8 15 3 16.5 3C19 3 21 5 21 8C21 13.5 12 21 12 21Z"/>
+  </symbol>
+</svg>
+
+<!-- ========== TOPBAR ========== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="brand" data-go="dizionario">
+      <span class="brand-mark">V</span>
+      <span class="brand-text">
+        <strong>Vocabolario d'autore</strong>
+        <small>Le parole vere · in cuffia</small>
+      </span>
+    </button>
+    <nav class="nav">
+      <button class="nav-btn" data-go="dizionario">
+        <svg><use href="#i-libro"/></svg>Dizionario
+        <span class="nav-counter" id="diz-count">0</span>
+      </button>
+      <button class="nav-btn" data-go="catalogo">
+        <svg><use href="#i-grid"/></svg>Catalogo
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- ========== VIEW: DIZIONARIO (HOME) ========== -->
+<main class="view active" data-view="dizionario">
+  <div class="wrap">
+    <section class="diz-hero">
+      <div>
+        <span class="diz-eyebrow" id="hero-eyebrow">il tuo lessico in costruzione</span>
+        <h1 class="diz-h1">Le parole<br>che hai <em>incontrato</em>.</h1>
+        <p class="diz-sub" id="hero-sub">Ascolti una canzone, qualcosa ti colpisce, lo metti qui. Le parole che superi al quiz si firmano con la stella, e nessuno te le toglie più. Usale quando scrivi: solo allora diventano davvero tue.</p>
+      </div>
+      <div class="diz-counter-card">
+        <div class="dcc-num" id="dcc-num">0</div>
+        <div class="dcc-lbl">parole raccolte</div>
+        <div class="dcc-bar-wrap" id="dcc-bar-wrap" style="display:none">
+          <div class="dcc-bar-row">
+            <span>padroneggiate</span>
+            <span><strong id="dcc-padr">0</strong> di <span id="dcc-tot">0</span></span>
+          </div>
+          <div class="dcc-bar"><div class="dcc-bar-fill" id="dcc-bar-fill"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="diz-filters" id="diz-filters" style="display:none">
+      <button class="diz-filter active" data-filter="recent">recenti</button>
+      <button class="diz-filter" data-filter="padr">solo padroneggiate <span class="num" id="f-padr">0</span></button>
+      <button class="diz-filter" data-filter="alfa">a → z</button>
+    </div>
+
+    <div id="diz-content"></div>
+  </div>
+</main>
+
+<!-- ========== VIEW: CATALOGO ========== -->
+<main class="view" data-view="catalogo">
+  <div class="wrap">
+    <header class="cat-head">
+      <div>
+        <h1>Le <em>tracce</em>.</h1>
+        <p>Canzoni che hanno una densità di parole degna di essere ascoltata due volte. Mettile in cuffia e portati a casa il vocabolario.</p>
+      </div>
+    </header>
+    <div class="tracce" id="tracce-grid"></div>
+  </div>
+</main>
+
+<!-- ========== VIEW: LETTURA ========== -->
+<main class="view" data-view="lettura">
+  <div class="wrap">
+    <button class="player-back" data-go="catalogo">
+      <svg><use href="#i-back"/></svg> Catalogo
+    </button>
+
+    <div class="player-grid">
+      <aside class="player-side">
+        <div class="cover-big" id="cover-host"></div>
+        <div class="player-eyebrow" id="p-eyebrow"><span class="dot"></span><span id="p-eyebrow-txt">—</span></div>
+        <h2 class="player-title" id="p-title">—</h2>
+        <p class="player-artist" id="p-artist">—</p>
+
+        <div class="player-yt"><div id="player-iframe-host"></div></div>
+
+        <div class="player-progress-wrap">
+          <span id="p-time-cur">0:00</span>
+          <div class="player-progress" id="p-progress">
+            <div class="player-progress-fill" id="p-progress-fill"></div>
+          </div>
+          <span id="p-time-tot">—:—</span>
+        </div>
+
+        <div class="parola-corrente idle" id="parola-corrente">
+          <div class="parola-corrente-icon"><svg><use href="#i-nota"/></svg></div>
+          <div>
+            <div class="parola-corrente-lbl">Parola del momento</div>
+            <div class="parola-corrente-lemma" id="pc-lemma">in ascolto…</div>
+          </div>
+        </div>
+
+        <div class="player-actions">
+          <button class="btn-cta" id="btn-quiz" disabled>
+            <svg><use href="#i-trofeo"/></svg> Fai la prova
+          </button>
+          <button class="btn-ghost" id="btn-tutte">Espandi tutte</button>
+        </div>
+      </aside>
+
+      <section>
+        <div class="glossario-head">
+          <h3>Le <em>parole</em> della canzone</h3>
+          <div class="meta" id="g-counter">0 / 0 esplorate</div>
+        </div>
+        <div class="glossario-list" id="glossario-list"></div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<!-- ========== VIEW: QUIZ ========== -->
+<main class="view" data-view="quiz">
+  <div class="wrap">
+    <button class="player-back" id="quiz-back">
+      <svg><use href="#i-back"/></svg> Torna alla canzone
+    </button>
+    <div class="quiz-shell" id="quiz-shell"></div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="footer-mark">Sacra Famiglia · Orzinuovi</div>
+  <div>Vocabolario d'autore · v.1</div>
+</footer>
+
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<!-- ========== DATI ========== -->
+<script>
+/* ============================================================
+   COVER ART GENERATIVA per le canzoni
+   (palette retrò calda, in contrasto con UI dark)
+   ============================================================ */
+function coverSVG(letter, palette){
+  const palettes = {
+    battisti: ['#E9C46A','#F4A261','#E76F51','#A05A2C'],
+    deandre:  ['#83C5BE','#006D77','#264653','#0D2436'],
+    battiato: ['#E0AAFF','#9D4EDD','#5A189A','#240046'],
+    dalla:    ['#FFB4A2','#E5989B','#B5828C','#6D2E46'],
+    guccini:  ['#D8E2DC','#FFE5D9','#FCD5CE','#9D8189']
+  };
+  const p = palettes[palette] || palettes.battisti;
+  return `
+    <svg class="cover-art" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="g-${palette}" cx="40%" cy="40%">
+          <stop offset="0%" stop-color="${p[0]}" stop-opacity=".9"/>
+          <stop offset="100%" stop-color="${p[3]}" stop-opacity=".9"/>
+        </radialGradient>
+      </defs>
+      <circle cx="100" cy="100" r="92" fill="url(#g-${palette})"/>
+      <circle cx="100" cy="100" r="92" fill="none" stroke="${p[3]}" stroke-width="2" opacity=".4"/>
+      <circle cx="100" cy="100" r="28" fill="${p[3]}" opacity=".7"/>
+      <circle cx="100" cy="100" r="6" fill="${p[0]}"/>
+      <text x="100" y="78" text-anchor="middle" fill="${p[3]}"
+            font-family="Fraunces, serif" font-style="italic" font-weight="700"
+            font-size="58" opacity=".85">${letter}</text>
+    </svg>
+  `;
+}
+
+/* ============================================================
+   CANZONI
+   Per aggiungere una nuova canzone: copia un oggetto sotto e
+   sostituisci i campi. Il campo "time" è in SECONDI.
+   ============================================================ */
+
+const CANZONI = [
+  {
+    id: 'collina-ciliegi',
+    titolo: 'La collina dei ciliegi',
+    artista: 'Lucio Battisti',
+    autore: 'Mogol – Battisti',
+    anno: 1973,
+    album: 'Il nostro caro angelo',
+    durata: 280,
+    livello: 2,
+    youtubeId: 'wksxttt1z9M',
+    coverPalette: 'battisti',
+    coverLetter: 'B',
+    parole: [
+      {
+        id:'luminosa', lemma:'luminosa', cat:'aggettivo · femminile',
+        time: 4,
+        def:'Che emana luce. Detto di una vita, di un\'idea, di un volto: che ha chiarezza, gioia e brillantezza interiore.',
+        etim:'Dal latino <em>lumen</em>, "luce". È nella stessa famiglia di <em>illuminare</em>, <em>luminare</em>, <em>lampada</em> (da <em>lampas</em>, parente di <em>lumen</em>).',
+        fam:'lume · illuminare · alluminio · lumicino · plenilunio',
+        syn:'splendente, brillante, radiosa', ant:'cupa, opaca, spenta',
+        ex:'Aveva un\'idea luminosa che, però, non riusciva a spiegare a nessuno.',
+        reg:'comune',
+        curio:'Un\'<strong>idea luminosa</strong> non illumina davvero la stanza: è una metafora che usa la luce come immagine della comprensione improvvisa. È così universale che esiste in quasi tutte le lingue del mondo.'
+      },
+      {
+        id:'fragrante', lemma:'fragrante', cat:'aggettivo',
+        time: 6,
+        def:'Che sprigiona un profumo intenso, gradevole, fresco. Detto di un cibo: appena fatto e ancora caldo. Detto di una cosa astratta: vivo, vibrante, ricco di carattere.',
+        etim:'Dal latino <em>fragrare</em>, "emanare profumo". Stessa radice di <em>fragranza</em>. Da non confondere con <em>flagrante</em> ("in fiamme"), che ha tutt\'altra origine.',
+        fam:'fragranza · fragrare',
+        syn:'profumato, odoroso, aromatico', ant:'inodore, stantio',
+        ex:'Il pane fragrante riempiva la cucina del suo odore tiepido.',
+        reg:'letterario / colto',
+        curio:'Mogol qui usa <em>fragrante</em> per descrivere una <strong>vita</strong>, non un cibo: è una scelta lessicale ardita, perché trasferisce un aggettivo legato all\'odore a una cosa astratta. Si chiama <strong>sinestesia</strong>: mescolare i sensi.'
+      },
+      {
+        id:'supplica', lemma:'supplica', cat:'sostantivo · femminile',
+        time: 13,
+        def:'Richiesta umile, fatta con insistenza, quasi piegandosi davanti a chi può concedere. Più forte di "preghiera": indica una situazione di bisogno reale.',
+        etim:'Dal latino <em>supplex, supplicis</em>: <em>sub-</em> ("sotto") + <em>plicare</em> ("piegare"). Letteralmente: "chi si piega sotto". Lo stesso prefisso di <em>sub-marino</em>.',
+        fam:'supplicare · supplicante · piegare · piega · complicare · applicare',
+        syn:'preghiera, istanza, invocazione', ant:'pretesa, ordine',
+        ex:'C\'era nei suoi occhi una supplica silenziosa che nessuno volle vedere.',
+        reg:'letterario',
+        curio:'Bellissima la radice etimologica: <strong>chi supplica si piega</strong>. Nelle lingue antiche il gesto fisico (inginocchiarsi) e la parola coincidono. Anche in italiano oggi: "ti prego, in ginocchio".'
+      },
+      {
+        id:'saggezza', lemma:'saggezza', cat:'sostantivo · femminile',
+        time: 20,
+        def:'Capacità di giudicare e agire con misura, esperienza e prudenza. Non è solo conoscenza: è conoscenza diventata buon senso.',
+        etim:'Dal francese antico <em>sage</em> ("saggio"), che viene dal latino <em>sapidus</em>, "che ha sapore" — perché chi è saggio "assaggia" la realtà con prudenza. Stessa radice di <em>sapere</em> e <em>sapore</em>.',
+        fam:'saggio · sapere · sapore · assaggio · insipido',
+        syn:'sapienza, senno, avvedutezza', ant:'follia, sconsideratezza',
+        ex:'La saggezza dei nonni non sta in quello che sanno, ma in quello che hanno smesso di voler sapere.',
+        reg:'comune con eredità classica',
+        curio:'<strong>Sapere</strong> e <strong>sapore</strong> sono due cugini lessicali. La saggezza, in origine, è una specie di gusto: la capacità di "assaporare" le cose con calma e capire di che cosa sono fatte.'
+      },
+      {
+        id:'prudenza', lemma:'prudenza', cat:'sostantivo · femminile',
+        time: 23,
+        def:'Capacità di prevedere le conseguenze delle proprie azioni e di muoversi con cautela. Una delle quattro virtù cardinali della tradizione classica e cristiana.',
+        etim:'Contrazione del latino <em>providentia</em>: <em>pro-</em> ("avanti") + <em>videntia</em> ("il vedere"). Letteralmente: "vedere avanti, prevedere". È cugina diretta di <em>provvedere</em> e <em>provvidenza</em>.',
+        fam:'prudente · provvidenza · provvedere · evidenza · video',
+        syn:'cautela, accortezza, oculatezza', ant:'imprudenza, avventatezza',
+        ex:'La prudenza gli aveva sempre risparmiato i guai grossi, ma anche le gioie grandi.',
+        reg:'comune',
+        curio:'Mogol mette in tensione due parole nello stesso verso: la prudenza è virtù, ma se diventa <em>stagnante</em> diventa difetto. È un esempio di come il <strong>contesto</strong> trasforma il valore di una parola.'
+      },
+      {
+        id:'stagnante', lemma:'stagnante', cat:'aggettivo',
+        time: 25,
+        def:'Che non scorre, che non si muove. Detto di acqua: ferma, putrida. In senso figurato: privo di sviluppo, immobile, che non porta da nessuna parte.',
+        etim:'Da <em>stagno</em> (la pozza d\'acqua ferma, non il metallo), dal latino <em>stagnum</em>. Stessa radice di <em>stagnare</em>: fermarsi, bloccarsi.',
+        fam:'stagno · stagnare · ristagnare · ristagno',
+        syn:'fermo, immobile, asfittico', ant:'corrente, vivo, dinamico',
+        ex:'Aveva una saggezza stagnante: parlava sempre, ma non gli capitava mai di cambiare idea.',
+        reg:'letterario',
+        curio:'L\'immagine è potentissima: una <strong>saggezza che diventa stagno</strong>. Mogol prende un concetto positivo (la saggezza) e lo rovescia con un solo aggettivo. È così che la canzone d\'autore si avvicina alla poesia.'
+      },
+      {
+        id:'collina', lemma:'collina', cat:'sostantivo · femminile',
+        time: 30,
+        def:'Rilievo del terreno, più basso di una montagna. In poesia, è quasi sempre un luogo simbolico: un punto da cui guardare le cose con un altro angolo.',
+        etim:'Dal latino tardo <em>collīna</em>, derivato di <em>collis</em> ("colle, altura"), di origine indoeuropea.',
+        fam:'colle · collinare · collinetta · collo (no, falsa parentela)',
+        syn:'colle, altura, poggio, rilievo', ant:'pianura, valle',
+        ex:'Dalla collina, anche il proprio paese sembrava un\'altra cosa.',
+        reg:'comune con eredità letteraria',
+        curio:'La <strong>collina</strong> è un luogo amatissimo dalla letteratura: Pavese le dedica un romanzo (<em>La luna e i falò</em>), Spoon River fa parlare i morti che ci abitano, Mogol ci pianta i ciliegi. Ogni volta è il punto da cui si vede meglio.'
+      },
+      {
+        id:'volando', lemma:'volando', cat:'gerundio del verbo "volare"',
+        time: 50,
+        def:'Mentre vola. Forma del verbo che indica un\'azione in corso, contemporanea ad un\'altra. In poesia, "volare" è quasi sempre simbolo di libertà, slancio, fuga dai limiti.',
+        etim:'Dal latino <em>volare</em>, di origine indoeuropea. Stessa radice di <em>volo</em>, <em>volata</em>, <em>volatile</em>.',
+        fam:'volo · volata · volatile · involarsi · svolazzare · involucro',
+        syn:'librandosi, planando',
+        ex:'Si pensa meglio volando: i pensieri, in alto, perdono peso.',
+        reg:'comune',
+        curio:'La forma in <strong>-ando / -endo</strong> si chiama <strong>gerundio</strong>: serve a dire "mentre faccio qualcosa". È un tempo che esiste solo in alcune lingue (italiano, spagnolo, inglese) e dà alle frasi un senso di azione fluida, in movimento.'
+      },
+      {
+        id:'tradizione', lemma:'tradizione', cat:'sostantivo · femminile',
+        time: 52,
+        def:'L\'insieme di usi, idee, valori, modi di fare che vengono trasmessi da una generazione a quella successiva. Tutto ciò che ci è stato "consegnato" e che decideremo se passare avanti.',
+        etim:'Dal latino <em>traditio</em>, derivato di <em>tradere</em>: <em>trans-</em> ("attraverso") + <em>dare</em> ("dare"). Letteralmente: "consegnare, trasmettere".',
+        fam:'tradire (sì, stessa radice!) · tradurre · tradizionale · resa · arrendersi',
+        syn:'usanza, consuetudine, eredità', ant:'novità, rivoluzione, rottura',
+        ex:'Ogni tradizione, prima di essere tradizione, è stata una rivoluzione.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>tradizione</strong> e <strong>tradimento</strong> hanno la stessa radice. Tutte e due significano "consegnare". Tradire è "consegnare il nemico"; trasmettere una tradizione è "consegnare il sapere". Cambia il <em>cosa</em> consegni, non il gesto.'
+      },
+      {
+        id:'colombo', lemma:'colombo', cat:'sostantivo · maschile',
+        time: 54,
+        def:'Uccello della famiglia dei colombidi, parente del piccione. Nelle culture mediterranee è simbolo di pace, di amore, di Spirito (nei Vangeli).',
+        etim:'Dal latino <em>columbus</em>, "piccione". È la stessa parola da cui viene il cognome <em>Colombo</em> (e, indirettamente, la <em>Colombia</em> e il distretto della <em>Columbia</em>, dedicati a Cristoforo Colombo).',
+        fam:'colomba · colombaia · colombiforme · piccione (parente, ma di radice diversa)',
+        syn:'piccione, palomba (nel parlato meridionale)',
+        ex:'Sul cornicione un colombo guardava la piazza come se la conoscesse meglio di tutti.',
+        reg:'comune',
+        curio:'Nei <strong>Vangeli</strong> lo Spirito Santo scende su Gesù "come una colomba". Nell\'iconografia cristiana è quasi sempre dipinto bianco, mentre i colombi veri sono grigi. La cultura sceglie spesso un\'immagine più pulita della realtà.'
+      },
+      {
+        id:'coraggio', lemma:'coraggio', cat:'sostantivo · maschile',
+        time: 11,
+        def:'Forza d\'animo che permette di affrontare il pericolo, la fatica, il dolore senza arretrare. Non è assenza di paura: è agire <em>nonostante</em> la paura.',
+        etim:'Dal latino tardo <em>coraticum</em>, derivato di <em>cor</em> ("cuore"). Letteralmente: "la forza che viene dal cuore". Stessa radice di <em>cuore</em>, <em>cordiale</em>, <em>concordia</em>.',
+        fam:'cuore · coraggioso · cordiale · concordia · ricordare (ri-cor-dare = riportare al cuore)',
+        syn:'audacia, valore, ardimento, coraggio', ant:'paura, viltà, codardia',
+        ex:'Cancellò con un colpo di penna quello che aveva scritto la sera prima: era stato un piccolo, vero, coraggio.',
+        reg:'comune',
+        curio:'Sorpresa: <strong>ricordare</strong> = <em>ri-cor-dare</em>, "riportare al cuore". Per i latini la memoria non stava nel cervello, ma nel <strong>cuore</strong>. Per questo "imparare a memoria" si dice in francese <em>par cœur</em>, in inglese <em>by heart</em>.'
+      },
+      {
+        id:'ciliegi', lemma:'ciliegi', cat:'sostantivo · maschile plurale',
+        time: 195,
+        def:'Alberi da frutto della famiglia delle Rosaceae, noti per i fiori bianco-rosati primaverili e per le ciliegie. In poesia: simbolo di bellezza fragile, breve, da gustare prima che passi.',
+        etim:'Dal latino <em>cerasium</em>, dal greco <em>kerásion</em>, dal nome della città di <em>Cerasus</em> (oggi Giresun, in Turchia), da cui — secondo la tradizione — il romano Lucullo avrebbe portato per primo le ciliegie a Roma.',
+        fam:'ciliegia · ciliegeto · ceraso (forma letteraria) · cherry (inglese, stessa radice)',
+        syn:'ceraso (poetico)',
+        ex:'I ciliegi a marzo sembrano nuvole appoggiate sui rami.',
+        reg:'comune con eredità poetica',
+        curio:'Il <strong>fiore di ciliegio</strong> è il simbolo nazionale del Giappone, dove si chiama <em>sakura</em>. Lì significa <em>la bellezza che dura poco</em>: i petali cadono dopo pochi giorni. Mogol intuisce la stessa cosa: la collina dei ciliegi è bella perché è temporanea.'
+      }
+    ]
+  }
+];
+
+/* ============================================================
+   STATO PERSISTENTE
+   ============================================================ */
+const LS_DIZ = 'vocaut_diz_v1';
+const LS_CANZ = 'vocaut_canz_v1';
+
+let DIZ = (()=>{ try{return JSON.parse(localStorage.getItem(LS_DIZ)||'{}')}catch(e){return {}} })();
+let CANZSTAT = (()=>{ try{return JSON.parse(localStorage.getItem(LS_CANZ)||'{}')}catch(e){return {}} })();
+
+function salvaDiz(){ localStorage.setItem(LS_DIZ, JSON.stringify(DIZ)); }
+function salvaCanz(){ localStorage.setItem(LS_CANZ, JSON.stringify(CANZSTAT)); }
+
+let canzoneCorrente = null;
+let player = null;
+let pollInterval = null;
+
+/* ============================================================
+   ROUTER
+   ============================================================ */
+function vai(viewName, payload){
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const view = document.querySelector(`.view[data-view="${viewName}"]`);
+  if(view) view.classList.add('active');
+  const navbtn = document.querySelector(`.nav-btn[data-go="${viewName}"]`);
+  if(navbtn) navbtn.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(viewName === 'dizionario') renderDizionario();
+  if(viewName === 'catalogo') renderCatalogo();
+  if(viewName === 'lettura' && payload) apriCanzone(payload);
+  if(viewName === 'quiz') avviaQuiz();
+}
+document.querySelectorAll('[data-go]').forEach(el=>{
+  el.addEventListener('click', ()=>vai(el.dataset.go));
+});
+
+/* ============================================================
+   UTILITY
+   ============================================================ */
+function fmtMS(s){
+  s = Math.max(0, Math.floor(s||0));
+  const m = Math.floor(s/60), r = s%60;
+  return `${m}:${r.toString().padStart(2,'0')}`;
+}
+function aggiornaCounterTopbar(){
+  const n = Object.keys(DIZ).length;
+  const el = document.getElementById('diz-count');
+  el.textContent = n;
+}
+function bumpCounter(){
+  const el = document.getElementById('diz-count');
+  el.classList.remove('bump');
+  void el.offsetWidth;
+  el.classList.add('bump');
+  setTimeout(()=>el.classList.remove('bump'), 400);
+}
+
+/* ============================================================
+   DIZIONARIO (HOME)
+   ============================================================ */
+let filtroDiz = 'recent';
+
+function renderDizionario(){
+  const tot = Object.keys(DIZ).length;
+  const tutte = Object.entries(DIZ);
+  const padr = tutte.filter(([,v])=>v.stato==='padroneggiata').length;
+  const canzExpl = new Set(tutte.map(([,v])=>v.canzoneId)).size;
+
+  // counter card
+  const numEl = document.getElementById('dcc-num');
+  numEl.textContent = tot;
+  numEl.classList.toggle('has-words', tot > 0);
+
+  const barWrap = document.getElementById('dcc-bar-wrap');
+  if(tot > 0){
+    barWrap.style.display = '';
+    document.getElementById('dcc-padr').textContent = padr;
+    document.getElementById('dcc-tot').textContent = tot;
+    document.getElementById('dcc-bar-fill').style.width = ((padr/tot)*100) + '%';
+  } else {
+    barWrap.style.display = 'none';
+  }
+
+  // hero text adattivo
+  const eyebrow = document.getElementById('hero-eyebrow');
+  const sub = document.getElementById('hero-sub');
+  if(tot === 0){
+    eyebrow.textContent = 'inizia da qui';
+    sub.textContent = 'Apri il Catalogo, scegli una canzone, ascolta. Le parole che ti colpiscono finiscono qui dentro: prima incontrate, poi padroneggiate dopo il quiz. Da quel momento sono tue.';
+  } else {
+    eyebrow.textContent = `${tot} parol${tot===1?'a':'e'} · ${canzExpl} canzon${canzExpl===1?'e':'i'}`;
+    sub.textContent = 'Le parole che hai raccolto. Quelle con la stella le hai padroneggiate al quiz: usale quando scrivi e quando parli, e diventeranno tue per davvero.';
+  }
+
+  // filters
+  const filtersEl = document.getElementById('diz-filters');
+  filtersEl.style.display = tot > 0 ? '' : 'none';
+  document.getElementById('f-padr').textContent = padr;
+
+  // content
+  const content = document.getElementById('diz-content');
+  if(tot === 0){
+    content.innerHTML = `
+      <div class="empty-shell">
+        <div class="empty-words">
+          <span class="empty-word">fragrante</span>
+          <span class="empty-word">supplica</span>
+          <span class="empty-word">stagnante</span>
+          <span class="empty-word">tradizione</span>
+          <span class="empty-word">colombo</span>
+          <span class="empty-word">prudenza</span>
+          <span class="empty-word">collina</span>
+          <span class="empty-word">saggezza</span>
+        </div>
+        <h2>Il tuo dizionario è ancora vuoto.</h2>
+        <p>Ti aspettano dodici parole nella prima canzone. Mettiti le cuffie e scegli quelle che ti piacciono.</p>
+        <button class="btn-cta" data-go="catalogo">
+          <svg><use href="#i-grid"/></svg> Apri il catalogo
+        </button>
+      </div>
+    `;
+    content.querySelector('[data-go]').addEventListener('click', ()=>vai('catalogo'));
+    return;
+  }
+
+  // ordina secondo filtro
+  let arr = tutte.slice();
+  if(filtroDiz === 'padr') arr = arr.filter(([,v])=>v.stato==='padroneggiata');
+  if(filtroDiz === 'alfa') arr.sort((a,b)=>a[1].lemma.localeCompare(b[1].lemma,'it'));
+  else arr.sort((a,b)=>b[1].dataIncontro - a[1].dataIncontro);
+
+  if(arr.length === 0){
+    content.innerHTML = `<div class="empty-shell"><p>Ancora nessuna parola padroneggiata. Fai il quiz su una canzone per riempire questa sezione con le stelle.</p></div>`;
+    return;
+  }
+
+  content.innerHTML = `<div class="diz-grid">${
+    arr.map(([id, v]) => `
+      <div class="diz-card ${v.stato==='padroneggiata'?'padr':''}">
+        <div class="diz-card-tag"><svg><use href="#i-stella"/></svg> padroneggiata</div>
+        <div class="diz-card-lemma">${v.lemma}</div>
+        <div class="diz-card-cat">${v.cat}</div>
+        <div class="diz-card-def">${v.def}</div>
+        <div class="diz-card-fonte">
+          <svg><use href="#i-nota"/></svg>
+          da <em>${v.canzoneTit}</em>
+        </div>
+      </div>
+    `).join('')
+  }</div>`;
+}
+
+document.querySelectorAll('.diz-filter').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    filtroDiz = b.dataset.filter;
+    document.querySelectorAll('.diz-filter').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderDizionario();
+  });
+});
+
+/* ============================================================
+   CATALOGO
+   ============================================================ */
+function renderCatalogo(){
+  const grid = document.getElementById('tracce-grid');
+  grid.innerHTML = CANZONI.map((c, i) => {
+    const completata = CANZSTAT[c.id]?.completata;
+    const liv = [1,2,3].map(n => `<span class="${n<=c.livello?'on':''}"></span>`).join('');
+    return `
+      <div class="traccia ${completata?'completata':''}" data-id="${c.id}">
+        <div class="traccia-stato"><svg><use href="#i-tick"/></svg></div>
+        <div class="traccia-cover">${coverSVG(c.coverLetter, c.coverPalette)}</div>
+        <div>
+          <div class="traccia-eyebrow">
+            <span>${c.anno}</span><span class="dot"></span><span>${c.album||''}</span>
+          </div>
+          <h3>${c.titolo}</h3>
+          <div class="artista">${c.artista}</div>
+        </div>
+        <div class="traccia-meta">
+          <div class="traccia-meta-l">
+            <span><svg><use href="#i-clock"/></svg>${fmtMS(c.durata)}</span>
+            <span><svg><use href="#i-libro"/></svg>${c.parole.length}</span>
+          </div>
+          <span class="livello">${liv}</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+  grid.querySelectorAll('.traccia').forEach(t=>{
+    t.addEventListener('click', ()=>vai('lettura', t.dataset.id));
+  });
+}
+
+/* ============================================================
+   LETTURA
+   ============================================================ */
+function apriCanzone(canzoneId){
+  const c = CANZONI.find(x => x.id === canzoneId);
+  if(!c) return;
+  canzoneCorrente = c;
+  document.getElementById('cover-host').innerHTML = coverSVG(c.coverLetter, c.coverPalette);
+  document.getElementById('p-eyebrow-txt').textContent = `${c.album?c.album+' · ':''}${c.anno}`;
+  document.getElementById('p-title').innerHTML = c.titolo.replace(/(dei ciliegi)/i, '<em>dei ciliegi</em>');
+  document.getElementById('p-artist').textContent = `${c.artista} · ${c.autore}`;
+  document.getElementById('p-time-tot').textContent = fmtMS(c.durata);
+  caricaPlayerYT(c.youtubeId);
+  renderGlossario(c);
+  resetParolaCorrente();
+  document.getElementById('btn-quiz').disabled = false;
+}
+
+let ytReady = false;
+function loadYTApi(cb){
+  if(window.YT && window.YT.Player){ cb(); return; }
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.body.appendChild(tag);
+  window.onYouTubeIframeAPIReady = ()=>{ ytReady = true; cb(); };
+}
+function caricaPlayerYT(videoId){
+  const host = document.getElementById('player-iframe-host');
+  host.innerHTML = '<div id="yt-player"></div>';
+  if(pollInterval) clearInterval(pollInterval);
+  loadYTApi(() => {
+    if(player){ try{ player.destroy(); }catch(e){} player = null; }
+    player = new YT.Player('yt-player', {
+      videoId,
+      playerVars: { rel:0, modestbranding:1, playsinline:1, enablejsapi:1 },
+      events: {
+        onReady: () => { pollInterval = setInterval(tickPlayer, 250); }
+      }
+    });
+  });
+}
+function tickPlayer(){
+  if(!player || !player.getCurrentTime) return;
+  const t = player.getCurrentTime();
+  const d = player.getDuration() || canzoneCorrente.durata;
+  document.getElementById('p-time-cur').textContent = fmtMS(t);
+  document.getElementById('p-progress-fill').style.width = Math.min(100,(t/d)*100)+'%';
+  if(!canzoneCorrente) return;
+  const candidata = trovaParolaAttiva(t, canzoneCorrente.parole);
+  attivaParola(candidata);
+}
+function trovaParolaAttiva(t, parole){
+  const ord = [...parole].sort((a,b)=>a.time-b.time);
+  let curr = null;
+  for(const p of ord){
+    if(p.time <= t && t - p.time < 8) curr = p;
+  }
+  return curr;
+}
+let lastAttiva = null;
+function attivaParola(p){
+  if(p === lastAttiva) return;
+  lastAttiva = p;
+  document.querySelectorAll('.parola').forEach(el=>el.classList.remove('attiva'));
+  const pcWrap = document.getElementById('parola-corrente');
+  const pcLemma = document.getElementById('pc-lemma');
+  if(!p){
+    pcWrap.classList.add('idle'); pcWrap.classList.remove('active');
+    pcLemma.textContent = 'in ascolto…';
+    return;
+  }
+  pcWrap.classList.remove('idle');
+  pcWrap.classList.add('active');
+  pcLemma.textContent = p.lemma;
+  const el = document.querySelector(`.parola[data-id="${p.id}"]`);
+  if(el){
+    el.classList.add('attiva');
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+function resetParolaCorrente(){
+  lastAttiva = null;
+  const pc = document.getElementById('parola-corrente');
+  pc.classList.add('idle'); pc.classList.remove('active');
+  document.getElementById('pc-lemma').textContent = 'in ascolto…';
+}
+
+/* ============================================================
+   GLOSSARIO
+   ============================================================ */
+function renderGlossario(c){
+  const lista = document.getElementById('glossario-list');
+  const ordinate = [...c.parole].sort((a,b)=>a.time-b.time);
+  lista.innerHTML = ordinate.map(p => {
+    const inDiz = DIZ[p.id];
+    const padr = inDiz?.stato === 'padroneggiata';
+    return `
+      <div class="parola ${inDiz?'in-dizionario':''} ${padr?'padroneggiata':''}" data-id="${p.id}">
+        <button class="parola-head" type="button">
+          <span class="parola-time">${fmtMS(p.time)}</span>
+          <span class="parola-lemma">${p.lemma}</span>
+          <span class="parola-cat">${p.cat}</span>
+          <span class="parola-toggle"><svg><use href="#i-down"/></svg></span>
+        </button>
+        <div class="parola-body">
+          ${p.reg?`<div class="scheda-registro">${p.reg}</div>`:''}
+          <div class="scheda-row"><div class="scheda-lbl">Definizione</div><div class="scheda-def">${p.def}</div></div>
+          <div class="scheda-row"><div class="scheda-lbl">Etimologia</div><div class="scheda-etim">${p.etim}</div></div>
+          ${p.fam?`<div class="scheda-row"><div class="scheda-lbl">Famiglia</div><div class="scheda-fam">${p.fam}</div></div>`:''}
+          ${p.syn?`<div class="scheda-row"><div class="scheda-lbl">Sinonimi${p.ant?' · contrari':''}</div><div class="scheda-syn"><strong>≈</strong> ${p.syn}${p.ant?` · <strong>≠</strong> ${p.ant}`:''}</div></div>`:''}
+          <div class="scheda-row"><div class="scheda-lbl">In una frase</div><div class="scheda-ex">${p.ex}</div></div>
+          ${p.curio?`<div class="scheda-row"><div class="scheda-lbl">Curiosità</div><div class="scheda-curio">${p.curio}</div></div>`:''}
+          <div class="scheda-add">
+            <button class="btn-add" type="button" data-add="${p.id}">
+              <svg><use href="#i-plus"/></svg><span class="btn-add-txt"><span>Aggiungi al dizionario</span></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  lista.querySelectorAll('.parola-head').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      btn.closest('.parola').classList.toggle('aperta');
+      aggiornaContatoreEsplorate();
+    });
+  });
+  lista.querySelectorAll('[data-add]').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+      e.stopPropagation();
+      aggiungiAlDizionario(btn.dataset.add, c.id, btn);
+    });
+  });
+
+  document.getElementById('btn-tutte').onclick = ()=>{
+    const tutte = lista.querySelectorAll('.parola');
+    const aperte = lista.querySelectorAll('.parola.aperta').length;
+    const apri = aperte < tutte.length;
+    tutte.forEach(p=>p.classList.toggle('aperta', apri));
+    aggiornaContatoreEsplorate();
+  };
+  document.getElementById('btn-quiz').onclick = ()=>vai('quiz');
+  document.getElementById('quiz-back').onclick = ()=>vai('lettura', canzoneCorrente.id);
+
+  aggiornaContatoreEsplorate();
+}
+function aggiornaContatoreEsplorate(){
+  if(!canzoneCorrente) return;
+  const tot = canzoneCorrente.parole.length;
+  const aperte = document.querySelectorAll('.parola.aperta').length;
+  document.getElementById('g-counter').textContent = `${aperte} / ${tot} esplorate`;
+}
+
+/* ============================================================
+   AGGIUNGI AL DIZIONARIO + ANIMAZIONE
+   ============================================================ */
+function aggiungiAlDizionario(parolaId, canzoneId, btn){
+  const c = CANZONI.find(x => x.id === canzoneId);
+  const p = c.parole.find(x => x.id === parolaId);
+  if(!p) return;
+  if(DIZ[parolaId]) return;
+  DIZ[parolaId] = {
+    stato:'incontrata',
+    canzoneId,
+    canzoneTit:c.titolo,
+    lemma:p.lemma, cat:p.cat, def:p.def,
+    dataIncontro: Date.now()
+  };
+  salvaDiz();
+  document.querySelector(`.parola[data-id="${parolaId}"]`)?.classList.add('in-dizionario');
+  // animazione "vola"
+  if(btn){
+    const r = btn.getBoundingClientRect();
+    const float = document.createElement('div');
+    float.className = 'float-bit';
+    float.textContent = p.lemma;
+    float.style.left = (r.left + r.width/2 - 60) + 'px';
+    float.style.top  = (r.top - 20) + 'px';
+    document.body.appendChild(float);
+    setTimeout(()=>float.remove(), 1400);
+  }
+  mostraToast(`<em>${p.lemma}</em> nel tuo dizionario`);
+  bumpCounter();
+  aggiornaCounterTopbar();
+}
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+function mostraToast(html, padroneggiata=false){
+  const wrap = document.getElementById('toast-wrap');
+  const t = document.createElement('div');
+  t.className = 'toast' + (padroneggiata?' padr':'');
+  t.innerHTML = `<span class="toast-icon"><svg><use href="${padroneggiata?'#i-stella':'#i-tick'}"/></svg></span> ${html}`;
+  wrap.appendChild(t);
+  setTimeout(()=>t.remove(), 3200);
+}
+
+/* ============================================================
+   QUIZ
+   ============================================================ */
+let quizState = null;
+function avviaQuiz(){
+  if(!canzoneCorrente) return;
+  const parole = canzoneCorrente.parole;
+  const N = Math.min(5, parole.length);
+  const pool = [...parole].sort(()=>Math.random()-0.5).slice(0, N);
+  const domande = pool.map(p => generaDomanda(p, parole));
+  quizState = { domande, idx:0, risposte:[], canzoneId: canzoneCorrente.id };
+  renderQuiz();
+}
+function generaDomanda(parola, tutte){
+  const tipi = ['def-lemma','lemma-def','frase'];
+  if(!parola.syn) tipi.splice(tipi.indexOf('lemma-def'), 1);
+  const tipo = tipi[Math.floor(Math.random()*tipi.length)];
+  const distrattori = tutte.filter(p=>p.id!==parola.id).sort(()=>Math.random()-0.5).slice(0,3);
+  let q, sub, opzioni, giusta, feedback;
+  if(tipo === 'def-lemma'){
+    q = 'Quale parola corrisponde a questa <em>definizione</em>?';
+    sub = parola.def.replace(/<[^>]+>/g,'');
+    opzioni = [parola, ...distrattori].sort(()=>Math.random()-0.5).map(p=>({txt:p.lemma, id:p.id}));
+    giusta = parola.id;
+    feedback = `<strong>${parola.lemma}</strong> · ${parola.def.replace(/<[^>]+>/g,'')}`;
+  } else if(tipo === 'lemma-def'){
+    q = `Cosa significa <em>${parola.lemma}</em>?`;
+    sub = '';
+    opzioni = [parola, ...distrattori].sort(()=>Math.random()-0.5).map(p=>({txt:p.def.replace(/<[^>]+>/g,''), id:p.id}));
+    giusta = parola.id;
+    feedback = `<strong>Etimologia.</strong> ${parola.etim.replace(/<[^>]+>/g,'')}`;
+  } else {
+    q = 'Completa la frase con la <em>parola giusta</em>:';
+    const blanked = parola.ex.replace(new RegExp(`\\b${parola.lemma}\\w*\\b`, 'gi'), '_______');
+    sub = `« ${blanked} »`;
+    opzioni = [parola, ...distrattori].sort(()=>Math.random()-0.5).map(p=>({txt:p.lemma, id:p.id}));
+    giusta = parola.id;
+    feedback = `Frase originale: <em>«${parola.ex}»</em>`;
+  }
+  return { parola, q, sub, opzioni, giusta, feedback };
+}
+function renderQuiz(){
+  const shell = document.getElementById('quiz-shell');
+  if(quizState.idx >= quizState.domande.length){
+    return renderQuizFine();
+  }
+  const d = quizState.domande[quizState.idx];
+  const tot = quizState.domande.length;
+  shell.innerHTML = `
+    <div class="quiz-progress">
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${(quizState.idx/tot)*100}%"></div></div>
+      <div class="quiz-progress-num">${quizState.idx+1} / ${tot}</div>
+    </div>
+    <div class="quiz-eyebrow">prova lessicale · ${canzoneCorrente.titolo}</div>
+    <div class="quiz-q">${d.q}</div>
+    ${d.sub ? `<div class="quiz-sub">${d.sub}</div>` : ''}
+    <div class="quiz-options" id="qopts">
+      ${d.opzioni.map(o => `<button class="quiz-opt" data-id="${o.id}">${o.txt}</button>`).join('')}
+    </div>
+    <div class="quiz-feedback" id="qfb"></div>
+    <button class="quiz-next" id="qnext">${quizState.idx+1 === tot ? 'Vedi il bilancio' : 'Prossima domanda'} →</button>
+  `;
+  shell.querySelectorAll('.quiz-opt').forEach(b=>{
+    b.addEventListener('click', ()=>rispondi(b.dataset.id, d));
+  });
+  document.getElementById('qnext').onclick = ()=>{
+    quizState.idx++;
+    renderQuiz();
+  };
+}
+function rispondi(idScelto, d){
+  const corretta = idScelto === d.giusta;
+  quizState.risposte.push({ parolaId: d.parola.id, corretta });
+  document.querySelectorAll('.quiz-opt').forEach(b=>{
+    b.disabled = true;
+    if(b.dataset.id === d.giusta) b.classList.add('giusta');
+    else if(b.dataset.id === idScelto) b.classList.add('sbagliata');
+  });
+  const fb = document.getElementById('qfb');
+  fb.innerHTML = (corretta ? '<strong>Bene.</strong> ' : '<strong>Non era questa.</strong> ') + d.feedback;
+  fb.classList.add('show');
+  document.getElementById('qnext').classList.add('show');
+}
+function renderQuizFine(){
+  const shell = document.getElementById('quiz-shell');
+  const giuste = quizState.risposte.filter(r=>r.corretta).length;
+  const tot = quizState.risposte.length;
+  let nuovePadr = 0;
+  quizState.risposte.forEach(r=>{
+    if(r.corretta){
+      const parola = canzoneCorrente.parole.find(p=>p.id===r.parolaId);
+      if(!DIZ[r.parolaId]){
+        DIZ[r.parolaId] = {
+          stato:'padroneggiata',
+          canzoneId: canzoneCorrente.id,
+          canzoneTit: canzoneCorrente.titolo,
+          lemma: parola.lemma, cat: parola.cat, def: parola.def,
+          dataIncontro: Date.now()
+        };
+        nuovePadr++;
+      } else if(DIZ[r.parolaId].stato !== 'padroneggiata'){
+        DIZ[r.parolaId].stato = 'padroneggiata';
+        nuovePadr++;
+      }
+    }
+  });
+  salvaDiz();
+  if(giuste >= Math.ceil(tot*0.6)){
+    CANZSTAT[canzoneCorrente.id] = { completata:true };
+    salvaCanz();
+  }
+  aggiornaCounterTopbar();
+
+  let messaggio;
+  if(giuste === tot) messaggio = 'Ineccepibile. Queste parole sono ufficialmente tue.';
+  else if(giuste >= tot*0.6) messaggio = 'Le parole padroneggiate hanno la stella nel tuo dizionario.';
+  else messaggio = 'Riascolta la canzone e riprova: queste parole meritano un altro giro.';
+
+  const bilancio = quizState.risposte.map(r=>{
+    const p = canzoneCorrente.parole.find(x=>x.id===r.parolaId);
+    return `
+      <div class="bilancio-riga">
+        <div class="bilancio-lemma">${p.lemma}</div>
+        <div class="bilancio-tag ${r.corretta?'ok':'ko'}">${r.corretta?'★ padroneggiata':'da rivedere'}</div>
+      </div>
+    `;
+  }).join('');
+
+  shell.innerHTML = `
+    <div class="quiz-fine">
+      <div class="quiz-fine-num">${giuste}<span class="tot">/${tot}</span></div>
+      <h2>${nuovePadr>0 ? `<em>${nuovePadr}</em> nuov${nuovePadr===1?'a':'e'} parol${nuovePadr===1?'a':'e'} con la stella` : 'Bilancio della prova'}</h2>
+      <p>${messaggio}</p>
+      <div class="quiz-fine-actions">
+        <button class="btn-cta" data-go="dizionario">
+          <svg><use href="#i-libro"/></svg> Vai al mio dizionario
+        </button>
+        <button class="btn-ghost" id="rifai-quiz">Rifai la prova</button>
+        <button class="btn-ghost" id="torna-canzone">Torna alla canzone</button>
+      </div>
+      <div class="quiz-fine-bilancio">
+        <div class="quiz-fine-bilancio-title">Bilancio</div>
+        ${bilancio}
+      </div>
+    </div>
+  `;
+  shell.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>vai(b.dataset.go)));
+  document.getElementById('rifai-quiz').onclick = avviaQuiz;
+  document.getElementById('torna-canzone').onclick = ()=>vai('lettura', canzoneCorrente.id);
+
+  if(nuovePadr > 0){
+    setTimeout(()=>mostraToast(`<em>+${nuovePadr}</em> nel tuo dizionario`, true), 400);
+  }
+}
+
+/* ============================================================
+   BOOT
+   ============================================================ */
+renderDizionario();
+aggiornaCounterTopbar();
+document.querySelector('.nav-btn[data-go="dizionario"]').classList.add('active');
+</script>
+</body>
+</html>
