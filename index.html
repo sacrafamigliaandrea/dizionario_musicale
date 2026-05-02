@@ -359,7 +359,7 @@ body.home-active .topbar{display:none}
 
 /* Rotazione del vinile */
 .vinyl-disc{
-  transform-origin:100px 100px;
+  transform-origin:85px 110px;
   animation:vinyl-spin 6s linear infinite;
 }
 .traccia:hover .vinyl-disc{animation-duration:3s}
@@ -882,10 +882,10 @@ body.home-active .footer{display:none}
 </footer>
 
 <script>
-/* COVER ART — vinile flat illustrato, palette per artista (no lettera, no gradient etichetta) */
+/* COVER ART — vinile flat illustrato con asticella giradischi + riflesso rotante */
 function coverSVG(letter, palette){
   const palettes = {
-    /* [bg-1, bg-2, label, label-deep] — bg per sfondo del riquadro, label per l'etichetta del vinile */
+    /* [bg-1, bg-2, label, label-deep] */
     battisti:  ['#FFEFCC','#FFC542','#FFC542','#A05A2C'],
     battiato:  ['#E8D9F2','#B98DD9','#B98DD9','#3F2A6E'],
     degregori: ['#C7E5CF','#5BA86C','#5BA86C','#1F4D2E'],
@@ -897,6 +897,7 @@ function coverSVG(letter, palette){
   };
   const p = palettes[palette] || palettes.battisti;
   const uid = `${palette}-${Math.floor(Math.random()*9999)}`;
+  // Disco spostato leggermente in basso/sinistra (cx=85, cy=110, r=78) per dare spazio all'asticella in alto a destra
   return `
     <div style="position:absolute;inset:0;background:linear-gradient(140deg, ${p[0]} 0%, ${p[1]} 100%);"></div>
     <svg class="cover-art vinyl" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -908,36 +909,68 @@ function coverSVG(letter, palette){
         </radialGradient>
       </defs>
 
-      <!-- Ombra del disco -->
-      <ellipse cx="100" cy="186" rx="78" ry="5" fill="#000" opacity="0.14"/>
+      <!-- Ombra sotto il disco -->
+      <ellipse cx="85" cy="190" rx="68" ry="5" fill="#000" opacity="0.16"/>
 
       <!-- DISCO che gira -->
-      <g class="vinyl-disc">
-        <!-- Bordo esterno chiaro (rim) -->
-        <circle cx="100" cy="100" r="92" fill="none" stroke="#FFFFFF" stroke-width="2.4" opacity="0.85"/>
+      <g class="vinyl-disc" style="transform-origin:85px 110px">
+        <!-- Bordo esterno chiaro -->
+        <circle cx="85" cy="110" r="80" fill="none" stroke="#FFFFFF" stroke-width="2.2" opacity="0.85"/>
 
         <!-- Disco nero -->
-        <circle cx="100" cy="100" r="90" fill="url(#vinyl-disc-${uid})"/>
+        <circle cx="85" cy="110" r="78" fill="url(#vinyl-disc-${uid})"/>
 
-        <!-- Solchi concentrici, leggermente più visibili (look flat illustrato) -->
-        <circle cx="100" cy="100" r="84" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.85"/>
-        <circle cx="100" cy="100" r="78" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.7"/>
-        <circle cx="100" cy="100" r="72" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.85"/>
-        <circle cx="100" cy="100" r="66" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.7"/>
-        <circle cx="100" cy="100" r="60" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.85"/>
-        <circle cx="100" cy="100" r="54" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.7"/>
-        <circle cx="100" cy="100" r="48" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.85"/>
+        <!-- Solchi concentrici -->
+        <circle cx="85" cy="110" r="72" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.85"/>
+        <circle cx="85" cy="110" r="67" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.7"/>
+        <circle cx="85" cy="110" r="62" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.85"/>
+        <circle cx="85" cy="110" r="57" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.7"/>
+        <circle cx="85" cy="110" r="52" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.85"/>
+        <circle cx="85" cy="110" r="47" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.7"/>
+        <circle cx="85" cy="110" r="42" fill="none" stroke="#3a3a3a" stroke-width="0.6" opacity="0.85"/>
 
-        <!-- ETICHETTA colorata piatta (no gradient interno) -->
-        <circle cx="100" cy="100" r="38" fill="${p[2]}"/>
+        <!-- RIFLESSO che gira col disco — è quello che fa percepire il movimento! -->
+        <path d="M 85,40 A 70,70 0 0,1 153,90"
+              fill="none" stroke="#FFFFFF" stroke-width="3.5"
+              stroke-linecap="round" opacity="0.22"/>
+        <path d="M 85,40 A 70,70 0 0,1 153,90"
+              fill="none" stroke="#FFFFFF" stroke-width="1.2"
+              stroke-linecap="round" opacity="0.45"/>
 
-        <!-- Foro centrale grigio (come nello screenshot) -->
-        <circle cx="100" cy="100" r="11" fill="#9CA3AF"/>
-        <circle cx="100" cy="100" r="3" fill="#1F2937"/>
+        <!-- Etichetta colorata -->
+        <circle cx="85" cy="110" r="32" fill="${p[2]}"/>
+
+        <!-- Tick bianco sull'etichetta (riferimento di rotazione) -->
+        <rect x="83.5" y="80" width="3" height="6" rx="1.5" fill="#FFFFFF" opacity="0.7"/>
+
+        <!-- Foro centrale grigio -->
+        <circle cx="85" cy="110" r="9" fill="#9CA3AF"/>
+        <circle cx="85" cy="110" r="2.5" fill="#1F2937"/>
       </g>
 
-      <!-- Riflesso di luce fisso (non gira, dà profondità) -->
-      <path d="M 30 80 Q 50 50 90 30" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0.18" stroke-linecap="round"/>
+      <!-- ASTICELLA del giradischi (FISSA, non gira) -->
+      <g class="tonearm">
+        <!-- Pivot circolare in alto a destra -->
+        <circle cx="170" cy="40" r="13" fill="#9CA3AF" opacity="0.95"/>
+        <circle cx="170" cy="40" r="13" fill="none" stroke="#FFFFFF" stroke-width="1.4" opacity="0.7"/>
+        <circle cx="170" cy="40" r="6" fill="#1F2937" opacity="0.85"/>
+        <circle cx="170" cy="40" r="2.5" fill="#9CA3AF"/>
+
+        <!-- Braccio: dal pivot verso il disco (linea spezzata, primo tratto) -->
+        <path d="M 170,40 L 175,55 L 145,90 L 130,108"
+              fill="none" stroke="#1F2937" stroke-width="3.2"
+              stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+        <!-- Braccio: rifinitura più chiara sopra per simulare cilindrico -->
+        <path d="M 170,40 L 175,55 L 145,90 L 130,108"
+              fill="none" stroke="#6B7280" stroke-width="1.4"
+              stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+
+        <!-- Testina (cartridge) all'estremità -->
+        <rect x="124" y="105" width="12" height="9" rx="1.5"
+              fill="#1F2937" transform="rotate(35 130 109)"/>
+        <rect x="125" y="106" width="10" height="2" rx="1"
+              fill="#9CA3AF" transform="rotate(35 130 109)"/>
+      </g>
     </svg>
   `;
 }
@@ -1449,6 +1482,24 @@ const CANZONI = [
     anno:1982, album:'Titanic', durata:215, livello:1,
     youtubeId:'uPjRXoo0eSg', coverPalette:'degregori', coverLetter:'D',
     parole:[
+      { id:'odore', lemma:'odore', cat:'sostantivo · maschile', time:31,
+        def:'Sensazione percepita dall\'olfatto. In senso più ampio, traccia, atmosfera ("c\'è odore di pioggia", "c\'è odore di guai").',
+        etim:'Dal latino <em>odor, odoris</em>, "profumo, esalazione". Stessa radice di <em>odorare</em>, <em>odoroso</em>, e — sorpresa — di <em>ozono</em>.',
+        fam:'odorare · odoroso · olezzo · ozono · maleodorante',
+        syn:'profumo, fragranza, aroma, effluvio',
+        ex:'L\'odore del catrame dei tetti era diventato per lui l\'odore stesso dell\'estate.',
+        reg:'comune',
+        curio:'L\'<strong>odore</strong> nelle culture antiche era considerato il senso più "spirituale": gli dei si manifestavano con profumi. La parola <strong>fiuto</strong> ha mantenuto questo senso più sottile: "avere fiuto" significa intuire, percepire ciò che non si vede.'
+      },
+      { id:'sole', lemma:'sole', cat:'sostantivo · maschile', time:35,
+        def:'La stella che illumina e riscalda la Terra. In poesia: simbolo di gioia, vita, verità — l\'opposto della notte.',
+        etim:'Dal latino <em>sol, solis</em>, di origine indoeuropea. Stessa radice del greco <em>hḗlios</em> e dell\'inglese <em>sun</em>: la stessa parola condivisa da tutta l\'Europa antica.',
+        fam:'soleggiato · solare · girasole · parasole · solstizio',
+        syn:'astro, stella diurna',
+        ex:'Il sole che batte sul campo di pallone: la prima immagine della canzone è già un quadro.',
+        reg:'comune',
+        curio:'<strong>Solstizio</strong> = <em>sol</em> ("sole") + <em>sistere</em> ("fermarsi"). Letteralmente: "il sole si ferma". Ai solstizi (21 giugno e 21 dicembre) il sole sembra fermarsi: il giorno più lungo e il più corto.'
+      },
       { id:'polvere', lemma:'polvere', cat:'sostantivo · femminile', time:39,
         def:'Sostanza finissima, fatta di particelle leggere che il vento solleva. In senso figurato: ciò che resta di qualcosa di abbandonato, dimenticato, finito.',
         etim:'Dal latino <em>pulvis, pulveris</em>, "polvere", di origine indoeuropea.',
@@ -1458,14 +1509,59 @@ const CANZONI = [
         reg:'comune',
         curio:'L\'espressione <em>"polvere alla polvere"</em> viene dalla Genesi: "Polvere sei e polvere ritornerai". È diventata simbolo della finitezza umana.'
       },
+      { id:'vento', lemma:'vento', cat:'sostantivo · maschile', time:41,
+        def:'Movimento dell\'aria. In poesia, è quasi sempre messaggero: porta odori, voci, profumi, e a volte cambiamenti.',
+        etim:'Dal latino <em>ventus</em>, di origine indoeuropea. Stessa radice del verbo <em>ventilare</em> e del nome <em>ventaglio</em>.',
+        fam:'ventilare · ventaglio · ventoso · sopravvento · ventosa',
+        syn:'brezza, soffio, corrente d\'aria',
+        ex:'Che terra è polvere, che tira vento: De Gregori dipinge il campo da pallone come un piccolo deserto estivo.',
+        reg:'comune',
+        curio:'L\'espressione <strong>"avere il vento in poppa"</strong> viene dal lessico marinaresco: la poppa è la parte posteriore della barca, e quando il vento la spinge la barca naviga veloce.'
+      },
+      { id:'nino', lemma:'Nino', cat:'nome proprio · maschile', time:46,
+        def:'Diminutivo affettuoso dei nomi che finiscono in <em>-nino</em> (Giovannino, Antonino, Tonino) o di nomi corti come <em>Nicola</em>, <em>Antonio</em>. È un nome popolare, di paese, da campetto di calcio.',
+        etim:'Dal suffisso diminutivo italiano <em>-ino</em>, dal latino <em>-inus</em>. <em>Nino</em> nasce come accorciativo affettuoso, e nel Novecento è diventato un nome a sé.',
+        fam:'-ino, -ina, -inetto: ragazzino, bambino, casetta',
+        syn:'(diminutivo di Giovanni, Antonio, ecc.)',
+        ex:'Nino è il protagonista. De Gregori non gli dà cognome: poteva essere chiunque, in qualunque oratorio d\'Italia.',
+        reg:'popolare',
+        curio:'Scelta narrativa fortissima: chiamare il personaggio <strong>Nino</strong> e non, per esempio, "il giovane calciatore" o "il ragazzo". È un nome così comune che diventa <em>universale</em>: ogni ragazzino di campetto può riconoscersi. Questa è una tecnica antica della poesia popolare — Pavese fa lo stesso con "Cesare", "Pablo".'
+      },
+      { id:'scarpette', lemma:'scarpette', cat:'sostantivo · femminile plurale (diminutivo)', time:50,
+        def:'Diminutivo di <em>scarpe</em>. Indica scarpe piccole, leggere, o usate da bambini. Affettuoso, evocativo: parla di tenerezza per chi le indossa.',
+        etim:'Da <em>scarpa</em>, dal franco antico <em>skarpa</em> ("borsa di pelle"). Il diminutivo <em>-etta</em> aggiunge tenerezza o piccolezza.',
+        fam:'scarpa · scarpone · scarpiera · scarpinare',
+        syn:'scarpine, calzature leggere',
+        ex:'Le scarpette di gomma dure: il diminutivo è affettuoso, ma l\'aggettivo "dure" lo riporta alla realtà del campo polveroso.',
+        reg:'comune',
+        curio:'I diminutivi italiani — <strong>-ino, -etta, -ello</strong> — sono uno dei tratti distintivi della nostra lingua. Le altre lingue europee li usano meno o quasi mai. In inglese non si dice "little shoesy": si dice "little shoes". L\'italiano ha questa capacità unica di mettere tenerezza dentro i sostantivi.'
+      },
+      { id:'cuore', lemma:'cuore', cat:'sostantivo · maschile', time:54,
+        def:'1) L\'organo che pompa il sangue. 2) In senso figurato, la sede dei sentimenti, il "centro" dell\'animo. 3) La parte centrale di qualcosa ("il cuore della città").',
+        etim:'Dal latino <em>cor, cordis</em>, di origine indoeuropea. Stessa radice di <em>cordiale</em>, <em>concordia</em>, <em>discorde</em>, <em>coraggio</em>, <em>ricordare</em>.',
+        fam:'cordiale · coraggio · concordia · ricordare · accordare · discorde',
+        syn:'animo, petto, centro',
+        ex:'10 anni e il cuore pieno di paura: due cose che non vanno mai bene insieme.',
+        reg:'comune',
+        curio:'Famiglia magnifica: dal latino <em>cor</em> nascono <strong>coraggio</strong> ("la forza del cuore"), <strong>concordia</strong> ("essere con lo stesso cuore"), <strong>discordia</strong> ("cuori diversi"), <strong>ricordare</strong> ("riportare al cuore"), <strong>misericordia</strong> ("avere il cuore per chi è misero").'
+      },
+      { id:'paura', lemma:'paura', cat:'sostantivo · femminile', time:55,
+        def:'Sentimento di apprensione davanti a un pericolo, vero o immaginato. Una delle emozioni più antiche, e una delle più necessarie alla sopravvivenza.',
+        etim:'Dal latino <em>pavor, pavoris</em>, "tremore, spavento", da <em>pavere</em>, "tremare". Stessa radice di <em>spaventare</em>, <em>impavido</em>, <em>pavido</em>.',
+        fam:'pauroso · spavento · pavido · impavido · spaventare',
+        syn:'timore, ansia, fobia, terrore', ant:'coraggio, audacia',
+        ex:'10 anni e il cuore pieno di paura: la paura è la prima cosa che si conosce, e la più difficile da gestire.',
+        reg:'comune',
+        curio:'<strong>Impavido</strong> = <em>in-pavido</em>, "che non trema". Una parola usata pochissimo nel parlato, ma fortissima: "impavido" è chi non si piega davanti alla paura. Foscolo nei <em>Sepolcri</em> usa molto questa parola.'
+      },
       { id:'rigore', lemma:'rigore', cat:'sostantivo · maschile', time:64,
         def:'1) Severità, durezza nel rispettare regole. 2) Nel calcio: tiro libero dal dischetto contro la porta avversaria, "calcio di rigore", quando viene commesso un fallo grave in area.',
-        etim:'Dal latino <em>rigor, rigoris</em>, "durezza, freddezza", da <em>rigere</em> ("essere rigido"). Stessa radice di <em>rigido</em>, <em>frigido</em> (freddo, "che rende rigidi").',
+        etim:'Dal latino <em>rigor, rigoris</em>, "durezza, freddezza", da <em>rigere</em> ("essere rigido"). Stessa radice di <em>rigido</em>, <em>frigido</em> ("che rende rigidi", cioè freddo).',
         fam:'rigido · rigoroso · rigorosamente · frigido · congelare',
         syn:'severità, durezza, severo controllo',
-        ex:'Aveva un rigore ammirevole con sé stesso e nessuno con gli altri.',
+        ex:'Sbagliare un calcio di rigore: il momento più solitario del calcio, l\'attaccante contro il portiere e basta.',
         reg:'comune',
-        curio:'De Gregori sfrutta la <strong>polisemia</strong> della parola: "sbagliare un calcio di rigore" è espressione tecnica del calcio, ma <em>rigore</em> significa anche "severità di giudizio". Il verso dice due cose insieme: che il rigore sportivo non basta a giudicare un giocatore, e che la severità non basta a giudicare un uomo.'
+        curio:'De Gregori sfrutta la <strong>polisemia</strong> della parola: "calcio di rigore" è espressione tecnica, ma <em>rigore</em> significa anche "severità di giudizio". Il verso dice due cose insieme: che il rigore sportivo non basta a giudicare un giocatore, e che la severità non basta a giudicare un uomo.'
       },
       { id:'particolari', lemma:'particolari', cat:'sostantivo · maschile plurale', time:68,
         def:'Dettagli, elementi piccoli e specifici di una situazione. Il particolare è ciò che, da solo, sembra poco — ma a volte basta a cambiare tutto.',
@@ -1474,18 +1570,27 @@ const CANZONI = [
         syn:'dettagli, minuzie, specifiche', ant:'generalità, insieme',
         ex:'I particolari di quella sera, presi uno per uno, non significavano niente. Ma messi insieme spiegavano tutto.',
         reg:'comune',
-        curio:'L\'espressione <em>"non è da questi particolari che si giudica un giocatore"</em> è diventata un proverbio italiano grazie a De Gregori. Significa: i veri valori non si misurano dagli errori isolati.'
+        curio:'L\'espressione <em>"non è da questi particolari che si giudica un giocatore"</em> è diventata un proverbio italiano grazie a De Gregori. Significa: i veri valori non si misurano dagli errori isolati. È la frase più citata della canzone.'
       },
-      { id:'giudica', lemma:'giudicare', cat:'verbo · presente indicativo (3a persona)', time:72,
+      { id:'giudica', lemma:'giudicare', cat:'verbo · presente indicativo', time:71,
         def:'Esprimere un\'opinione, una valutazione su qualcuno o qualcosa. Decidere il valore di una persona o di un\'azione.',
         etim:'Dal latino <em>iudicare</em>, da <em>iudex, iudicis</em> ("giudice"): <em>ius</em> ("diritto") + <em>dicere</em> ("dire"). Letteralmente: "dire il diritto".',
         fam:'giudice · giudizio · pregiudizio · pregiudicato · giurato',
         syn:'valutare, stimare, esaminare',
         ex:'Imparò a non giudicare i fallimenti degli altri: aveva visto da vicino quanto fanno male.',
         reg:'comune',
-        curio:'Il <strong>pregiudizio</strong> è etimologicamente un <em>"giudizio precedente"</em>: una valutazione data prima di sapere. Per questo è quasi sempre sbagliato.'
+        curio:'Il <strong>pregiudizio</strong> è etimologicamente un <em>"giudizio precedente"</em>: una valutazione data prima di sapere. Per questo è quasi sempre sbagliato: si giudica senza aver guardato con attenzione.'
       },
-      { id:'altruismo', lemma:'altruismo', cat:'sostantivo · maschile', time:79,
+      { id:'coraggio', lemma:'coraggio', cat:'sostantivo · maschile', time:75,
+        def:'Forza d\'animo che permette di affrontare il pericolo, la fatica, il dolore senza arretrare. Non è assenza di paura: è agire <em>nonostante</em> la paura.',
+        etim:'Dal latino tardo <em>coraticum</em>, derivato di <em>cor</em> ("cuore"). Letteralmente: "la forza che viene dal cuore".',
+        fam:'cuore · coraggioso · cordiale · concordia · ricordare',
+        syn:'audacia, valore, ardimento', ant:'paura, viltà, codardia',
+        ex:'Lo vedi dal coraggio, dice De Gregori: il valore di un giocatore — e di una persona — sta in quello, non nell\'errore di un singolo tiro.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>ricordare</strong> = <em>ri-cor-dare</em>, "riportare al cuore". Per i latini la memoria stava nel cuore, non nel cervello. In francese si dice ancora <em>par cœur</em>, in inglese <em>by heart</em>.'
+      },
+      { id:'altruismo', lemma:'altruismo', cat:'sostantivo · maschile', time:75,
         def:'Atteggiamento di chi si interessa al bene degli altri, anche a costo del proprio. È il contrario di <em>egoismo</em>: pensare prima a chi sta vicino.',
         etim:'Parola moderna, coniata in francese (<em>altruisme</em>) dal filosofo Auguste Comte nell\'Ottocento, dall\'italiano <em>altrui</em>, dal latino <em>alter</em>, "altro".',
         fam:'altro · alterare · altruistico',
@@ -1494,7 +1599,7 @@ const CANZONI = [
         reg:'colto',
         curio:'Curiosità: la parola <strong>altruismo</strong> è stata <em>inventata</em> nel 1830 dal filosofo francese Auguste Comte. Prima non esisteva. Aveva bisogno di un termine per indicare il contrario di "egoismo".'
       },
-      { id:'fantasia', lemma:'fantasia', cat:'sostantivo · femminile', time:81,
+      { id:'fantasia', lemma:'fantasia', cat:'sostantivo · femminile', time:79,
         def:'Capacità della mente di immaginare, di creare immagini di cose che non ci sono. Anche: invenzione, creatività, capacità di vedere oltre la realtà data.',
         etim:'Dal greco <em>phantasía</em>, derivato di <em>phaínein</em> ("apparire, mostrare"). Stessa radice di <em>fantasma</em>, <em>fenomeno</em>, <em>fantastico</em>.',
         fam:'fantasma · fenomeno · fantastico · diafano · epifania',
@@ -1503,104 +1608,77 @@ const CANZONI = [
         reg:'comune',
         curio:'Famiglia greca affascinante: <strong>fenomeno</strong> = "ciò che appare", <strong>fantasma</strong> = "ciò che si fa apparire", <strong>epifania</strong> = "apparizione sopra". La fantasia, in origine, è la capacità di <strong>far apparire le cose nella mente</strong>.'
       },
-      { id:'tristi', lemma:'tristi', cat:'aggettivo · plurale', time:90,
+      { id:'tristi', lemma:'tristi', cat:'aggettivo · plurale', time:89,
         def:'Pieni di tristezza, malinconici. In senso più ampio: che ispirano malinconia, infelici, sfortunati.',
         etim:'Dal latino <em>tristis</em>, di etimologia incerta. Forse legato a <em>terere</em> ("logorare"): chi è triste è "consumato" dalla pena.',
         fam:'tristezza · contristare · attristare · tristo (forma rara)',
         syn:'malinconici, mesti, afflitti, infelici', ant:'allegri, gioiosi, felici',
-        ex:'I giocatori tristi, diceva De Gregori, ridono nei bar di chi ha sognato e non ha vinto.',
+        ex:'I giocatori tristi che non hanno vinto mai, dice De Gregori, ridono nei bar di chi ha sognato.',
         reg:'comune',
         curio:'In italiano antico esiste <strong>tristo</strong> (da non confondere con <em>triste</em>), che significa "malvagio, cattivo" — come nell\'espressione <em>"un tristo soggetto"</em>. È la stessa parola, ma con un percorso semantico opposto: la tristezza che diventa cattiveria.'
       },
-      { id:'appeso', lemma:'appeso', cat:'participio passato del verbo "appendere"', time:93,
+      { id:'appeso', lemma:'appeso', cat:'participio passato del verbo "appendere"', time:89,
         def:'Sospeso, attaccato a qualcosa di alto in modo che penda verso il basso. In senso figurato, "appendere le scarpe al chiodo" significa smettere di praticare uno sport.',
         etim:'Da <em>appendere</em>, dal latino <em>ad-pendere</em>: <em>ad-</em> ("verso") + <em>pendere</em> ("pesare, pendere"). Letteralmente: "far pendere verso".',
         fam:'pendere · pendolo · sospendere · dipendente · pendente · spendere',
         syn:'sospeso, attaccato, pendente',
-        ex:'Aveva appeso al muro la maglia di quando giocava: era diventata un quadro.',
+        ex:'Hanno appeso le scarpe a qualche tipo di muro: il gesto che chiude una vita di sport, e ne apre un\'altra di rimpianti.',
         reg:'comune',
-        curio:'L\'espressione <strong>"appendere le scarpe al chiodo"</strong> è entrata nel linguaggio comune dalle canzoni e dalle pagine sportive. Indica il ritiro definitivo di un atleta.'
+        curio:'L\'espressione <strong>"appendere le scarpe al chiodo"</strong> è entrata nel linguaggio comune dalle pagine sportive italiane. Indica il ritiro definitivo di un atleta. De Gregori la cita "le scarpe a qualche tipo di muro": una variazione poetica.'
       },
-      { id:'innamorati', lemma:'innamorati', cat:'participio sostantivato del verbo "innamorarsi"', time:97,
+      { id:'innamorati', lemma:'innamorati', cat:'participio sostantivato', time:97,
         def:'Coloro che sono nello stato d\'animo dell\'amore. In senso più ampio: persone profondamente prese da qualcuno o qualcosa.',
         etim:'Da <em>innamorarsi</em>, da <em>in-</em> + <em>amore</em>, dal latino <em>amor</em>. Letteralmente: "entrare nell\'amore".',
         fam:'amore · amare · amante · amabile · amico · disamore',
         syn:'amanti, presi, infatuati', ant:'indifferenti, distaccati',
-        ex:'Erano innamorati da dieci anni, e ogni giorno, in modi diversi, ricominciavano da capo.',
+        ex:'Sono innamorati da dieci anni con una donna che non hanno amato mai: il verso più amaro della canzone.',
         reg:'comune',
         curio:'In italiano la parola <strong>amico</strong> ha la stessa radice di <strong>amore</strong> — entrambe vengono da <em>amare</em>. L\'amico, etimologicamente, è "colui che ama".'
       },
-      { id:'veduti', lemma:'veduti', cat:'participio passato del verbo "vedere" (forma letteraria)', time:108,
+      { id:'veduti', lemma:'veduti', cat:'participio passato (forma letteraria)', time:104,
         def:'Visti. Forma letteraria, antica, oggi più rara dell\'usuale "visti". Conserva un sapore poetico, da racconto.',
         etim:'Dal latino <em>videre</em>, di origine indoeuropea. <em>Vedere</em> ha due participi: il moderno <em>visto</em> e il letterario <em>veduto</em>.',
         fam:'visione · evidente · provvedere · video · televisione · invidia',
         syn:'visti, scorti, osservati',
-        ex:'Quanti tramonti aveva veduti, e ogni volta era come la prima.',
+        ex:'Chissà quanti ne hai veduti: De Gregori sceglie la forma antica per dare al verso un sapore quasi popolare-narrativo.',
         reg:'letterario / antico',
-        curio:'L\'italiano ha conservato due participi di <em>vedere</em>: <strong>visto</strong> (forma moderna) e <strong>veduto</strong> (forma antica e poetica). De Gregori sceglie quella antica per dare al verso un sapore quasi popolare-narrativo.'
+        curio:'L\'italiano ha conservato due participi di <em>vedere</em>: <strong>visto</strong> (moderno) e <strong>veduto</strong> (antico e poetico). De Gregori sceglie quella antica per dare al verso il tono di una vecchia storia raccontata davanti al fuoco.'
       },
-      { id:'stregato', lemma:'stregato', cat:'participio passato del verbo "stregare"', time:128,
-        def:'Sottoposto a un incantesimo da una strega. In senso figurato: come per magia, in modo inspiegabile, attratto da qualcosa di misterioso.',
-        etim:'Da <em>strega</em>, dal latino <em>striga</em> ("uccello notturno di malaugurio"). La strega era considerata un essere magico legato alla notte.',
-        fam:'strega · stregoneria · stregare · stregone',
-        syn:'incantato, ammaliato, infatuato', ant:'libero, indifferente',
-        ex:'Quel pallone sembrava stregato: tornava sempre tra i piedi del ragazzino come se lo cercasse.',
-        reg:'comune',
-        curio:'La <em>strige</em> degli antichi romani era un uccello notturno (probabilmente la civetta) considerato di malaugurio. Da lì la parola si è trasformata in <strong>strega</strong>: la donna magica che, nelle credenze popolari, poteva trasformarsi in uccello e volare di notte.'
-      },
-      { id:'incollato', lemma:'incollato', cat:'participio passato del verbo "incollare"', time:131,
-        def:'Attaccato con la colla. In senso figurato: aderente, fermamente attaccato, come se fosse stato incollato.',
-        etim:'Da <em>in-</em> + <em>colla</em>, dal latino <em>colla</em>, di origine greca <em>kólla</em> ("colla, sostanza adesiva").',
-        fam:'colla · scollare · scollato · collante',
-        syn:'attaccato, aderente, appiccicato', ant:'staccato, separato, libero',
-        ex:'Il pallone gli rimaneva incollato al piede come se fossero la stessa cosa.',
-        reg:'comune',
-        curio:'Curiosità linguistica: in italiano abbiamo <strong>collo</strong> (parte del corpo, dal latino <em>collum</em>) e <strong>colla</strong> (sostanza adesiva, dal greco <em>kólla</em>). Sono <em>omografi</em> ma non parenti: vengono da radici completamente diverse.'
-      },
-      { id:'odore', lemma:'odore', cat:'sostantivo · maschile', time:32,
-        def:'Sensazione percepita dall\'olfatto. In senso più ampio, anche traccia, segno, atmosfera ("c\'è odore di pioggia", "c\'è odore di guai").',
-        etim:'Dal latino <em>odor, odoris</em>, "profumo, esalazione". Stessa radice di <em>odorare</em>, <em>odoroso</em>, e — sorpresa — del greco <em>ózein</em> da cui <em>ozono</em>.',
-        fam:'odorare · odoroso · olezzo · ozono · maleodorante',
-        syn:'profumo, fragranza, aroma, effluvio',
-        ex:'L\'odore del catrame dei tetti era diventato per lui l\'odore stesso dell\'estate.',
-        reg:'comune',
-        curio:'L\'<strong>odore</strong> nelle culture antiche era considerato il senso più "spirituale": gli dei si manifestavano con profumi, e i morti si "presentavano" con odori particolari. La parola <strong>fiuto</strong> ha mantenuto questo senso più sottile: "avere fiuto" significa intuire, percepire ciò che non si vede.'
-      },
-      { id:'cuore', lemma:'cuore', cat:'sostantivo · maschile', time:75,
-        def:'1) L\'organo che pompa il sangue. 2) In senso figurato, la sede dei sentimenti, il "centro" dell\'animo. 3) La parte centrale di qualcosa ("il cuore della città").',
-        etim:'Dal latino <em>cor, cordis</em>, di origine indoeuropea. Stessa radice di <em>cordiale</em>, <em>concordia</em>, <em>discorde</em>, <em>coraggio</em>, <em>ricordare</em>.',
-        fam:'cordiale · coraggio · concordia · ricordare · accordare · discorde',
-        syn:'animo, petto, centro',
-        ex:'Aveva 10 anni e il cuore pieno di paura: due cose che non vanno mai bene insieme.',
-        reg:'comune',
-        curio:'Famiglia magnifica: dal latino <em>cor</em> ("cuore") nascono <strong>coraggio</strong> ("la forza che viene dal cuore"), <strong>concordia</strong> ("essere con lo stesso cuore"), <strong>discordia</strong> ("essere con cuori diversi"), <strong>ricordare</strong> ("riportare al cuore"), <strong>misericordia</strong> ("avere il cuore per chi è misero").'
-      },
-      { id:'allenatore', lemma:'allenatore', cat:'sostantivo · maschile', time:115,
+      { id:'allenatore', lemma:'allenatore', cat:'sostantivo · maschile', time:114,
         def:'Chi prepara, addestra, guida sportivi o squadre. Più di un istruttore: l\'allenatore conosce non solo la tecnica ma anche la testa di chi gli sta davanti.',
         etim:'Da <em>allenare</em>, dal francese <em>haleiner</em>, "respirare con sforzo", da cui anche <em>alito</em>, <em>anelito</em>. Allenare = far respirare, fortificare il fiato.',
         fam:'allenare · allenamento · alito · anelito · ansimare',
         syn:'istruttore, mister, coach (inglese)',
-        ex:'L\'allenatore lo guardò mettersi le scarpe come se cercasse qualcosa nei suoi occhi.',
+        ex:'L\'allenatore sembrava contento, dice De Gregori. È una piccola fortuna: a 10 anni il giudizio del mister è il giudizio del mondo.',
         reg:'comune',
-        curio:'Sorpresa etimologica: <strong>allenare</strong>, <strong>alito</strong> e <strong>anelito</strong> sono tutti parenti! L\'idea di base è il <em>respiro</em>: allenarsi vuol dire fortificare il respiro, l\'alito è il respiro, l\'anelito è il respiro affannato del desiderio.'
+        curio:'Sorpresa etimologica: <strong>allenare</strong>, <strong>alito</strong> e <strong>anelito</strong> sono tutti parenti. L\'idea di base è il <em>respiro</em>: allenarsi vuol dire fortificare il respiro, l\'alito è il respiro, l\'anelito è il respiro affannato del desiderio.'
       },
-      { id:'pallone', lemma:'pallone', cat:'sostantivo · maschile', time:138,
+      { id:'pallone', lemma:'pallone', cat:'sostantivo · maschile', time:126,
         def:'1) Sfera di cuoio o gomma usata in molti sport. 2) Termine colloquiale per indicare il calcio ("guardare il pallone in TV").',
         etim:'Da <em>palla</em>, di origine germanica (gotico <em>balla</em>), passata al latino tardo <em>palla</em>. <em>Pallone</em> è l\'accrescitivo. Stessa radice anche del francese <em>balle</em> e dell\'inglese <em>ball</em>.',
-        fam:'palla · pallina · pallido (no, falsa parentela) · pallavolo · pallanuoto',
-        syn:'palla, sfera, balla',
-        ex:'Quel pallone, dice De Gregori, gli rimaneva incollato al piede come se sapesse dove andare.',
+        fam:'palla · pallina · pallavolo · pallanuoto',
+        syn:'palla, sfera',
+        ex:'Un pallone che sembrava sgonfio, ma al piede di Nino restava incollato.',
         reg:'comune',
         curio:'Sorpresa: <strong>palla</strong> in italiano e <strong>ball</strong> in inglese sono la stessa parola di origine germanica. Anche il francese <em>balle</em> e il tedesco <em>Ball</em>. Una parola così quotidiana e antica, condivisa da tutta l\'Europa.'
       },
-      { id:'portiere', lemma:'portiere', cat:'sostantivo · maschile', time:160,
+      { id:'incollato', lemma:'incollato', cat:'participio passato', time:133,
+        def:'Attaccato con la colla. In senso figurato: aderente, fermamente attaccato, come se fosse stato incollato.',
+        etim:'Da <em>in-</em> + <em>colla</em>, dal latino <em>colla</em>, di origine greca <em>kólla</em> ("colla, sostanza adesiva").',
+        fam:'colla · scollare · scollato · collante',
+        syn:'attaccato, aderente, appiccicato', ant:'staccato, separato, libero',
+        ex:'Tanto al piede rimaneva incollato: l\'immagine del giovane talento, il pallone gli risponde come un compagno.',
+        reg:'comune',
+        curio:'Curiosità linguistica: in italiano abbiamo <strong>collo</strong> (parte del corpo, dal latino <em>collum</em>) e <strong>colla</strong> (sostanza adesiva, dal greco <em>kólla</em>). Sono <em>omografi</em> ma non parenti: vengono da radici completamente diverse.'
+      },
+      { id:'portiere', lemma:'portiere', cat:'sostantivo · maschile', time:137,
         def:'1) Chi custodisce la porta. Nel calcio: il giocatore che difende la porta della propria squadra. 2) Chi sorveglia l\'ingresso di un edificio.',
         etim:'Da <em>porta</em>, dal latino <em>porta</em>, "varco, passaggio". Stessa radice di <em>porto</em>, <em>portico</em>, <em>portale</em>, <em>importare</em>, <em>esportare</em>.',
         fam:'porta · portone · portale · portico · porto · importare',
-        syn:'guardiano, custode, goleador (no, ironia)',
-        ex:'Senza guardare, il portiere lo fece passare: era come se quel pallone non fosse fatto per lui.',
+        syn:'guardiano, custode',
+        ex:'Senza guardare, il portiere lo fece passare: l\'immagine del successo come un dono inatteso.',
         reg:'comune',
-        curio:'Sorpresa: <strong>porto</strong> (la zona dove arrivano le navi) e <strong>porta</strong> hanno la stessa radice. Un porto è un "varco" verso il mare. Anche <strong>importare</strong> ed <strong>esportare</strong> contengono l\'idea di "passare attraverso una porta": <em>im-portare</em> = portare dentro, <em>ex-portare</em> = portare fuori.'
+        curio:'Sorpresa: <strong>porto</strong> (zona dove arrivano le navi) e <strong>porta</strong> hanno la stessa radice. Un porto è un "varco" verso il mare. Anche <strong>importare</strong> ed <strong>esportare</strong>: <em>im-portare</em> = portare dentro, <em>ex-portare</em> = portare fuori.'
       }
     ]
   },
