@@ -9,30 +9,43 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500;1,9..144,600;1,9..144,700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0A0A12;
-  --bg-2:#10101C;
-  --surface:#14141F;
-  --surface-hi:#1A1A28;
-  --border:#22222F;
-  --border-hi:#2E2E40;
-  --text:#F5F5F0;
-  --text-2:#B5B5C0;
-  --text-3:#7A7A88;
-  --lime:#D9FF3A;
-  --lime-soft:#E8FF7A;
-  --lime-deep:#9FCC00;
-  --magenta:#FF4D8B;
-  --magenta-soft:#FFB0CC;
-  --ciano:#5EEAD4;
-  --warm-1:#F4A261;
-  --warm-2:#E76F51;
-  --warm-3:#E9C46A;
-  --warm-4:#A05A2C;
+  /* Palette estratta dall'illustrazione */
+  --bg:           #FBFBFC;          /* bianco caldo cielo  */
+  --bg-2:         #FDF8EE;          /* crema-pastello primaverile */
+  --bg-3:         #F5EBD9;          /* giallo paglierino sfumato */
+  --surface:      #FFFFFF;          /* carta */
+  --surface-hi:   #FBF6E9;          /* carta calda */
+  --border:       #E9DFC9;          /* sabbia chiara */
+  --border-hi:    #D4C4A1;          /* sabbia */
+
+  --text:         #1F2937;          /* inchiostro */
+  --text-2:       #475569;          /* inchiostro tenue */
+  --text-3:       #94A3B8;          /* grigio mite */
+
+  /* Accenti dall'illustrazione */
+  --verde:        #5BA86C;          /* verde collina */
+  --verde-deep:   #3F8253;          /* verde scuro */
+  --verde-soft:   #C7E5CF;          /* verde menta */
+
+  --rosa:         #FF6B9D;          /* rosa ciliegio */
+  --rosa-deep:    #E84C7E;          /* magenta caldo */
+  --rosa-soft:    #FFD4E2;          /* rosa pesco */
+
+  --giallo:       #FFC542;          /* giallo sole */
+  --giallo-deep:  #F5A623;          /* arancio caldo */
+  --giallo-soft:  #FFEFCC;          /* burro */
+
+  --azzurro:      #5BB3E8;          /* azzurro cielo */
+  --azzurro-deep: #2980B9;          /* blu mare */
+  --azzurro-soft: #D6ECFA;          /* azzurro tenue */
+
+  --viola:        #B98DD9;          /* lavanda dell'illustrazione */
+  --viola-soft:   #E8D9F2;
+
   --display:'Bricolage Grotesque', -apple-system, system-ui, sans-serif;
   --serif:'Fraunces', Georgia, serif;
   --mono:'JetBrains Mono', ui-monospace, monospace;
-  --shadow:0 0 0 1px var(--border), 0 12px 40px rgba(0,0,0,.5);
-  --shadow-hi:0 0 0 1px var(--border-hi), 0 20px 60px rgba(0,0,0,.6);
+  --topbar-h:74px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
@@ -40,982 +53,531 @@ body{
   background:var(--bg);
   color:var(--text);
   font-family:var(--display);
-  font-size:15px;
-  line-height:1.55;
+  font-size:17px;line-height:1.55;
   -webkit-font-smoothing:antialiased;
   min-height:100vh;
   background-image:
-    radial-gradient(1200px 700px at 90% -20%, rgba(217,255,58,.05), transparent 70%),
-    radial-gradient(900px 600px at -10% 110%, rgba(255,77,139,.06), transparent 70%);
+    radial-gradient(900px 600px at 90% -10%, rgba(255,197,66,.10), transparent 60%),
+    radial-gradient(800px 600px at -10% 110%, rgba(91,179,232,.08), transparent 60%),
+    radial-gradient(600px 500px at 50% 50%, rgba(255,107,157,.04), transparent 70%);
   background-attachment:fixed;
 }
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 a{color:inherit}
+.yt-hidden{position:fixed;left:-9999px;top:-9999px;width:1px;height:1px;opacity:0;pointer-events:none}
 
-/* ========== NOISE OVERLAY ========== */
-body::before{
-  content:'';position:fixed;inset:0;pointer-events:none;z-index:1;
-  opacity:.03;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* ========== TOPBAR ========== */
+/* TOPBAR */
 .topbar{
   position:sticky;top:0;z-index:50;
-  background:rgba(10,10,18,.78);
-  backdrop-filter:blur(20px) saturate(140%);
-  -webkit-backdrop-filter:blur(20px) saturate(140%);
+  background:rgba(251,251,252,.82);
+  backdrop-filter:blur(20px) saturate(150%);
+  -webkit-backdrop-filter:blur(20px) saturate(150%);
   border-bottom:1px solid var(--border);
+  height:var(--topbar-h);
 }
-.topbar-inner{
-  max-width:1320px;margin:0 auto;
-  padding:14px 28px;
-  display:flex;align-items:center;gap:24px;
-}
-.brand{
-  display:flex;align-items:center;gap:12px;cursor:pointer;
-}
+.topbar-inner{max-width:1480px;margin:0 auto;padding:14px 32px;height:100%;display:flex;align-items:center;gap:24px}
+.brand{display:flex;align-items:center;gap:14px;cursor:pointer}
 .brand-mark{
-  width:38px;height:38px;border-radius:11px;
-  background:var(--lime);color:var(--bg);
-  display:grid;place-items:center;
-  position:relative;overflow:hidden;
+  width:46px;height:46px;border-radius:14px;
+  background:linear-gradient(135deg, var(--verde), var(--verde-deep));
+  color:#fff;
+  display:grid;place-items:center;position:relative;overflow:hidden;
   font-family:var(--serif);font-style:italic;font-weight:600;
-  font-size:24px;letter-spacing:-1px;line-height:1;
+  font-size:30px;letter-spacing:-1px;line-height:1;
+  box-shadow:0 4px 12px rgba(91,168,108,.25);
 }
-.brand-mark::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg, transparent 50%, rgba(0,0,0,.15));
-}
+.brand-mark::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg, transparent 50%, rgba(0,0,0,.1))}
 .brand-text{display:flex;flex-direction:column;line-height:1.05}
-.brand-text strong{
-  font-family:var(--display);font-weight:700;font-size:17px;
-  letter-spacing:-.4px;
-}
-.brand-text small{
-  font-family:var(--mono);font-size:10px;letter-spacing:1px;
-  color:var(--text-3);text-transform:uppercase;font-weight:500;
-  margin-top:2px;
-}
+.brand-text strong{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.4px;color:var(--text)}
+.brand-text small{font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--text-3);text-transform:uppercase;font-weight:500;margin-top:3px}
 .nav{display:flex;gap:6px;margin-left:auto;align-items:center}
 .nav-btn{
-  padding:9px 16px;border-radius:99px;
-  font-size:13px;font-weight:600;
-  color:var(--text-2);
-  display:flex;align-items:center;gap:7px;
-  transition:background .18s, color .18s;
-  font-family:var(--display);
-  letter-spacing:-.1px;
+  padding:11px 18px;border-radius:99px;font-size:15px;font-weight:600;color:var(--text-2);
+  display:flex;align-items:center;gap:8px;transition:background .18s, color .18s;
+  font-family:var(--display);letter-spacing:-.1px;
 }
-.nav-btn:hover{background:rgba(255,255,255,.05);color:var(--text)}
-.nav-btn.active{background:var(--text);color:var(--bg)}
-.nav-btn svg{width:14px;height:14px}
-.nav-counter{
-  background:var(--lime);color:var(--bg);
-  padding:2px 8px;border-radius:99px;
-  font-family:var(--mono);font-size:11px;font-weight:700;
-  margin-left:4px;line-height:1.4;
-  transition:transform .3s cubic-bezier(.2,.9,.3,1.4);
-}
-.nav-counter.bump{transform:scale(1.4)}
-.nav-btn.active .nav-counter{background:var(--bg);color:var(--lime)}
+.nav-btn:hover{background:rgba(91,168,108,.08);color:var(--verde-deep)}
+.nav-btn.active{background:var(--text);color:#fff}
+.nav-btn svg{width:16px;height:16px}
 
-/* ========== VIEW ========== */
 .view{display:none;position:relative;z-index:2}
 .view.active{display:block}
-.wrap{max-width:1320px;margin:0 auto;padding:48px 28px 100px}
+.wrap{max-width:1480px;margin:0 auto;padding:64px 32px 100px}
 
-/* ========== DIZIONARIO (HOME) ========== */
-.diz-hero{
-  display:grid;grid-template-columns:1fr 360px;gap:56px;
-  margin-bottom:56px;align-items:end;
+/* HOME */
+.hero{text-align:center;margin-bottom:96px}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:8px 18px;border-radius:99px;
+  background:var(--rosa-soft);
+  border:1px solid var(--rosa);
+  color:var(--rosa-deep);
+  font-family:var(--mono);font-size:12px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:36px;
 }
-@media(max-width:880px){.diz-hero{grid-template-columns:1fr;gap:32px}}
-
-.diz-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:6px 14px;border-radius:99px;
-  background:rgba(217,255,58,.1);
-  border:1px solid rgba(217,255,58,.25);
-  color:var(--lime);
-  font-family:var(--mono);font-size:11px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;
-  margin-bottom:24px;
-}
-.diz-eyebrow::before{
-  content:'';width:6px;height:6px;border-radius:50%;
-  background:var(--lime);
-  animation:pulse 2s infinite;
-}
+.eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--rosa-deep);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-
-.diz-h1{
-  font-family:var(--display);
-  font-size:clamp(48px,7vw,88px);
-  font-weight:700;line-height:.95;
-  letter-spacing:-2.5px;
-  margin-bottom:8px;
-}
-.diz-h1 em{
-  font-family:var(--serif);
-  font-style:italic;
-  font-weight:500;
-  color:var(--lime);
-  letter-spacing:-3px;
-}
-.diz-sub{
-  font-family:var(--serif);
-  font-size:21px;
-  font-style:italic;
-  color:var(--text-2);
-  max-width:540px;
-  margin-top:14px;
-  line-height:1.4;
-}
-
-.diz-counter-card{
-  background:linear-gradient(140deg, var(--surface) 0%, var(--bg-2) 100%);
-  border:1px solid var(--border);
-  border-radius:24px;
-  padding:32px;
-  position:relative;overflow:hidden;
-}
-.diz-counter-card::before{
-  content:'';position:absolute;
-  width:200px;height:200px;border-radius:50%;
-  background:radial-gradient(circle, rgba(217,255,58,.15), transparent 70%);
-  top:-50px;right:-50px;
-}
-.dcc-num{
-  font-family:var(--display);font-weight:800;
-  font-size:96px;line-height:.9;
-  letter-spacing:-5px;
-  background:linear-gradient(180deg, var(--text), var(--text-2));
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  position:relative;
-}
-.dcc-num.has-words{
-  background:linear-gradient(180deg, var(--lime), var(--lime-deep));
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.dcc-lbl{
-  font-family:var(--mono);font-size:11px;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--text-3);margin-top:6px;
-}
-.dcc-bar-wrap{
-  margin-top:22px;
-  display:flex;flex-direction:column;gap:8px;
-}
-.dcc-bar-row{
-  display:flex;align-items:center;justify-content:space-between;
-  font-family:var(--mono);font-size:11px;
-  letter-spacing:.5px;
-  color:var(--text-3);
-}
-.dcc-bar-row strong{color:var(--magenta);font-weight:700}
-.dcc-bar{
-  height:6px;background:rgba(255,255,255,.06);
-  border-radius:99px;overflow:hidden;
-  position:relative;
-}
-.dcc-bar-fill{
-  position:absolute;left:0;top:0;bottom:0;
-  background:linear-gradient(90deg, var(--magenta), var(--magenta-soft));
-  border-radius:99px;
-  transition:width .6s cubic-bezier(.2,.8,.3,1);
-}
-
-/* ========== EMPTY STATE ========== */
-.empty-shell{
-  text-align:center;padding:80px 20px;
-  background:var(--surface);
-  border:1px dashed var(--border-hi);
-  border-radius:24px;
-  position:relative;overflow:hidden;
-}
-.empty-shell::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at 50% 0%, rgba(217,255,58,.06), transparent 60%);
-}
-.empty-words{
-  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
-  margin-bottom:32px;position:relative;
-  max-width:520px;margin-left:auto;margin-right:auto;
-}
-.empty-word{
-  font-family:var(--serif);font-style:italic;font-weight:500;
-  font-size:22px;color:var(--text-3);
-  padding:6px 16px;border-radius:99px;
-  border:1px dashed var(--border-hi);
-  opacity:.7;
-}
-.empty-word:nth-child(2n){transform:rotate(-2deg)}
-.empty-word:nth-child(3n){transform:rotate(1deg);color:var(--lime);border-color:rgba(217,255,58,.3)}
-.empty-shell h2{
-  font-family:var(--display);font-size:32px;font-weight:600;
-  letter-spacing:-1px;margin-bottom:8px;
-  position:relative;
-}
-.empty-shell p{
-  font-family:var(--serif);font-style:italic;font-size:18px;
-  color:var(--text-2);max-width:440px;margin:0 auto 28px;
-  position:relative;
-}
-.empty-shell .btn-cta{position:relative}
-
-/* ========== FILTERS ========== */
-.diz-filters{
-  display:flex;gap:8px;flex-wrap:wrap;
-  margin:8px 0 24px;
-}
-.diz-filter{
-  padding:8px 16px;border-radius:99px;
-  font-family:var(--display);font-size:13px;font-weight:500;
-  background:transparent;border:1px solid var(--border);
-  color:var(--text-2);
-  transition:all .15s;
-  display:inline-flex;align-items:center;gap:6px;
-}
-.diz-filter:hover{border-color:var(--text-3);color:var(--text)}
-.diz-filter.active{
-  background:var(--text);color:var(--bg);
-  border-color:var(--text);font-weight:600;
-}
-.diz-filter .num{
-  font-family:var(--mono);font-weight:700;
-  font-size:11px;
-  background:rgba(255,255,255,.1);
-  padding:1px 6px;border-radius:99px;
-}
-.diz-filter.active .num{background:rgba(0,0,0,.15);color:var(--bg)}
-
-/* ========== DIZIONARIO GRID ========== */
-.diz-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:14px;
-}
-.diz-card{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:22px 22px 20px;
-  position:relative;overflow:hidden;
-  transition:transform .25s, border-color .25s, background .25s;
-}
-.diz-card:hover{
-  transform:translateY(-2px);
-  border-color:var(--border-hi);
-  background:var(--surface-hi);
-}
-.diz-card.padr{
-  border-color:rgba(255,77,139,.4);
-}
-.diz-card.padr::before{
-  content:'';position:absolute;inset:-1px;
-  background:linear-gradient(135deg, rgba(255,77,139,.4), transparent 60%);
-  border-radius:18px;
-  -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite:xor;
-  mask-composite:exclude;
-  padding:1px;
-  pointer-events:none;
-}
-.diz-card-tag{
-  position:absolute;top:18px;right:18px;
-  font-family:var(--mono);font-size:9px;font-weight:700;
-  letter-spacing:1.5px;text-transform:uppercase;
-  padding:4px 9px;border-radius:99px;
-  background:rgba(255,77,139,.15);color:var(--magenta);
-  display:none;align-items:center;gap:5px;
-}
-.diz-card-tag svg{width:9px;height:9px}
-.diz-card.padr .diz-card-tag{display:inline-flex}
-.diz-card-lemma{
-  font-family:var(--serif);font-style:italic;font-weight:600;
-  font-size:34px;line-height:1;
-  letter-spacing:-1.2px;
+.hero h1{
+  font-family:var(--display);font-size:clamp(56px,8vw,116px);
+  font-weight:700;line-height:.95;letter-spacing:-3.5px;margin-bottom:28px;
   color:var(--text);
-  margin-right:60px;
-  margin-bottom:4px;
 }
-.diz-card.padr .diz-card-lemma{
-  background:linear-gradient(120deg, var(--text) 30%, var(--magenta-soft));
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;
+.hero h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--rosa-deep);letter-spacing:-4px}
+.hero .lead{
+  font-family:var(--serif);font-size:24px;font-style:italic;color:var(--text-2);
+  max-width:820px;margin:0 auto;line-height:1.45;
 }
-.diz-card-cat{
-  font-family:var(--mono);font-size:10px;
-  letter-spacing:.5px;
-  color:var(--text-3);text-transform:lowercase;
-  margin-bottom:14px;
+.hero-image{
+  margin-top:56px;border-radius:32px;overflow:hidden;position:relative;
+  box-shadow:
+    0 0 0 1px var(--border),
+    0 24px 60px rgba(31,41,55,.10),
+    0 50px 100px rgba(255,197,66,.10);
 }
-.diz-card-def{
-  font-family:var(--serif);font-size:14px;line-height:1.5;
-  color:var(--text-2);
-  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;
-  overflow:hidden;
-}
-.diz-card-fonte{
-  margin-top:14px;padding-top:12px;
-  border-top:1px solid var(--border);
-  font-family:var(--mono);font-size:10px;
-  letter-spacing:.5px;
-  color:var(--text-3);
-  display:flex;align-items:center;gap:6px;
-}
-.diz-card-fonte em{color:var(--text-2);font-style:normal;font-weight:500}
-.diz-card-fonte svg{width:10px;height:10px;color:var(--lime)}
+.hero-image img{display:block;width:100%;height:auto}
 
-/* ========== CATALOGO ========== */
-.cat-head{
-  display:flex;align-items:end;justify-content:space-between;gap:24px;
-  margin-bottom:32px;
+/* FASI */
+.fasi{margin-bottom:96px}
+.fasi-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:40px;gap:24px;flex-wrap:wrap}
+.fasi-head h2{font-family:var(--display);font-weight:700;font-size:clamp(40px,4.5vw,60px);letter-spacing:-1.8px;line-height:1;color:var(--text)}
+.fasi-head h2 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--rosa-deep)}
+.fasi-head p{font-family:var(--serif);font-style:italic;color:var(--text-2);font-size:19px;max-width:480px;line-height:1.45}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:900px){.steps{grid-template-columns:1fr}}
+.step{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:24px;padding:36px 32px;position:relative;overflow:hidden;
+  transition:border-color .25s, transform .25s, box-shadow .25s;
 }
-.cat-head h1{
-  font-family:var(--display);
-  font-size:clamp(40px,5vw,64px);
-  font-weight:700;letter-spacing:-2px;line-height:1;
+.step:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(31,41,55,.06)}
+.step::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.step:nth-child(1)::before{background:var(--verde)}
+.step:nth-child(1):hover{border-color:var(--verde-soft)}
+.step:nth-child(2)::before{background:var(--azzurro)}
+.step:nth-child(2):hover{border-color:var(--azzurro-soft)}
+.step:nth-child(3)::before{background:var(--rosa)}
+.step:nth-child(3):hover{border-color:var(--rosa-soft)}
+.step-num{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:2px;display:block;margin-bottom:24px}
+.step:nth-child(1) .step-num{color:var(--verde-deep)}
+.step:nth-child(2) .step-num{color:var(--azzurro-deep)}
+.step:nth-child(3) .step-num{color:var(--rosa-deep)}
+.step-icon{
+  width:68px;height:68px;border-radius:20px;
+  display:grid;place-items:center;margin-bottom:24px;
 }
-.cat-head h1 em{
-  font-family:var(--serif);font-style:italic;font-weight:500;
-  color:var(--lime);
-}
-.cat-head p{
-  font-family:var(--serif);font-style:italic;
-  color:var(--text-2);font-size:17px;
-  max-width:480px;margin-top:10px;
-}
+.step:nth-child(1) .step-icon{background:var(--verde-soft);color:var(--verde-deep)}
+.step:nth-child(2) .step-icon{background:var(--azzurro-soft);color:var(--azzurro-deep)}
+.step:nth-child(3) .step-icon{background:var(--rosa-soft);color:var(--rosa-deep)}
+.step-icon svg{width:32px;height:32px}
+.step h3{font-family:var(--display);font-weight:700;font-size:30px;letter-spacing:-1px;line-height:1.1;margin-bottom:14px;color:var(--text)}
+.step h3 em{font-family:var(--serif);font-style:italic;font-weight:500}
+.step p{font-family:var(--serif);font-size:19px;color:var(--text-2);line-height:1.5}
 
-.tracce{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-  gap:18px;
+/* CTA */
+.cta-section{text-align:center;padding:32px 0}
+.btn-cta-big{
+  padding:20px 36px;border-radius:99px;
+  font-family:var(--display);font-size:18px;font-weight:600;letter-spacing:-.2px;
+  background:linear-gradient(135deg, var(--verde), var(--verde-deep));
+  color:#fff;
+  display:inline-flex;align-items:center;gap:12px;transition:all .2s;
+  box-shadow:0 8px 24px rgba(91,168,108,.3);
 }
+.btn-cta-big:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(91,168,108,.4)}
+.btn-cta-big svg{width:18px;height:18px}
+.btn-secondary{
+  padding:15px 24px;border-radius:99px;
+  font-family:var(--display);font-size:15px;font-weight:500;
+  background:var(--surface);border:1px solid var(--border-hi);
+  color:var(--text-2);transition:all .15s;
+}
+.btn-secondary:hover{border-color:var(--verde);color:var(--verde-deep);background:var(--verde-soft)}
+
+/* CATALOGO */
+.cat-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:48px;flex-wrap:wrap}
+.cat-head h1{font-family:var(--display);font-size:clamp(48px,5.5vw,72px);font-weight:700;letter-spacing:-2.4px;line-height:1;color:var(--text)}
+.cat-head h1 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--rosa-deep)}
+.cat-head p{font-family:var(--serif);font-style:italic;color:var(--text-2);font-size:19px;max-width:560px;margin-top:14px;line-height:1.45}
+.tracce{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px}
 .traccia{
   background:var(--surface);
   border:1px solid var(--border);
-  border-radius:20px;
-  padding:18px;cursor:pointer;
-  transition:transform .25s, border-color .25s;
+  border-radius:24px;padding:22px;cursor:pointer;
+  transition:transform .25s, border-color .25s, box-shadow .25s;
   position:relative;overflow:hidden;
-  display:flex;flex-direction:column;gap:14px;
+  display:flex;flex-direction:column;gap:18px;
 }
-.traccia:hover{transform:translateY(-3px);border-color:var(--border-hi)}
+.traccia:hover{
+  transform:translateY(-4px);
+  border-color:var(--verde-soft);
+  box-shadow:0 20px 40px rgba(31,41,55,.06);
+}
 .traccia-cover{
-  aspect-ratio:1/1;border-radius:14px;
-  position:relative;overflow:hidden;
+  aspect-ratio:1/1;border-radius:18px;position:relative;overflow:hidden;
   display:grid;place-items:center;
-  background:linear-gradient(135deg, var(--warm-3), var(--warm-2) 60%, var(--warm-4));
-}
-.traccia-cover::before{
-  content:'';position:absolute;inset:0;
-  background-image:
-    radial-gradient(circle at 30% 20%, rgba(255,255,255,.15), transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(0,0,0,.2), transparent 50%);
-}
-.traccia-cover::after{
-  content:'';position:absolute;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E");
-  mix-blend-mode:overlay;
 }
 .cover-art{position:relative;z-index:1;width:62%;height:62%}
 .traccia-eyebrow{
-  font-family:var(--mono);font-size:10px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--text-3);
-  display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--text-3);display:flex;align-items:center;gap:9px;
 }
-.traccia-eyebrow .dot{
-  width:4px;height:4px;border-radius:50%;background:var(--text-3);
-}
-.traccia h3{
-  font-family:var(--display);font-weight:700;
-  font-size:24px;line-height:1.1;letter-spacing:-.8px;
-}
-.traccia .artista{
-  font-family:var(--serif);font-style:italic;
-  color:var(--text-2);font-size:15px;margin-top:2px;
-}
+.traccia-eyebrow .dot{width:4px;height:4px;border-radius:50%;background:var(--text-3)}
+.traccia h3{font-family:var(--display);font-weight:700;font-size:26px;line-height:1.1;letter-spacing:-1px;color:var(--text)}
+.traccia .artista{font-family:var(--serif);font-style:italic;color:var(--text-2);font-size:18px;margin-top:4px}
 .traccia-meta{
-  margin-top:auto;display:flex;align-items:center;
-  justify-content:space-between;gap:10px;padding-top:6px;
-  font-family:var(--mono);font-size:11px;
-  color:var(--text-3);letter-spacing:.5px;
+  margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:8px;
+  font-family:var(--mono);font-size:12px;color:var(--text-3);letter-spacing:.5px;
 }
-.traccia-meta-l{display:flex;gap:14px}
-.traccia-meta span{display:inline-flex;align-items:center;gap:5px}
-.traccia-meta svg{width:11px;height:11px}
+.traccia-meta-l{display:flex;gap:16px}
+.traccia-meta span{display:inline-flex;align-items:center;gap:6px}
+.traccia-meta svg{width:13px;height:13px}
 .livello{display:inline-flex;gap:3px}
-.livello span{
-  width:5px;height:5px;border-radius:50%;
-  background:var(--border-hi);
-}
-.livello span.on{background:var(--lime)}
+.livello span{width:6px;height:6px;border-radius:50%;background:var(--border-hi)}
+.livello span.on{background:var(--verde)}
 
-.traccia-stato{
-  position:absolute;top:30px;right:30px;z-index:2;
-  width:32px;height:32px;border-radius:50%;
-  background:var(--magenta);color:var(--bg);
-  display:none;align-items:center;justify-content:center;
-  box-shadow:0 6px 20px rgba(255,77,139,.5);
+/* LETTURA */
+.lettura-shell{
+  max-width:1480px;margin:0 auto;padding:0 32px;
+  display:grid;grid-template-columns:480px 1fr;gap:0;align-items:start;
 }
-.traccia-stato svg{width:14px;height:14px}
-.traccia.completata .traccia-stato{display:flex}
+@media(max-width:1100px){.lettura-shell{grid-template-columns:1fr;padding:0 28px}}
+.player-side{
+  position:sticky;top:var(--topbar-h);
+  height:calc(100vh - var(--topbar-h));
+  padding:32px 32px 24px 0;overflow-y:auto;
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+}
+@media(max-width:1100px){
+  .player-side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--border);padding:32px 0}
+}
+.player-side::-webkit-scrollbar{width:6px}
+.player-side::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:99px}
+.glossario-side{padding:32px 0 80px 32px;min-width:0}
+@media(max-width:1100px){.glossario-side{padding:32px 0 80px}}
 
-/* ========== LETTURA ========== */
 .player-back{
-  font-family:var(--display);font-size:13px;font-weight:500;
-  color:var(--text-2);
-  display:inline-flex;align-items:center;gap:7px;
-  padding:8px 14px;margin-bottom:24px;
+  font-family:var(--display);font-size:14px;font-weight:500;color:var(--text-2);
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 16px;margin-bottom:24px;
   border-radius:99px;border:1px solid var(--border);
-  transition:all .15s;
+  background:var(--surface);
+  transition:all .15s;align-self:flex-start;
 }
-.player-back:hover{border-color:var(--border-hi);color:var(--text)}
-.player-back svg{width:13px;height:13px}
+.player-back:hover{border-color:var(--verde);color:var(--verde-deep);background:var(--verde-soft)}
+.player-back svg{width:14px;height:14px}
 
-.player-grid{
-  display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);
-  gap:48px;align-items:start;
-}
-@media(max-width:1000px){.player-grid{grid-template-columns:1fr}}
-
-.player-side{position:sticky;top:88px}
-
-.cover-big{
-  aspect-ratio:1/1;border-radius:24px;overflow:hidden;
-  background:linear-gradient(135deg, var(--warm-3), var(--warm-2) 60%, var(--warm-4));
-  position:relative;
-  box-shadow:0 30px 80px rgba(231,111,81,.25), 0 0 0 1px var(--border);
+.cover-and-info{display:flex;gap:18px;align-items:center;margin-bottom:24px}
+.cover-mini{
+  width:104px;height:104px;border-radius:20px;overflow:hidden;
+  position:relative;flex-shrink:0;
+  box-shadow:0 8px 24px rgba(31,41,55,.10), 0 0 0 1px var(--border);
   display:grid;place-items:center;
 }
-.cover-big::before{
-  content:'';position:absolute;inset:0;
-  background-image:
-    radial-gradient(circle at 25% 20%, rgba(255,255,255,.18), transparent 60%),
-    radial-gradient(circle at 75% 85%, rgba(0,0,0,.25), transparent 60%);
-}
-.cover-big::after{
-  content:'';position:absolute;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
-  mix-blend-mode:overlay;
-}
-.cover-big .cover-art{width:60%;height:60%}
-
+.cover-mini .cover-art{width:62%;height:62%}
+.player-titles{flex:1;min-width:0}
 .player-eyebrow{
-  font-family:var(--mono);font-size:11px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--lime);margin-top:24px;
-  display:flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--rosa-deep);display:flex;align-items:center;gap:8px;margin-bottom:6px;
 }
-.player-eyebrow .dot{width:4px;height:4px;border-radius:50%;background:var(--lime)}
-.player-title{
-  font-family:var(--display);font-weight:700;
-  font-size:42px;line-height:1.05;letter-spacing:-1.5px;
-  margin-top:8px;
-}
+.player-eyebrow .dot{width:5px;height:5px;border-radius:50%;background:var(--rosa-deep)}
+.player-title{font-family:var(--display);font-weight:700;font-size:30px;line-height:1.05;letter-spacing:-1.2px;color:var(--text)}
 .player-title em{font-family:var(--serif);font-style:italic;font-weight:500}
-.player-artist{
-  font-family:var(--serif);font-style:italic;font-size:17px;
-  color:var(--text-2);margin-top:6px;
-}
+.player-artist{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--text-2);margin-top:4px}
 
-.player-yt{
-  margin-top:18px;
-  aspect-ratio:16/9;border-radius:14px;overflow:hidden;
-  background:#000;border:1px solid var(--border);
+/* AUDIO */
+.audio-controls{display:flex;align-items:center;justify-content:center;gap:16px;margin:8px 0 18px}
+.btn-control{border-radius:50%;display:grid;place-items:center;transition:transform .15s, background .15s}
+.btn-play{
+  width:88px;height:88px;
+  background:linear-gradient(135deg, var(--verde), var(--verde-deep));
+  color:#fff;
+  box-shadow:0 12px 32px rgba(91,168,108,.35);
 }
-.player-yt iframe{width:100%;height:100%;border:0}
+.btn-play:hover{transform:scale(1.05)}
+.btn-play:active{transform:scale(.97)}
+.btn-play svg{width:36px;height:36px}
+.btn-stop{
+  width:60px;height:60px;background:var(--surface);
+  border:1px solid var(--border-hi);color:var(--text-2);
+}
+.btn-stop:hover{color:var(--verde-deep);border-color:var(--verde);background:var(--verde-soft)}
+.btn-stop svg{width:20px;height:20px}
 
-.player-progress-wrap{
-  margin-top:14px;
-  display:flex;align-items:center;gap:12px;
-  font-family:var(--mono);font-size:11px;
-  color:var(--text-3);
-}
-.player-progress{
-  flex:1;height:5px;background:var(--surface-hi);
-  border-radius:99px;overflow:hidden;cursor:pointer;
-}
-.player-progress-fill{
-  height:100%;background:var(--lime);
-  width:0%;transition:width .25s linear;
-}
+.player-progress-wrap{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:13px;color:var(--text-3);font-weight:600}
+.player-progress{flex:1;height:6px;background:var(--bg-3);border-radius:99px;overflow:hidden;cursor:pointer;position:relative}
+.player-progress-fill{height:100%;background:linear-gradient(90deg, var(--verde), var(--verde-deep));width:0%;transition:width .25s linear}
 
+/* PAROLA DEL MOMENTO */
 .parola-corrente{
-  margin-top:18px;padding:20px 22px;
-  background:var(--surface);
+  margin-top:24px;padding:32px;
+  background:linear-gradient(135deg, var(--bg-2), var(--surface-hi));
   border:1px solid var(--border);
-  border-radius:16px;
-  display:flex;align-items:center;gap:16px;
-  min-height:78px;
-  position:relative;overflow:hidden;
-  transition:border-color .3s, background .3s;
+  border-radius:24px;position:relative;overflow:hidden;
+  transition:all .35s cubic-bezier(.2,.8,.3,1);
+  flex:1;display:flex;flex-direction:column;justify-content:center;min-height:220px;
 }
 .parola-corrente.active{
-  border-color:var(--lime);
-  background:linear-gradient(120deg, var(--surface) 60%, rgba(217,255,58,.08));
+  border-color:var(--rosa);
+  background:linear-gradient(135deg, var(--rosa-soft) 0%, var(--surface-hi) 70%);
+  box-shadow:0 12px 32px rgba(255,107,157,.15);
 }
-.parola-corrente.active::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
-  background:var(--lime);
-}
+.parola-corrente-head{display:flex;align-items:center;gap:14px;margin-bottom:14px}
 .parola-corrente-icon{
-  width:38px;height:38px;border-radius:50%;
-  background:var(--surface-hi);
+  width:44px;height:44px;border-radius:14px;
+  background:var(--giallo-soft);
   display:grid;place-items:center;flex-shrink:0;
-  color:var(--text-3);
-  transition:background .3s, color .3s;
+  color:var(--giallo-deep);
+  transition:background .35s, color .35s;
 }
-.parola-corrente.active .parola-corrente-icon{
-  background:var(--lime);color:var(--bg);
-}
-.parola-corrente-icon svg{width:16px;height:16px}
-.parola-corrente-lbl{
-  font-family:var(--mono);font-size:10px;font-weight:600;
-  letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--text-3);
-}
+.parola-corrente.active .parola-corrente-icon{background:var(--rosa);color:#fff}
+.parola-corrente-icon svg{width:20px;height:20px}
+.parola-corrente-lbl{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-3)}
 .parola-corrente-lemma{
   font-family:var(--serif);font-style:italic;font-weight:600;
-  font-size:26px;line-height:1.1;letter-spacing:-.5px;
-  margin-top:2px;color:var(--text);
+  font-size:50px;line-height:1.05;letter-spacing:-1.6px;color:var(--text);
 }
+.parola-corrente.active .parola-corrente-lemma{color:var(--rosa-deep)}
 .parola-corrente.idle .parola-corrente-lemma{
-  font-family:var(--display);font-style:normal;
-  font-size:14px;font-weight:400;color:var(--text-3);
-  letter-spacing:0;
+  font-family:var(--display);font-style:normal;font-size:18px;font-weight:500;color:var(--text-3);letter-spacing:0;
 }
+.parola-corrente-cat{font-family:var(--mono);font-size:12px;color:var(--text-3);margin-top:10px;letter-spacing:.3px}
+.parola-corrente.idle .parola-corrente-cat{display:none}
 
-.player-actions{
-  margin-top:18px;display:flex;gap:8px;flex-wrap:wrap;
-}
+.player-actions{margin-top:18px;display:flex;gap:10px}
 .btn-cta, .btn-ghost{
-  padding:11px 18px;border-radius:99px;
-  font-family:var(--display);font-size:13px;font-weight:600;
-  letter-spacing:-.1px;
-  display:inline-flex;align-items:center;gap:8px;
-  transition:all .15s;
+  padding:14px 22px;border-radius:99px;
+  font-family:var(--display);font-size:14px;font-weight:600;letter-spacing:-.1px;
+  display:inline-flex;align-items:center;gap:8px;transition:all .15s;
 }
-.btn-cta{background:var(--lime);color:var(--bg)}
-.btn-cta:hover{transform:translateY(-1px);background:var(--lime-soft)}
-.btn-cta[disabled]{opacity:.4;cursor:not-allowed;transform:none}
-.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text-2)}
-.btn-ghost:hover{border-color:var(--text-3);color:var(--text)}
-.btn-cta svg, .btn-ghost svg{width:13px;height:13px}
+.btn-cta{
+  background:linear-gradient(135deg, var(--rosa), var(--rosa-deep));
+  color:#fff;flex:1;justify-content:center;
+  box-shadow:0 6px 16px rgba(255,107,157,.25);
+}
+.btn-cta:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(255,107,157,.35)}
+.btn-cta[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-ghost{background:var(--surface);border:1px solid var(--border);color:var(--text-2)}
+.btn-ghost:hover{border-color:var(--azzurro);color:var(--azzurro-deep);background:var(--azzurro-soft)}
+.btn-cta svg, .btn-ghost svg{width:14px;height:14px}
 
-/* ========== GLOSSARIO ========== */
-.glossario-head{
-  display:flex;align-items:end;justify-content:space-between;
-  margin-bottom:18px;gap:16px;
-}
-.glossario-head h3{
-  font-family:var(--display);font-size:28px;font-weight:700;
-  letter-spacing:-.8px;
-}
-.glossario-head h3 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--lime)}
-.glossario-head .meta{
-  font-family:var(--mono);font-size:11px;
-  letter-spacing:1px;color:var(--text-3);
-  text-transform:uppercase;
-}
-.glossario-list{display:flex;flex-direction:column;gap:8px}
+/* GLOSSARIO */
+.glossario-head{display:flex;align-items:end;justify-content:space-between;margin-bottom:24px;gap:16px;flex-wrap:wrap}
+.glossario-head h3{font-family:var(--display);font-size:38px;font-weight:700;letter-spacing:-1.2px;line-height:1;color:var(--text)}
+.glossario-head h3 em{font-family:var(--serif);font-style:italic;font-weight:500;color:var(--azzurro-deep)}
+.glossario-head .meta{font-family:var(--mono);font-size:13px;letter-spacing:1px;color:var(--text-3);text-transform:uppercase;font-weight:600}
+.glossario-actions{display:flex;gap:10px;margin-bottom:18px}
+.glossario-list{display:flex;flex-direction:column;gap:12px}
 
 .parola{
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:14px;overflow:hidden;
-  transition:all .3s cubic-bezier(.2,.8,.3,1);
-  position:relative;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:18px;overflow:hidden;
+  transition:all .3s cubic-bezier(.2,.8,.3,1);position:relative;
 }
-.parola:hover{border-color:var(--border-hi)}
+.parola:hover{border-color:var(--azzurro-soft);box-shadow:0 4px 16px rgba(31,41,55,.04)}
 .parola.attiva{
-  border-color:var(--lime);
-  box-shadow:0 0 0 4px rgba(217,255,58,.15);
+  border-color:var(--rosa);
+  background:linear-gradient(135deg, var(--rosa-soft) 0%, var(--surface) 60%);
+  box-shadow:0 0 0 4px rgba(255,107,157,.15);
   transform:translateX(4px);
 }
-.parola.padroneggiata{
-  border-color:rgba(255,77,139,.4);
-}
-
-.parola-head{
-  display:flex;align-items:center;gap:14px;
-  padding:14px 18px;
-  width:100%;text-align:left;
-}
-.parola-head:hover{background:rgba(255,255,255,.02)}
-.parola-time{
-  font-family:var(--mono);font-size:11px;font-weight:600;
-  color:var(--text-3);letter-spacing:.5px;
-  width:42px;flex-shrink:0;
-}
-.parola.attiva .parola-time{color:var(--lime)}
+.parola-head{display:flex;align-items:center;gap:18px;padding:22px 26px;width:100%;text-align:left}
+.parola-head:hover{background:rgba(91,179,232,.04)}
+.parola.attiva .parola-head:hover{background:transparent}
+.parola-time{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text-3);letter-spacing:.5px;width:48px;flex-shrink:0}
+.parola.attiva .parola-time{color:var(--rosa-deep)}
 .parola-lemma{
   font-family:var(--serif);font-style:italic;font-weight:600;
-  font-size:22px;line-height:1.1;letter-spacing:-.4px;
-  color:var(--text);flex:1;
+  font-size:30px;line-height:1.05;letter-spacing:-.6px;color:var(--text);flex:1;
 }
-.parola.attiva .parola-lemma{color:var(--lime)}
-.parola-cat{
-  font-family:var(--mono);font-size:10px;font-weight:500;
-  color:var(--text-3);letter-spacing:.3px;
-  text-transform:lowercase;
-}
+.parola.attiva .parola-lemma{color:var(--rosa-deep)}
+.parola-cat{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--text-3);letter-spacing:.3px;text-transform:lowercase}
 .parola-toggle{
-  width:26px;height:26px;border-radius:50%;
-  background:transparent;border:1px solid var(--border);
-  display:grid;place-items:center;flex-shrink:0;
-  color:var(--text-3);
-  transition:all .25s;
+  width:32px;height:32px;border-radius:50%;background:var(--bg-2);border:1px solid var(--border);
+  display:grid;place-items:center;flex-shrink:0;color:var(--text-2);transition:all .25s;
 }
-.parola-toggle svg{width:11px;height:11px}
+.parola-toggle svg{width:13px;height:13px}
 .parola.aperta .parola-toggle{
   transform:rotate(180deg);
-  background:var(--lime);color:var(--bg);border-color:var(--lime);
-}
-.parola.in-dizionario .parola-time::after{
-  content:'·';color:var(--magenta);margin-left:4px;
+  background:linear-gradient(135deg, var(--azzurro), var(--azzurro-deep));
+  color:#fff;border-color:var(--azzurro-deep);
 }
 
-.parola-body{
-  display:none;
-  padding:0 18px 18px;
-  border-top:1px solid var(--border);
-  margin-top:0;padding-top:18px;
-}
-.parola.aperta .parola-body{display:block;animation:fade-in .25s}
+.parola-body{display:none;padding:0 26px 24px;border-top:1px solid var(--border);margin-top:0;padding-top:24px}
+.parola.aperta .parola-body{display:block;animation:fade-in .3s}
 @keyframes fade-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 
-.scheda-row{margin-bottom:14px}
+.scheda-row{margin-bottom:20px}
 .scheda-row:last-child{margin-bottom:0}
 .scheda-lbl{
-  font-family:var(--mono);font-size:9px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--lime);margin-bottom:4px;
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--azzurro-deep);margin-bottom:8px;
 }
-.scheda-def{
-  font-family:var(--serif);font-size:17px;line-height:1.45;
-  color:var(--text);
-}
-.scheda-etim{
-  font-family:var(--serif);font-style:italic;font-size:14px;
-  color:var(--text-2);line-height:1.5;
-}
-.scheda-fam, .scheda-syn{
-  font-family:var(--display);font-size:13px;
-  color:var(--text-2);line-height:1.5;
-}
+.scheda-def{font-family:var(--serif);font-size:20px;line-height:1.5;color:var(--text)}
+.scheda-def em{color:var(--rosa-deep);font-style:italic}
+.scheda-etim{font-family:var(--serif);font-style:italic;font-size:17px;color:var(--text-2);line-height:1.55}
+.scheda-etim em{color:var(--azzurro-deep);font-style:italic;font-weight:500}
+.scheda-fam, .scheda-syn{font-family:var(--display);font-size:16px;color:var(--text-2);line-height:1.55}
 .scheda-fam strong, .scheda-syn strong{color:var(--text);font-weight:600}
 .scheda-ex{
-  font-family:var(--serif);font-style:italic;font-size:15px;
-  color:var(--text);background:var(--bg-2);
-  padding:11px 14px;border-radius:10px;
-  border-left:3px solid var(--magenta);
-  line-height:1.45;
+  font-family:var(--serif);font-style:italic;font-size:18px;color:var(--text);
+  background:var(--rosa-soft);
+  padding:16px 20px;border-radius:14px;
+  border-left:4px solid var(--rosa);line-height:1.45;
 }
 .scheda-curio{
-  font-family:var(--display);font-size:13px;line-height:1.55;
-  color:var(--text-2);
-  background:rgba(94,234,212,.05);
-  border:1px solid rgba(94,234,212,.15);
-  padding:12px 14px;border-radius:10px;
+  font-family:var(--display);font-size:16px;line-height:1.6;color:var(--text-2);
+  background:var(--azzurro-soft);
+  border:1px solid rgba(91,179,232,.3);
+  padding:16px 20px;border-radius:14px;
 }
-.scheda-curio strong{color:var(--ciano);font-weight:600}
+.scheda-curio strong{color:var(--azzurro-deep);font-weight:700}
+.scheda-curio em{font-style:italic;color:var(--azzurro-deep)}
 .scheda-registro{
-  display:inline-block;
-  font-family:var(--mono);font-size:9px;font-weight:700;
+  display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;
   letter-spacing:1.5px;text-transform:uppercase;
-  padding:3px 9px;border-radius:99px;
-  background:var(--text);color:var(--bg);
-  margin-bottom:10px;
+  padding:5px 12px;border-radius:99px;
+  background:var(--giallo-soft);color:var(--giallo-deep);
+  border:1px solid var(--giallo);
+  margin-bottom:14px;
 }
-.scheda-add{
-  margin-top:16px;padding-top:14px;
-  border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:flex-end;gap:10px;
-}
-.btn-add{
-  padding:9px 16px;border-radius:99px;
-  font-family:var(--display);font-size:12px;font-weight:600;
-  letter-spacing:-.1px;
-  background:var(--lime);color:var(--bg);
-  display:inline-flex;align-items:center;gap:7px;
-  transition:transform .15s, background .15s;
-}
-.btn-add:hover{background:var(--lime-soft);transform:scale(1.03)}
-.btn-add svg{width:12px;height:12px}
-.parola.in-dizionario .btn-add{
-  background:var(--surface-hi);color:var(--text-2);
-  border:1px solid var(--border);
-}
-.parola.in-dizionario .btn-add svg{display:none}
-.parola.in-dizionario .btn-add-txt::before{content:'Già nel dizionario'}
-.parola.in-dizionario .btn-add-txt::after{content:''}
-.parola.in-dizionario .btn-add-txt span{display:none}
-.parola.padroneggiata .btn-add{
-  background:rgba(255,77,139,.12);color:var(--magenta);
-  border:1px solid rgba(255,77,139,.3);
-}
-.parola.padroneggiata .btn-add-txt::before{content:'Padroneggiata ★'}
 
-/* ========== TOAST ========== */
-.toast-wrap{
-  position:fixed;bottom:32px;left:50%;transform:translateX(-50%);
-  z-index:200;pointer-events:none;
-  display:flex;flex-direction:column;gap:10px;align-items:center;
-}
-.toast{
-  background:var(--text);color:var(--bg);
-  padding:14px 22px 14px 18px;border-radius:99px;
-  font-family:var(--display);font-size:14px;font-weight:600;
-  display:flex;align-items:center;gap:12px;
-  box-shadow:0 24px 60px rgba(0,0,0,.6);
-  animation:toast-in .4s cubic-bezier(.2,.8,.3,1.2), toast-out .4s 2.6s forwards;
-}
-.toast em{font-family:var(--serif);font-style:italic;font-weight:600}
-.toast-icon{
-  width:26px;height:26px;border-radius:50%;
-  background:var(--lime);
-  display:grid;place-items:center;
-  color:var(--bg);
-}
-.toast-icon svg{width:13px;height:13px}
-.toast.padr .toast-icon{background:var(--magenta);color:#fff}
-@keyframes toast-in{from{transform:translateY(30px) scale(.9);opacity:0}to{transform:none;opacity:1}}
-@keyframes toast-out{to{transform:translateY(20px);opacity:0}}
-
-/* ========== QUIZ ========== */
+/* QUIZ */
 .quiz-shell{
-  max-width:680px;margin:0 auto;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:24px;
-  padding:40px;
-  position:relative;overflow:hidden;
+  max-width:760px;margin:0 auto;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:32px;padding:48px;position:relative;overflow:hidden;
+  box-shadow:0 12px 40px rgba(31,41,55,.06);
 }
 .quiz-shell::before{
-  content:'';position:absolute;
-  top:-100px;right:-100px;
+  content:'';position:absolute;top:-100px;right:-100px;
   width:300px;height:300px;border-radius:50%;
-  background:radial-gradient(circle, rgba(217,255,58,.06), transparent 70%);
-  pointer-events:none;
+  background:radial-gradient(circle, rgba(255,197,66,.12), transparent 70%);pointer-events:none;
 }
-
-.quiz-progress{
-  display:flex;align-items:center;gap:14px;
-  margin-bottom:28px;position:relative;
-}
-.quiz-progress-bar{
-  flex:1;height:5px;background:var(--surface-hi);
-  border-radius:99px;overflow:hidden;
-}
-.quiz-progress-fill{
-  height:100%;background:var(--lime);
-  width:0%;transition:width .4s cubic-bezier(.2,.8,.3,1);
-}
-.quiz-progress-num{
-  font-family:var(--mono);font-size:11px;
-  letter-spacing:1px;color:var(--text-3);font-weight:600;
-}
-.quiz-eyebrow{
-  font-family:var(--mono);font-size:10px;font-weight:600;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--lime);margin-bottom:10px;
-}
-.quiz-q{
-  font-family:var(--display);font-size:28px;font-weight:600;
-  line-height:1.2;letter-spacing:-.8px;
-  margin-bottom:10px;position:relative;
-}
-.quiz-q em{font-family:var(--serif);font-style:italic;color:var(--lime);font-weight:600}
-.quiz-sub{
-  font-family:var(--serif);font-style:italic;
-  color:var(--text-2);font-size:17px;
-  margin-bottom:24px;line-height:1.4;position:relative;
-}
-.quiz-options{display:flex;flex-direction:column;gap:8px;position:relative}
+.quiz-progress{display:flex;align-items:center;gap:14px;margin-bottom:32px;position:relative}
+.quiz-progress-bar{flex:1;height:6px;background:var(--bg-3);border-radius:99px;overflow:hidden}
+.quiz-progress-fill{height:100%;background:linear-gradient(90deg, var(--verde), var(--verde-deep));width:0%;transition:width .4s cubic-bezier(.2,.8,.3,1)}
+.quiz-progress-num{font-family:var(--mono);font-size:12px;letter-spacing:1px;color:var(--text-3);font-weight:700}
+.quiz-eyebrow{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--rosa-deep);margin-bottom:14px}
+.quiz-q{font-family:var(--display);font-size:32px;font-weight:600;line-height:1.2;letter-spacing:-1px;margin-bottom:14px;position:relative;color:var(--text)}
+.quiz-q em{font-family:var(--serif);font-style:italic;color:var(--rosa-deep);font-weight:600}
+.quiz-sub{font-family:var(--serif);font-style:italic;color:var(--text-2);font-size:20px;margin-bottom:28px;line-height:1.45;position:relative}
+.quiz-options{display:flex;flex-direction:column;gap:10px;position:relative}
 .quiz-opt{
-  text-align:left;padding:16px 20px;
-  background:var(--bg-2);border:1px solid var(--border);
-  border-radius:14px;
-  font-family:var(--serif);font-size:16px;line-height:1.4;
-  color:var(--text);
-  transition:all .15s;
+  text-align:left;padding:18px 22px;
+  background:var(--bg-2);border:1px solid var(--border);border-radius:16px;
+  font-family:var(--serif);font-size:19px;line-height:1.4;color:var(--text);transition:all .15s;
 }
-.quiz-opt:hover{border-color:var(--lime);transform:translateX(4px);background:rgba(217,255,58,.04)}
-.quiz-opt.giusta{
-  border-color:var(--lime);background:rgba(217,255,58,.1);
-}
-.quiz-opt.giusta::after{
-  content:' ✓';color:var(--lime);font-weight:700;
-}
-.quiz-opt.sbagliata{
-  border-color:var(--warm-2);background:rgba(231,111,81,.08);opacity:.6;
-}
+.quiz-opt:hover{border-color:var(--verde);transform:translateX(4px);background:var(--verde-soft)}
+.quiz-opt.giusta{border-color:var(--verde);background:var(--verde-soft)}
+.quiz-opt.giusta::after{content:' ✓';color:var(--verde-deep);font-weight:700}
+.quiz-opt.sbagliata{border-color:var(--giallo-deep);background:var(--giallo-soft);opacity:.7}
 .quiz-opt[disabled]{cursor:default}
 .quiz-feedback{
-  margin-top:20px;padding:16px 20px;
-  background:var(--bg-2);border-radius:14px;
-  font-family:var(--display);font-size:14px;line-height:1.55;
-  color:var(--text-2);
-  display:none;border-left:3px solid var(--lime);
-}
-.quiz-feedback strong{color:var(--text);font-weight:600}
-.quiz-feedback em{font-family:var(--serif);font-style:italic;color:var(--lime)}
-.quiz-feedback.show{display:block;animation:fade-in .3s}
-.quiz-next{
-  margin-top:18px;width:100%;
-  padding:14px;border-radius:14px;
-  background:var(--text);color:var(--bg);
-  font-family:var(--display);font-size:14px;font-weight:600;
-  letter-spacing:-.2px;
+  margin-top:24px;padding:20px 24px;background:var(--azzurro-soft);
+  border-radius:16px;border-left:4px solid var(--azzurro);
+  font-family:var(--display);font-size:16px;line-height:1.6;color:var(--text);
   display:none;
 }
-.quiz-next:hover{background:var(--lime)}
+.quiz-feedback strong{color:var(--text);font-weight:700}
+.quiz-feedback em{font-family:var(--serif);font-style:italic;color:var(--azzurro-deep)}
+.quiz-feedback.show{display:block;animation:fade-in .3s}
+.quiz-next{
+  margin-top:18px;width:100%;padding:18px;border-radius:16px;
+  background:linear-gradient(135deg, var(--rosa), var(--rosa-deep));
+  color:#fff;
+  font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:-.2px;display:none;
+  box-shadow:0 6px 20px rgba(255,107,157,.25);
+}
+.quiz-next:hover{transform:translateY(-1px);box-shadow:0 12px 28px rgba(255,107,157,.35)}
 .quiz-next.show{display:block;animation:fade-in .3s}
-
-.quiz-fine{text-align:center;padding:10px;position:relative}
+.quiz-fine{text-align:center;padding:14px;position:relative}
 .quiz-fine-num{
-  font-family:var(--display);font-weight:800;font-size:120px;
-  line-height:.85;letter-spacing:-6px;
-  background:linear-gradient(180deg, var(--lime), var(--lime-deep));
-  -webkit-background-clip:text;background-clip:text;
-  -webkit-text-fill-color:transparent;
+  font-family:var(--display);font-weight:800;font-size:144px;line-height:.85;letter-spacing:-7px;
+  background:linear-gradient(180deg, var(--giallo-deep), var(--rosa-deep));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
 }
-.quiz-fine-num .tot{
-  font-size:48px;color:var(--text-3);font-weight:500;
-  -webkit-text-fill-color:var(--text-3);letter-spacing:-2px;
-}
-.quiz-fine h2{
-  font-family:var(--display);font-size:28px;font-weight:600;
-  letter-spacing:-.8px;margin-top:14px;line-height:1.15;
-}
-.quiz-fine h2 em{font-family:var(--serif);font-style:italic;color:var(--magenta);font-weight:600}
-.quiz-fine p{
-  font-family:var(--serif);font-style:italic;font-size:17px;
-  color:var(--text-2);margin-top:10px;
-  max-width:440px;margin-left:auto;margin-right:auto;
-}
-.quiz-fine-actions{
-  margin-top:30px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
-}
-.quiz-fine-bilancio{
-  margin-top:32px;padding:24px;
-  background:var(--bg-2);border-radius:16px;
-  text-align:left;
-}
-.quiz-fine-bilancio-title{
-  font-family:var(--mono);font-size:10px;font-weight:700;
-  letter-spacing:2px;text-transform:uppercase;
-  color:var(--text-3);margin-bottom:10px;
-}
-.bilancio-riga{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:10px 0;border-bottom:1px solid var(--border);
-}
+.quiz-fine-num .tot{font-size:56px;color:var(--text-3);font-weight:500;-webkit-text-fill-color:var(--text-3);letter-spacing:-2px}
+.quiz-fine h2{font-family:var(--display);font-size:32px;font-weight:600;letter-spacing:-1px;margin-top:18px;line-height:1.2;color:var(--text)}
+.quiz-fine h2 em{font-family:var(--serif);font-style:italic;color:var(--rosa-deep);font-weight:600}
+.quiz-fine p{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--text-2);margin-top:14px;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.5}
+.quiz-fine-actions{margin-top:36px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.quiz-fine-bilancio{margin-top:36px;padding:28px;background:var(--bg-2);border-radius:20px;text-align:left}
+.quiz-fine-bilancio-title{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);margin-bottom:14px}
+.bilancio-riga{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border)}
 .bilancio-riga:last-child{border-bottom:0}
-.bilancio-lemma{
-  font-family:var(--serif);font-style:italic;font-weight:600;
-  font-size:19px;letter-spacing:-.3px;
-}
-.bilancio-tag{
-  font-family:var(--mono);font-size:9px;font-weight:700;
-  letter-spacing:1.5px;text-transform:uppercase;
-  padding:4px 10px;border-radius:99px;
-}
-.bilancio-tag.ok{background:rgba(255,77,139,.12);color:var(--magenta)}
-.bilancio-tag.ko{background:rgba(231,111,81,.1);color:var(--warm-2)}
+.bilancio-lemma{font-family:var(--serif);font-style:italic;font-weight:600;font-size:22px;letter-spacing:-.4px;color:var(--text)}
+.bilancio-tag{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;border-radius:99px}
+.bilancio-tag.ok{background:var(--verde-soft);color:var(--verde-deep)}
+.bilancio-tag.ko{background:var(--giallo-soft);color:var(--giallo-deep)}
 
-/* ========== CONFETTI HINT ========== */
-@keyframes float-up{
-  0%{transform:translateY(0) scale(.5);opacity:0}
-  20%{opacity:1}
-  100%{transform:translateY(-200px) scale(1);opacity:0}
-}
-.float-bit{
-  position:fixed;font-family:var(--serif);font-style:italic;
-  font-weight:600;font-size:24px;color:var(--lime);
-  pointer-events:none;z-index:300;
-  animation:float-up 1.4s cubic-bezier(.2,.8,.3,1) forwards;
-}
-
-/* ========== FOOTER ========== */
+/* FOOTER */
 .footer{
-  max-width:1320px;margin:80px auto 0;
-  padding:24px 28px;
+  max-width:1480px;margin:96px auto 0;padding:32px;
   border-top:1px solid var(--border);
-  font-family:var(--mono);font-size:10px;
-  letter-spacing:1px;color:var(--text-3);
-  display:flex;justify-content:space-between;align-items:center;
-  text-transform:uppercase;
+  font-family:var(--mono);font-size:11px;letter-spacing:1px;color:var(--text-3);
+  display:flex;justify-content:space-between;align-items:center;text-transform:uppercase;
+  flex-wrap:wrap;gap:16px;
 }
-.footer-mark{display:flex;align-items:center;gap:10px}
+.footer-mark{display:flex;align-items:center;gap:11px;color:var(--text-2);font-weight:600}
 .footer-mark::before{
-  content:'';width:6px;height:6px;border-radius:50%;background:var(--lime);
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:linear-gradient(135deg, var(--verde), var(--rosa));
 }
 </style>
 </head>
 <body>
 
-<!-- ========== ICONE ========== -->
+<div class="yt-hidden" id="yt-host"><div id="yt-player"></div></div>
+
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="i-libro" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
     <path d="M2 4.5C2 3.7 2.7 3 3.5 3H10C11.1 3 12 3.9 12 5V20C12 19 11.1 18 10 18H3.5C2.7 18 2 17.3 2 16.5V4.5Z"/>
     <path d="M22 4.5C22 3.7 21.3 3 20.5 3H14C12.9 3 12 3.9 12 5V20C12 19 12.9 18 14 18H20.5C21.3 18 22 17.3 22 16.5V4.5Z"/>
   </symbol>
   <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-    <rect x="3" y="3" width="7" height="7" rx="1.5"/>
-    <rect x="14" y="3" width="7" height="7" rx="1.5"/>
-    <rect x="3" y="14" width="7" height="7" rx="1.5"/>
-    <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+    <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+    <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
   </symbol>
-  <symbol id="i-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-    <polyline points="4 12 10 18 20 6"/>
-  </symbol>
-  <symbol id="i-stella" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2L14.85 8.55L22 9.27L16.5 14L18 21L12 17.5L6 21L7.5 14L2 9.27L9.15 8.55L12 2Z"/>
-  </symbol>
-  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-    <line x1="12" y1="5" x2="12" y2="19"/>
-    <line x1="5" y1="12" x2="19" y2="12"/>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 11L12 3L21 11V20C21 20.55 20.55 21 20 21H15V14H9V21H4C3.45 21 3 20.55 3 20V11Z"/>
   </symbol>
   <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
     <polyline points="6 9 12 15 18 9"/>
   </symbol>
   <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <line x1="19" y1="12" x2="5" y2="12"/>
-    <polyline points="12 19 5 12 12 5"/>
+    <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
   </symbol>
   <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-    <circle cx="12" cy="12" r="9"/>
-    <polyline points="12 7 12 12 15 14"/>
+    <circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/>
   </symbol>
   <symbol id="i-trofeo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
     <path d="M6 4H18V10C18 13.3 15.3 16 12 16C8.7 16 6 13.3 6 10V4Z"/>
-    <path d="M6 6H3V8C3 9.7 4.3 11 6 11"/>
-    <path d="M18 6H21V8C21 9.7 19.7 11 18 11"/>
-    <line x1="9" y1="20" x2="15" y2="20"/>
-    <line x1="12" y1="16" x2="12" y2="20"/>
+    <path d="M6 6H3V8C3 9.7 4.3 11 6 11"/><path d="M18 6H21V8C21 9.7 19.7 11 18 11"/>
+    <line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="16" x2="12" y2="20"/>
   </symbol>
   <symbol id="i-nota" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M9 18V5L20 3V16"/>
-    <circle cx="6" cy="18" r="3"/>
-    <circle cx="17" cy="16" r="3"/>
+    <path d="M9 18V5L20 3V16"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>
   </symbol>
-  <symbol id="i-cuore" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 21S3 13.5 3 8C3 5 5 3 7.5 3C9 3 10.5 3.8 12 5.5C13.5 3.8 15 3 16.5 3C19 3 21 5 21 8C21 13.5 12 21 12 21Z"/>
+  <symbol id="i-cuffie" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3 14V12C3 7 7 3 12 3C17 3 21 7 21 12V14"/>
+    <rect x="3" y="14" width="5" height="7" rx="1.5"/><rect x="16" y="14" width="5" height="7" rx="1.5"/>
+  </symbol>
+  <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M7 4.5C7 3.7 7.9 3.2 8.6 3.6L19.5 11.1C20.2 11.5 20.2 12.5 19.5 12.9L8.6 20.4C7.9 20.8 7 20.3 7 19.5V4.5Z"/>
+  </symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24" fill="currentColor">
+    <rect x="6" y="4" width="4" height="16" rx="1.2"/><rect x="14" y="4" width="4" height="16" rx="1.2"/>
+  </symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24" fill="currentColor">
+    <rect x="5" y="5" width="14" height="14" rx="2"/>
   </symbol>
 </svg>
 
-<!-- ========== TOPBAR ========== -->
 <header class="topbar">
   <div class="topbar-inner">
-    <button class="brand" data-go="dizionario">
+    <button class="brand" data-go="home">
       <span class="brand-mark">V</span>
       <span class="brand-text">
         <strong>Vocabolario d'autore</strong>
@@ -1023,50 +585,58 @@ body::before{
       </span>
     </button>
     <nav class="nav">
-      <button class="nav-btn" data-go="dizionario">
-        <svg><use href="#i-libro"/></svg>Dizionario
-        <span class="nav-counter" id="diz-count">0</span>
-      </button>
-      <button class="nav-btn" data-go="catalogo">
-        <svg><use href="#i-grid"/></svg>Catalogo
-      </button>
+      <button class="nav-btn active" data-go="home"><svg><use href="#i-home"/></svg>Home</button>
+      <button class="nav-btn" data-go="catalogo"><svg><use href="#i-grid"/></svg>Catalogo</button>
     </nav>
   </div>
 </header>
 
-<!-- ========== VIEW: DIZIONARIO (HOME) ========== -->
-<main class="view active" data-view="dizionario">
+<main class="view active" data-view="home">
   <div class="wrap">
-    <section class="diz-hero">
-      <div>
-        <span class="diz-eyebrow" id="hero-eyebrow">il tuo lessico in costruzione</span>
-        <h1 class="diz-h1">Le parole<br>che hai <em>incontrato</em>.</h1>
-        <p class="diz-sub" id="hero-sub">Ascolti una canzone, qualcosa ti colpisce, lo metti qui. Le parole che superi al quiz si firmano con la stella, e nessuno te le toglie più. Usale quando scrivi: solo allora diventano davvero tue.</p>
+    <section class="hero">
+      <span class="eyebrow">un viaggio nella musica · in cuffia</span>
+      <h1>Le canzoni che<br>ti regalano <em>parole</em>.</h1>
+      <p class="lead">Le canzoni d'autore italiane sono piene di parole che a scuola non si studiano e nei messaggi non si scrivono. Mettile in cuffia, esplora il glossario, prova quanto hai capito. Le parole nuove diventano tue.</p>
+      <div class="hero-image">
+        <img src="vocabolario.jpg" alt="Studenti che ascoltano canzoni e raccolgono parole letterarie">
       </div>
-      <div class="diz-counter-card">
-        <div class="dcc-num" id="dcc-num">0</div>
-        <div class="dcc-lbl">parole raccolte</div>
-        <div class="dcc-bar-wrap" id="dcc-bar-wrap" style="display:none">
-          <div class="dcc-bar-row">
-            <span>padroneggiate</span>
-            <span><strong id="dcc-padr">0</strong> di <span id="dcc-tot">0</span></span>
-          </div>
-          <div class="dcc-bar"><div class="dcc-bar-fill" id="dcc-bar-fill"></div></div>
+    </section>
+
+    <section class="fasi">
+      <div class="fasi-head">
+        <div><h2>Tre <em>fasi</em>.</h2></div>
+        <p>Una struttura semplice e ricorrente. Si ripete uguale per ogni canzone.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step-num">01 · ASCOLTO</span>
+          <div class="step-icon"><svg><use href="#i-cuffie"/></svg></div>
+          <h3>Metti in cuffia <em>la canzone</em></h3>
+          <p>L'audio gira. A ogni passaggio importante, una parola letteraria si illumina nel pannello e ti aspetta lì, pronta da esplorare.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">02 · GLOSSARIO</span>
+          <div class="step-icon"><svg><use href="#i-libro"/></svg></div>
+          <h3>Esplora <em>le parole</em></h3>
+          <p>Per ogni parola: definizione, etimologia, famiglia, esempio, curiosità. Tutto quello che serve per capirla davvero — e non dimenticarla.</p>
+        </div>
+        <div class="step">
+          <span class="step-num">03 · TEST FINALE</span>
+          <div class="step-icon"><svg><use href="#i-trofeo"/></svg></div>
+          <h3>Verifica <em>cosa hai capito</em></h3>
+          <p>Cinque domande veloci sulle parole della canzone. Vedi subito quali padroneggi e quali rivedere prima di passare a un altro brano.</p>
         </div>
       </div>
     </section>
 
-    <div class="diz-filters" id="diz-filters" style="display:none">
-      <button class="diz-filter active" data-filter="recent">recenti</button>
-      <button class="diz-filter" data-filter="padr">solo padroneggiate <span class="num" id="f-padr">0</span></button>
-      <button class="diz-filter" data-filter="alfa">a → z</button>
-    </div>
-
-    <div id="diz-content"></div>
+    <section class="cta-section">
+      <button class="btn-cta-big" id="cta-home">
+        <svg><use href="#i-cuffie"/></svg> Inizia dal catalogo
+      </button>
+    </section>
   </div>
 </main>
 
-<!-- ========== VIEW: CATALOGO ========== -->
 <main class="view" data-view="catalogo">
   <div class="wrap">
     <header class="cat-head">
@@ -1079,143 +649,115 @@ body::before{
   </div>
 </main>
 
-<!-- ========== VIEW: LETTURA ========== -->
 <main class="view" data-view="lettura">
-  <div class="wrap">
-    <button class="player-back" data-go="catalogo">
-      <svg><use href="#i-back"/></svg> Catalogo
-    </button>
-
-    <div class="player-grid">
-      <aside class="player-side">
-        <div class="cover-big" id="cover-host"></div>
-        <div class="player-eyebrow" id="p-eyebrow"><span class="dot"></span><span id="p-eyebrow-txt">—</span></div>
-        <h2 class="player-title" id="p-title">—</h2>
-        <p class="player-artist" id="p-artist">—</p>
-
-        <div class="player-yt"><div id="player-iframe-host"></div></div>
-
-        <div class="player-progress-wrap">
-          <span id="p-time-cur">0:00</span>
-          <div class="player-progress" id="p-progress">
-            <div class="player-progress-fill" id="p-progress-fill"></div>
-          </div>
-          <span id="p-time-tot">—:—</span>
+  <div class="lettura-shell">
+    <aside class="player-side">
+      <button class="player-back" data-go="catalogo"><svg><use href="#i-back"/></svg> Catalogo</button>
+      <div class="cover-and-info">
+        <div class="cover-mini" id="cover-host"></div>
+        <div class="player-titles">
+          <div class="player-eyebrow"><span class="dot"></span><span id="p-eyebrow-txt">—</span></div>
+          <h2 class="player-title" id="p-title">—</h2>
+          <p class="player-artist" id="p-artist">—</p>
         </div>
-
-        <div class="parola-corrente idle" id="parola-corrente">
+      </div>
+      <div class="audio-controls">
+        <button class="btn-control btn-stop" id="btn-stop" title="Stop"><svg><use href="#i-stop"/></svg></button>
+        <button class="btn-control btn-play" id="btn-play" title="Play / Pausa"><svg id="play-icon"><use href="#i-play"/></svg></button>
+        <button class="btn-control btn-stop" id="btn-restart" title="Riascolta"><svg><use href="#i-back"/></svg></button>
+      </div>
+      <div class="player-progress-wrap">
+        <span id="p-time-cur">0:00</span>
+        <div class="player-progress" id="p-progress"><div class="player-progress-fill" id="p-progress-fill"></div></div>
+        <span id="p-time-tot">—:—</span>
+      </div>
+      <div class="parola-corrente idle" id="parola-corrente">
+        <div class="parola-corrente-head">
           <div class="parola-corrente-icon"><svg><use href="#i-nota"/></svg></div>
-          <div>
-            <div class="parola-corrente-lbl">Parola del momento</div>
-            <div class="parola-corrente-lemma" id="pc-lemma">in ascolto…</div>
-          </div>
+          <div class="parola-corrente-lbl">Parola del momento</div>
         </div>
-
-        <div class="player-actions">
-          <button class="btn-cta" id="btn-quiz" disabled>
-            <svg><use href="#i-trofeo"/></svg> Fai la prova
-          </button>
-          <button class="btn-ghost" id="btn-tutte">Espandi tutte</button>
-        </div>
-      </aside>
-
-      <section>
-        <div class="glossario-head">
-          <h3>Le <em>parole</em> della canzone</h3>
-          <div class="meta" id="g-counter">0 / 0 esplorate</div>
-        </div>
-        <div class="glossario-list" id="glossario-list"></div>
-      </section>
-    </div>
+        <div class="parola-corrente-lemma" id="pc-lemma">premi play e ascolta</div>
+        <div class="parola-corrente-cat" id="pc-cat"></div>
+      </div>
+      <div class="player-actions">
+        <button class="btn-cta" id="btn-quiz" disabled><svg><use href="#i-trofeo"/></svg> Test finale</button>
+      </div>
+    </aside>
+    <section class="glossario-side">
+      <div class="glossario-head">
+        <h3>Le <em>parole</em> della canzone</h3>
+        <div class="meta" id="g-counter">0 / 0 esplorate</div>
+      </div>
+      <div class="glossario-actions"><button class="btn-ghost" id="btn-tutte">Espandi tutte</button></div>
+      <div class="glossario-list" id="glossario-list"></div>
+    </section>
   </div>
 </main>
 
-<!-- ========== VIEW: QUIZ ========== -->
 <main class="view" data-view="quiz">
   <div class="wrap">
-    <button class="player-back" id="quiz-back">
-      <svg><use href="#i-back"/></svg> Torna alla canzone
-    </button>
+    <button class="player-back" id="quiz-back"><svg><use href="#i-back"/></svg> Torna alla canzone</button>
     <div class="quiz-shell" id="quiz-shell"></div>
   </div>
 </main>
 
 <footer class="footer">
   <div class="footer-mark">Sacra Famiglia · Orzinuovi</div>
-  <div>Vocabolario d'autore · v.1</div>
+  <div>Nessun dato raccolto · Nessun tracciamento</div>
 </footer>
 
-<div class="toast-wrap" id="toast-wrap"></div>
-
-<!-- ========== DATI ========== -->
 <script>
-/* ============================================================
-   COVER ART GENERATIVA per le canzoni
-   (palette retrò calda, in contrasto con UI dark)
-   ============================================================ */
+/* COVER ART — palette in armonia con l'illustrazione */
 function coverSVG(letter, palette){
   const palettes = {
-    battisti: ['#E9C46A','#F4A261','#E76F51','#A05A2C'],
-    deandre:  ['#83C5BE','#006D77','#264653','#0D2436'],
-    battiato: ['#E0AAFF','#9D4EDD','#5A189A','#240046'],
-    dalla:    ['#FFB4A2','#E5989B','#B5828C','#6D2E46'],
-    guccini:  ['#D8E2DC','#FFE5D9','#FCD5CE','#9D8189']
+    battisti:  ['#FFEFCC','#FFC542','#F5A623','#A05A2C'],   /* sole */
+    battiato:  ['#E8D9F2','#B98DD9','#7A4FB8','#3F2A6E'],   /* lavanda */
+    degregori: ['#C7E5CF','#5BA86C','#3F8253','#1F4D2E'],   /* collina */
+    vecchioni: ['#FFD4E2','#FF6B9D','#E84C7E','#8B2D52'],   /* ciliegio */
+    deandre:   ['#D6ECFA','#5BB3E8','#2980B9','#0F4C75'],   /* mare */
+    dalla:     ['#FFD4E2','#FFB0CC','#E8A87C','#8B5A3C'],   /* tramonto */
+    nomadi:    ['#FFEFCC','#5BB3E8','#2980B9','#0F2B3A'],   /* viaggio */
+    cremonini: ['#FFD89B','#FF7E5F','#C0392B','#5C1F1A']    /* estate */
   };
   const p = palettes[palette] || palettes.battisti;
+  const id = `g-${palette}-${letter}-${Math.floor(Math.random()*9999)}`;
   return `
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg, ${p[0]}, ${p[2]} 80%);"></div>
     <svg class="cover-art" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs>
-        <radialGradient id="g-${palette}" cx="40%" cy="40%">
-          <stop offset="0%" stop-color="${p[0]}" stop-opacity=".9"/>
-          <stop offset="100%" stop-color="${p[3]}" stop-opacity=".9"/>
+        <radialGradient id="${id}" cx="40%" cy="40%">
+          <stop offset="0%" stop-color="${p[0]}" stop-opacity=".95"/>
+          <stop offset="100%" stop-color="${p[3]}" stop-opacity=".95"/>
         </radialGradient>
       </defs>
-      <circle cx="100" cy="100" r="92" fill="url(#g-${palette})"/>
-      <circle cx="100" cy="100" r="92" fill="none" stroke="${p[3]}" stroke-width="2" opacity=".4"/>
-      <circle cx="100" cy="100" r="28" fill="${p[3]}" opacity=".7"/>
+      <circle cx="100" cy="100" r="92" fill="url(#${id})"/>
+      <circle cx="100" cy="100" r="92" fill="none" stroke="${p[3]}" stroke-width="2" opacity=".5"/>
+      <circle cx="100" cy="100" r="28" fill="${p[3]}" opacity=".75"/>
       <circle cx="100" cy="100" r="6" fill="${p[0]}"/>
       <text x="100" y="78" text-anchor="middle" fill="${p[3]}"
             font-family="Fraunces, serif" font-style="italic" font-weight="700"
-            font-size="58" opacity=".85">${letter}</text>
+            font-size="58" opacity=".9">${letter}</text>
     </svg>
   `;
 }
 
-/* ============================================================
-   CANZONI
-   Per aggiungere una nuova canzone: copia un oggetto sotto e
-   sostituisci i campi. Il campo "time" è in SECONDI.
-   ============================================================ */
-
 const CANZONI = [
   {
-    id: 'collina-ciliegi',
-    titolo: 'La collina dei ciliegi',
-    artista: 'Lucio Battisti',
-    autore: 'Mogol – Battisti',
-    anno: 1973,
-    album: 'Il nostro caro angelo',
-    durata: 280,
-    livello: 2,
-    youtubeId: 'wksxttt1z9M',
-    coverPalette: 'battisti',
-    coverLetter: 'B',
-    parole: [
-      {
-        id:'luminosa', lemma:'luminosa', cat:'aggettivo · femminile',
-        time: 4,
+    id:'collina-ciliegi', titolo:'La collina dei ciliegi', artista:'Lucio Battisti', autore:'Mogol – Battisti',
+    anno:1973, album:'Il nostro caro angelo', durata:280, livello:2,
+    youtubeId:'wksxttt1z9M', coverPalette:'battisti', coverLetter:'B',
+    parole:[
+      { id:'luminosa', lemma:'luminosa', cat:'aggettivo · femminile', time:4,
         def:'Che emana luce. Detto di una vita, di un\'idea, di un volto: che ha chiarezza, gioia e brillantezza interiore.',
-        etim:'Dal latino <em>lumen</em>, "luce". È nella stessa famiglia di <em>illuminare</em>, <em>luminare</em>, <em>lampada</em> (da <em>lampas</em>, parente di <em>lumen</em>).',
+        etim:'Dal latino <em>lumen</em>, "luce". È nella stessa famiglia di <em>illuminare</em>, <em>luminare</em>, <em>lampada</em>.',
         fam:'lume · illuminare · alluminio · lumicino · plenilunio',
         syn:'splendente, brillante, radiosa', ant:'cupa, opaca, spenta',
         ex:'Aveva un\'idea luminosa che, però, non riusciva a spiegare a nessuno.',
         reg:'comune',
-        curio:'Un\'<strong>idea luminosa</strong> non illumina davvero la stanza: è una metafora che usa la luce come immagine della comprensione improvvisa. È così universale che esiste in quasi tutte le lingue del mondo.'
+        curio:'Un\'<strong>idea luminosa</strong> non illumina davvero la stanza: è una metafora che usa la luce come immagine della comprensione improvvisa. Esiste in quasi tutte le lingue del mondo.'
       },
-      {
-        id:'fragrante', lemma:'fragrante', cat:'aggettivo',
-        time: 6,
-        def:'Che sprigiona un profumo intenso, gradevole, fresco. Detto di un cibo: appena fatto e ancora caldo. Detto di una cosa astratta: vivo, vibrante, ricco di carattere.',
+      { id:'fragrante', lemma:'fragrante', cat:'aggettivo', time:6,
+        def:'Che sprigiona un profumo intenso, gradevole, fresco. Detto di un cibo: appena fatto e ancora caldo. In senso astratto: vivo, vibrante, ricco di carattere.',
         etim:'Dal latino <em>fragrare</em>, "emanare profumo". Stessa radice di <em>fragranza</em>. Da non confondere con <em>flagrante</em> ("in fiamme"), che ha tutt\'altra origine.',
         fam:'fragranza · fragrare',
         syn:'profumato, odoroso, aromatico', ant:'inodore, stantio',
@@ -1223,292 +765,595 @@ const CANZONI = [
         reg:'letterario / colto',
         curio:'Mogol qui usa <em>fragrante</em> per descrivere una <strong>vita</strong>, non un cibo: è una scelta lessicale ardita, perché trasferisce un aggettivo legato all\'odore a una cosa astratta. Si chiama <strong>sinestesia</strong>: mescolare i sensi.'
       },
-      {
-        id:'supplica', lemma:'supplica', cat:'sostantivo · femminile',
-        time: 13,
+      { id:'coraggio', lemma:'coraggio', cat:'sostantivo · maschile', time:11,
+        def:'Forza d\'animo che permette di affrontare il pericolo, la fatica, il dolore senza arretrare. Non è assenza di paura: è agire <em>nonostante</em> la paura.',
+        etim:'Dal latino tardo <em>coraticum</em>, derivato di <em>cor</em> ("cuore"). Letteralmente: "la forza che viene dal cuore".',
+        fam:'cuore · coraggioso · cordiale · concordia · ricordare (ri-cor-dare = riportare al cuore)',
+        syn:'audacia, valore, ardimento', ant:'paura, viltà, codardia',
+        ex:'Cancellò con un colpo di penna quello che aveva scritto la sera prima: era stato un piccolo, vero, coraggio.',
+        reg:'comune',
+        curio:'Sorpresa: <strong>ricordare</strong> = <em>ri-cor-dare</em>, "riportare al cuore". Per i latini la memoria non stava nel cervello, ma nel <strong>cuore</strong>. Per questo "imparare a memoria" si dice in francese <em>par cœur</em>, in inglese <em>by heart</em>.'
+      },
+      { id:'supplica', lemma:'supplica', cat:'sostantivo · femminile', time:13,
         def:'Richiesta umile, fatta con insistenza, quasi piegandosi davanti a chi può concedere. Più forte di "preghiera": indica una situazione di bisogno reale.',
-        etim:'Dal latino <em>supplex, supplicis</em>: <em>sub-</em> ("sotto") + <em>plicare</em> ("piegare"). Letteralmente: "chi si piega sotto". Lo stesso prefisso di <em>sub-marino</em>.',
+        etim:'Dal latino <em>supplex, supplicis</em>: <em>sub-</em> ("sotto") + <em>plicare</em> ("piegare"). Letteralmente: "chi si piega sotto".',
         fam:'supplicare · supplicante · piegare · piega · complicare · applicare',
         syn:'preghiera, istanza, invocazione', ant:'pretesa, ordine',
         ex:'C\'era nei suoi occhi una supplica silenziosa che nessuno volle vedere.',
         reg:'letterario',
-        curio:'Bellissima la radice etimologica: <strong>chi supplica si piega</strong>. Nelle lingue antiche il gesto fisico (inginocchiarsi) e la parola coincidono. Anche in italiano oggi: "ti prego, in ginocchio".'
+        curio:'Bellissima la radice: <strong>chi supplica si piega</strong>. Nelle lingue antiche il gesto fisico (inginocchiarsi) e la parola coincidono.'
       },
-      {
-        id:'saggezza', lemma:'saggezza', cat:'sostantivo · femminile',
-        time: 20,
+      { id:'saggezza', lemma:'saggezza', cat:'sostantivo · femminile', time:20,
         def:'Capacità di giudicare e agire con misura, esperienza e prudenza. Non è solo conoscenza: è conoscenza diventata buon senso.',
         etim:'Dal francese antico <em>sage</em> ("saggio"), che viene dal latino <em>sapidus</em>, "che ha sapore" — perché chi è saggio "assaggia" la realtà con prudenza. Stessa radice di <em>sapere</em> e <em>sapore</em>.',
         fam:'saggio · sapere · sapore · assaggio · insipido',
         syn:'sapienza, senno, avvedutezza', ant:'follia, sconsideratezza',
         ex:'La saggezza dei nonni non sta in quello che sanno, ma in quello che hanno smesso di voler sapere.',
         reg:'comune con eredità classica',
-        curio:'<strong>Sapere</strong> e <strong>sapore</strong> sono due cugini lessicali. La saggezza, in origine, è una specie di gusto: la capacità di "assaporare" le cose con calma e capire di che cosa sono fatte.'
+        curio:'<strong>Sapere</strong> e <strong>sapore</strong> sono due cugini lessicali. La saggezza, in origine, è una specie di gusto.'
       },
-      {
-        id:'prudenza', lemma:'prudenza', cat:'sostantivo · femminile',
-        time: 23,
+      { id:'prudenza', lemma:'prudenza', cat:'sostantivo · femminile', time:23,
         def:'Capacità di prevedere le conseguenze delle proprie azioni e di muoversi con cautela. Una delle quattro virtù cardinali della tradizione classica e cristiana.',
-        etim:'Contrazione del latino <em>providentia</em>: <em>pro-</em> ("avanti") + <em>videntia</em> ("il vedere"). Letteralmente: "vedere avanti, prevedere". È cugina diretta di <em>provvedere</em> e <em>provvidenza</em>.',
+        etim:'Contrazione del latino <em>providentia</em>: <em>pro-</em> ("avanti") + <em>videntia</em> ("il vedere"). Letteralmente: "vedere avanti".',
         fam:'prudente · provvidenza · provvedere · evidenza · video',
         syn:'cautela, accortezza, oculatezza', ant:'imprudenza, avventatezza',
         ex:'La prudenza gli aveva sempre risparmiato i guai grossi, ma anche le gioie grandi.',
         reg:'comune',
-        curio:'Mogol mette in tensione due parole nello stesso verso: la prudenza è virtù, ma se diventa <em>stagnante</em> diventa difetto. È un esempio di come il <strong>contesto</strong> trasforma il valore di una parola.'
+        curio:'Mogol mette in tensione due parole nello stesso verso: la prudenza è virtù, ma se diventa <em>stagnante</em> diventa difetto.'
       },
-      {
-        id:'stagnante', lemma:'stagnante', cat:'aggettivo',
-        time: 25,
+      { id:'stagnante', lemma:'stagnante', cat:'aggettivo', time:25,
         def:'Che non scorre, che non si muove. Detto di acqua: ferma, putrida. In senso figurato: privo di sviluppo, immobile, che non porta da nessuna parte.',
-        etim:'Da <em>stagno</em> (la pozza d\'acqua ferma, non il metallo), dal latino <em>stagnum</em>. Stessa radice di <em>stagnare</em>: fermarsi, bloccarsi.',
+        etim:'Da <em>stagno</em> (la pozza d\'acqua ferma, non il metallo), dal latino <em>stagnum</em>.',
         fam:'stagno · stagnare · ristagnare · ristagno',
         syn:'fermo, immobile, asfittico', ant:'corrente, vivo, dinamico',
         ex:'Aveva una saggezza stagnante: parlava sempre, ma non gli capitava mai di cambiare idea.',
         reg:'letterario',
-        curio:'L\'immagine è potentissima: una <strong>saggezza che diventa stagno</strong>. Mogol prende un concetto positivo (la saggezza) e lo rovescia con un solo aggettivo. È così che la canzone d\'autore si avvicina alla poesia.'
+        curio:'L\'immagine è potentissima: una <strong>saggezza che diventa stagno</strong>. Mogol prende un concetto positivo e lo rovescia con un solo aggettivo.'
       },
-      {
-        id:'collina', lemma:'collina', cat:'sostantivo · femminile',
-        time: 30,
+      { id:'collina', lemma:'collina', cat:'sostantivo · femminile', time:30,
         def:'Rilievo del terreno, più basso di una montagna. In poesia, è quasi sempre un luogo simbolico: un punto da cui guardare le cose con un altro angolo.',
-        etim:'Dal latino tardo <em>collīna</em>, derivato di <em>collis</em> ("colle, altura"), di origine indoeuropea.',
-        fam:'colle · collinare · collinetta · collo (no, falsa parentela)',
+        etim:'Dal latino tardo <em>collīna</em>, derivato di <em>collis</em> ("colle, altura").',
+        fam:'colle · collinare · collinetta',
         syn:'colle, altura, poggio, rilievo', ant:'pianura, valle',
         ex:'Dalla collina, anche il proprio paese sembrava un\'altra cosa.',
         reg:'comune con eredità letteraria',
-        curio:'La <strong>collina</strong> è un luogo amatissimo dalla letteratura: Pavese le dedica un romanzo (<em>La luna e i falò</em>), Spoon River fa parlare i morti che ci abitano, Mogol ci pianta i ciliegi. Ogni volta è il punto da cui si vede meglio.'
+        curio:'La <strong>collina</strong> è un luogo amatissimo dalla letteratura: Pavese (<em>La luna e i falò</em>), Spoon River, Mogol. Ogni volta è il punto da cui si vede meglio.'
       },
-      {
-        id:'volando', lemma:'volando', cat:'gerundio del verbo "volare"',
-        time: 50,
+      { id:'volando', lemma:'volando', cat:'gerundio del verbo "volare"', time:50,
         def:'Mentre vola. Forma del verbo che indica un\'azione in corso, contemporanea ad un\'altra. In poesia, "volare" è quasi sempre simbolo di libertà, slancio, fuga dai limiti.',
-        etim:'Dal latino <em>volare</em>, di origine indoeuropea. Stessa radice di <em>volo</em>, <em>volata</em>, <em>volatile</em>.',
-        fam:'volo · volata · volatile · involarsi · svolazzare · involucro',
+        etim:'Dal latino <em>volare</em>, di origine indoeuropea.',
+        fam:'volo · volata · volatile · involarsi · svolazzare',
         syn:'librandosi, planando',
         ex:'Si pensa meglio volando: i pensieri, in alto, perdono peso.',
         reg:'comune',
-        curio:'La forma in <strong>-ando / -endo</strong> si chiama <strong>gerundio</strong>: serve a dire "mentre faccio qualcosa". È un tempo che esiste solo in alcune lingue (italiano, spagnolo, inglese) e dà alle frasi un senso di azione fluida, in movimento.'
+        curio:'La forma in <strong>-ando / -endo</strong> si chiama <strong>gerundio</strong>: serve a dire "mentre faccio qualcosa".'
       },
-      {
-        id:'tradizione', lemma:'tradizione', cat:'sostantivo · femminile',
-        time: 52,
-        def:'L\'insieme di usi, idee, valori, modi di fare che vengono trasmessi da una generazione a quella successiva. Tutto ciò che ci è stato "consegnato" e che decideremo se passare avanti.',
-        etim:'Dal latino <em>traditio</em>, derivato di <em>tradere</em>: <em>trans-</em> ("attraverso") + <em>dare</em> ("dare"). Letteralmente: "consegnare, trasmettere".',
+      { id:'tradizione', lemma:'tradizione', cat:'sostantivo · femminile', time:52,
+        def:'L\'insieme di usi, idee, valori che vengono trasmessi da una generazione a quella successiva. Tutto ciò che ci è stato "consegnato" e che decideremo se passare avanti.',
+        etim:'Dal latino <em>traditio</em>, derivato di <em>tradere</em>: <em>trans-</em> + <em>dare</em>. Letteralmente: "consegnare, trasmettere".',
         fam:'tradire (sì, stessa radice!) · tradurre · tradizionale · resa · arrendersi',
         syn:'usanza, consuetudine, eredità', ant:'novità, rivoluzione, rottura',
         ex:'Ogni tradizione, prima di essere tradizione, è stata una rivoluzione.',
         reg:'comune',
-        curio:'Sorpresa etimologica: <strong>tradizione</strong> e <strong>tradimento</strong> hanno la stessa radice. Tutte e due significano "consegnare". Tradire è "consegnare il nemico"; trasmettere una tradizione è "consegnare il sapere". Cambia il <em>cosa</em> consegni, non il gesto.'
+        curio:'Sorpresa etimologica: <strong>tradizione</strong> e <strong>tradimento</strong> hanno la stessa radice. Tradire è "consegnare il nemico"; trasmettere una tradizione è "consegnare il sapere".'
       },
-      {
-        id:'colombo', lemma:'colombo', cat:'sostantivo · maschile',
-        time: 54,
+      { id:'colombo', lemma:'colombo', cat:'sostantivo · maschile', time:54,
         def:'Uccello della famiglia dei colombidi, parente del piccione. Nelle culture mediterranee è simbolo di pace, di amore, di Spirito (nei Vangeli).',
-        etim:'Dal latino <em>columbus</em>, "piccione". È la stessa parola da cui viene il cognome <em>Colombo</em> (e, indirettamente, la <em>Colombia</em> e il distretto della <em>Columbia</em>, dedicati a Cristoforo Colombo).',
-        fam:'colomba · colombaia · colombiforme · piccione (parente, ma di radice diversa)',
-        syn:'piccione, palomba (nel parlato meridionale)',
+        etim:'Dal latino <em>columbus</em>, "piccione". Stessa parola da cui viene il cognome <em>Colombo</em> (e la <em>Colombia</em>).',
+        fam:'colomba · colombaia · colombiforme',
+        syn:'piccione, palomba',
         ex:'Sul cornicione un colombo guardava la piazza come se la conoscesse meglio di tutti.',
         reg:'comune',
-        curio:'Nei <strong>Vangeli</strong> lo Spirito Santo scende su Gesù "come una colomba". Nell\'iconografia cristiana è quasi sempre dipinto bianco, mentre i colombi veri sono grigi. La cultura sceglie spesso un\'immagine più pulita della realtà.'
+        curio:'Nei <strong>Vangeli</strong> lo Spirito Santo scende su Gesù "come una colomba". Nell\'iconografia cristiana è quasi sempre dipinto bianco, mentre i colombi veri sono grigi.'
       },
-      {
-        id:'coraggio', lemma:'coraggio', cat:'sostantivo · maschile',
-        time: 11,
-        def:'Forza d\'animo che permette di affrontare il pericolo, la fatica, il dolore senza arretrare. Non è assenza di paura: è agire <em>nonostante</em> la paura.',
-        etim:'Dal latino tardo <em>coraticum</em>, derivato di <em>cor</em> ("cuore"). Letteralmente: "la forza che viene dal cuore". Stessa radice di <em>cuore</em>, <em>cordiale</em>, <em>concordia</em>.',
-        fam:'cuore · coraggioso · cordiale · concordia · ricordare (ri-cor-dare = riportare al cuore)',
-        syn:'audacia, valore, ardimento, coraggio', ant:'paura, viltà, codardia',
-        ex:'Cancellò con un colpo di penna quello che aveva scritto la sera prima: era stato un piccolo, vero, coraggio.',
-        reg:'comune',
-        curio:'Sorpresa: <strong>ricordare</strong> = <em>ri-cor-dare</em>, "riportare al cuore". Per i latini la memoria non stava nel cervello, ma nel <strong>cuore</strong>. Per questo "imparare a memoria" si dice in francese <em>par cœur</em>, in inglese <em>by heart</em>.'
-      },
-      {
-        id:'ciliegi', lemma:'ciliegi', cat:'sostantivo · maschile plurale',
-        time: 195,
-        def:'Alberi da frutto della famiglia delle Rosaceae, noti per i fiori bianco-rosati primaverili e per le ciliegie. In poesia: simbolo di bellezza fragile, breve, da gustare prima che passi.',
-        etim:'Dal latino <em>cerasium</em>, dal greco <em>kerásion</em>, dal nome della città di <em>Cerasus</em> (oggi Giresun, in Turchia), da cui — secondo la tradizione — il romano Lucullo avrebbe portato per primo le ciliegie a Roma.',
+      { id:'ciliegi', lemma:'ciliegi', cat:'sostantivo · maschile plurale', time:195,
+        def:'Alberi da frutto noti per i fiori bianco-rosati primaverili e per le ciliegie. In poesia: simbolo di bellezza fragile, breve, da gustare prima che passi.',
+        etim:'Dal latino <em>cerasium</em>, dal greco <em>kerásion</em>, dal nome della città di <em>Cerasus</em> (oggi Giresun, Turchia), da cui il romano Lucullo avrebbe portato per primo le ciliegie a Roma.',
         fam:'ciliegia · ciliegeto · ceraso (forma letteraria) · cherry (inglese, stessa radice)',
         syn:'ceraso (poetico)',
         ex:'I ciliegi a marzo sembrano nuvole appoggiate sui rami.',
         reg:'comune con eredità poetica',
-        curio:'Il <strong>fiore di ciliegio</strong> è il simbolo nazionale del Giappone, dove si chiama <em>sakura</em>. Lì significa <em>la bellezza che dura poco</em>: i petali cadono dopo pochi giorni. Mogol intuisce la stessa cosa: la collina dei ciliegi è bella perché è temporanea.'
+        curio:'Il <strong>fiore di ciliegio</strong> è il simbolo nazionale del Giappone, dove si chiama <em>sakura</em>. Lì significa <em>la bellezza che dura poco</em>: i petali cadono dopo pochi giorni.'
+      }
+    ]
+  },
+
+  {
+    id:'canto-libero', titolo:'Il mio canto libero', artista:'Lucio Battisti', autore:'Mogol – Battisti',
+    anno:1972, album:'Umanamente uomo: il sogno', durata:285, livello:2,
+    youtubeId:'UtUHEsPfjjE', coverPalette:'battisti', coverLetter:'B',
+    parole:[
+      { id:'canto', lemma:'canto', cat:'sostantivo · maschile', time:23,
+        def:'Espressione musicale della voce. In poesia, da Dante in poi, è anche il nome di una sezione di un poema (i "canti" della Divina Commedia).',
+        etim:'Dal latino <em>cantus</em>, dal verbo <em>canere</em>, "cantare". Stessa radice di <em>cantore</em>, <em>cantilena</em>, <em>incantesimo</em>.',
+        fam:'cantare · cantore · cantilena · incantesimo · accento',
+        syn:'melodia, canzone, aria', ant:'silenzio',
+        ex:'Quel canto, ripetuto sempre uguale, era diventato un modo di esistere.',
+        reg:'comune con eredità letteraria',
+        curio:'<strong>Incantare</strong> deriva da <em>in-cantare</em>: "cantare sopra qualcuno". Per gli antichi, le parole cantate avevano un potere magico — oggi diciamo che una melodia "ci incanta" e non ricordiamo più che è la stessa cosa.'
+      },
+      { id:'immensita', lemma:'immensità', cat:'sostantivo · femminile', time:32,
+        def:'Grandezza senza misura. Spazio o sentimento così vasti da non poterli contenere o calcolare.',
+        etim:'Dal latino <em>immensitas</em>: <em>in-</em> ("non") + <em>mensus</em> ("misurato"), participio di <em>metiri</em> ("misurare"). Letteralmente: "ciò che non si può misurare".',
+        fam:'immenso · misura · metro · dimensione · commensurabile',
+        syn:'infinità, vastità, sconfinatezza', ant:'piccolezza, limite',
+        ex:'Si fermò davanti al mare e per un momento sentì quell\'immensità entrargli dentro.',
+        reg:'letterario',
+        curio:'Curiosità etimologica: <strong>immenso</strong> = "non misurato". Anche <strong>misura</strong>, <strong>metro</strong>, <strong>dimensione</strong> e <strong>commensurabile</strong> vengono dalla stessa radice.'
+      },
+      { id:'limite', lemma:'limite', cat:'sostantivo · maschile', time:40,
+        def:'Confine, linea che separa due cose. In senso astratto: il punto oltre il quale non si può andare, oppure la barriera che ci impone qualcosa o qualcuno.',
+        etim:'Dal latino <em>limes, limitis</em>, "sentiero, confine tra due campi". Origine agraria: il limite, in origine, era proprio la stradina che divideva due terreni.',
+        fam:'limitare · limitato · illimitato · delimitare · sublime',
+        syn:'confine, frontiera, barriera, soglia', ant:'infinito, illimitato',
+        ex:'I suoi sogni andavano sempre oltre il limite di quello che sapeva.',
+        reg:'comune con eredità letteraria',
+        curio:'Sorpresa: <strong>sublime</strong> viene da <em>sub-limen</em>, "fin sotto la soglia". Indica ciò che sta proprio al limite più alto a cui possiamo arrivare.'
+      },
+      { id:'sentimento', lemma:'sentimento', cat:'sostantivo · maschile', time:48,
+        def:'Stato d\'animo, emozione consapevole. Più profondo di una semplice "sensazione": il sentimento dura, plasma il modo di stare al mondo.',
+        etim:'Dal latino <em>sentire</em>, "percepire con i sensi" e poi "provare emozione". Stessa radice di <em>senso</em>, <em>sensazione</em>, <em>sensibile</em>.',
+        fam:'sentire · senso · sensazione · sensibile · risentimento',
+        syn:'emozione, affetto, sensibilità', ant:'indifferenza, freddezza',
+        ex:'Non c\'era una parola precisa per quel sentimento: stava tra la nostalgia e l\'attesa.',
+        reg:'comune',
+        curio:'In italiano <strong>sentire</strong> ha due significati che le altre lingue separano: percepire con i sensi e provare emozione. Per noi italiani le emozioni sono cose che si <em>sentono</em>, come un suono o un odore.'
+      },
+      { id:'innalza', lemma:'innalzarsi', cat:'verbo riflessivo · presente', time:53,
+        def:'Sollevarsi verso l\'alto, fisicamente o moralmente. Crescere, elevarsi al di sopra di qualcosa o qualcuno.',
+        etim:'Da <em>in-</em> + <em>alzare</em>, dal latino tardo <em>altiare</em>, da <em>altus</em> ("alto"). Letteralmente: "tirarsi su, fino in alto".',
+        fam:'alto · altezza · altare · esaltare',
+        syn:'elevarsi, sollevarsi, levarsi', ant:'abbassarsi, calare, decadere',
+        ex:'Il sentimento si innalzava sopra le accuse, come se non le sentisse nemmeno.',
+        reg:'letterario',
+        curio:'<strong>Esaltare</strong> condivide la radice di <em>alto</em>: significa "portare all\'alto". Quando "esaltiamo" qualcuno lo stiamo metaforicamente alzando.'
+      },
+      { id:'accuse', lemma:'accuse', cat:'sostantivo · femminile plurale', time:63,
+        def:'Affermazioni con cui si attribuisce a qualcuno la responsabilità di una colpa, di un errore, di un\'azione cattiva.',
+        etim:'Dal latino <em>accusare</em>: <em>ad-</em> ("verso") + <em>causa</em> ("causa, lite"). Letteralmente: "portare causa contro".',
+        fam:'accusare · causa · causale · scusare · scusa',
+        syn:'imputazione, addebito, denuncia', ant:'difesa, scusa, assoluzione',
+        ex:'Imparò presto a camminare a testa alta sotto le accuse degli altri.',
+        reg:'comune',
+        curio:'Sorpresa: <strong>accusa</strong> e <strong>scusa</strong> sono cugine etimologiche. Entrambe contengono la radice di <em>causa</em>. <em>Ex-cusare</em> = "togliere la causa", <em>ad-cusare</em> = "portare la causa contro".'
+      },
+      { id:'retaggi', lemma:'retaggi', cat:'sostantivo · maschile plurale', time:67,
+        def:'Eredità culturali, tradizionali, morali ricevute dal passato. Spesso usato in senso negativo: convenzioni vecchie che limitano.',
+        etim:'Dal francese antico <em>eritage</em>, derivato dal latino <em>hereditare</em>, "ereditare". È un parente diretto della parola <em>eredità</em>, ma con una sfumatura più ideologica.',
+        fam:'eredità · ereditare · erede · disereditare',
+        syn:'eredità, tradizioni, lascito, vincoli del passato',
+        ex:'Voleva liberarsi dei retaggi familiari ma ci si trovava sempre dentro.',
+        reg:'letterario / colto',
+        curio:'<strong>Retaggio</strong> e <strong>eredità</strong> sono cugini ma con personalità diverse: l\'<em>eredità</em> è ciò che ricevi (e di solito ti fa piacere), il <em>retaggio</em> è ciò che <em>pesa</em> dietro di te (e spesso vorresti scuoterlo via). Mogol qui sceglie la parola più pesante.'
+      },
+      { id:'indifferente', lemma:'indifferente', cat:'aggettivo', time:70,
+        def:'Che non prova interesse, emozione, partecipazione. Chi è indifferente non distingue: tutto, per lui, ha lo stesso peso (cioè nessuno).',
+        etim:'Dal latino <em>in-</em> ("non") + <em>differens</em>, "che fa differenza", participio di <em>differre</em>, "portare via, distinguere".',
+        fam:'differenza · differire · differente · referenza · trasferire',
+        syn:'distaccato, freddo, apatico', ant:'partecipe, interessato, coinvolto',
+        ex:'Camminava indifferente alle accuse: era come se non le sentisse cadere addosso.',
+        reg:'comune',
+        curio:'L\'<strong>indifferenza</strong> è una virtù per certi filosofi (gli stoici, i buddhisti) e un difetto morale per altri. Mogol qui la usa come arma: il sentimento è "indifferente" alle accuse, cioè più forte di esse.'
+      },
+      { id:'sorretto', lemma:'sorretto', cat:'participio passato del verbo "sorreggere"', time:71,
+        def:'Sostenuto, tenuto su da qualcosa o qualcuno. Si dice di chi non sta in piedi da solo e ha bisogno di un sostegno.',
+        etim:'Da <em>sorreggere</em>, dal latino <em>sub-</em> ("sotto") + <em>regere</em> ("guidare, dirigere"). Letteralmente: "guidare da sotto".',
+        fam:'reggere · regola · regista · regno · reggimento',
+        syn:'sostenuto, tenuto, supportato', ant:'abbandonato, lasciato cadere',
+        ex:'Il suo coraggio era sorretto da una piccola, antica testardaggine.',
+        reg:'letterario',
+        curio:'La radice <em>regere</em> è incredibile: ne vengono <strong>regola</strong>, <strong>regno</strong>, <strong>regista</strong>, <strong>reggimento</strong>, <strong>regime</strong>. Tutte parole che hanno a che fare con il guidare, il governare.'
+      },
+      { id:'anelito', lemma:'anelito', cat:'sostantivo · maschile', time:71,
+        def:'Desiderio così intenso da accelerare il respiro. Più di un desiderio normale: è un volere profondo, quasi fisico, che lascia senza fiato.',
+        etim:'Dal latino <em>anhelitus</em>, "respirazione affannosa", da <em>anhelare</em>, "respirare con fatica". La parola conserva ancora oggi il suono del fiato corto.',
+        fam:'anelare · anelante',
+        syn:'aspirazione, brama, sospiro', ant:'rifiuto, disinteresse',
+        ex:'Aveva un anelito di libertà che gli faceva male al petto, certi pomeriggi.',
+        reg:'letterario / aulico',
+        curio:'Bellissima parola da reintrodurre nel proprio vocabolario: dice quello che "desiderio" non riesce a dire, perché aggiunge la dimensione del <strong>corpo che si affanna</strong>. Foscolo, Leopardi, Pascoli la usano spesso.'
+      },
+      { id:'tiepido', lemma:'tiepido', cat:'aggettivo', time:283,
+        def:'Né caldo né freddo: appena caldo, dolcemente. Detto di un sentimento o di una persona: poco intenso, senza passione vera.',
+        etim:'Dal latino <em>tepidus</em>, da <em>tepere</em>, "essere appena caldo". Stessa radice di <em>tepore</em>.',
+        fam:'tepore · intiepidire',
+        syn:'mite, caldo dolce, moderato', ant:'gelido, rovente, ardente',
+        ex:'C\'era nell\'aria un vento tiepido che sembrava promettere qualcosa.',
+        reg:'comune con uso letterario',
+        curio:'Mogol unisce <em>tiepido</em> a <em>salso</em> per costruire un\'immagine sensoriale doppia (tatto + gusto). È una <strong>sinestesia</strong>: la stessa figura retorica di <em>fragrante</em> nella Collina dei ciliegi.'
+      },
+      { id:'salso', lemma:'salso', cat:'aggettivo', time:283,
+        def:'Che sa di sale, salato. Detto soprattutto del vento, dell\'aria, dell\'acqua del mare.',
+        etim:'Dal latino <em>salsus</em>, participio di <em>salire</em> ("salare"), da <em>sal, salis</em> ("sale"). Stessa radice di <em>salato</em>, <em>salame</em>, <em>salmastro</em>.',
+        fam:'sale · salato · salame · salina · insalata · salmastro',
+        syn:'salato, salmastro, marino', ant:'dolce',
+        ex:'L\'aria salsa di quel pomeriggio gli ricordò un\'estate di tanti anni prima.',
+        reg:'letterario',
+        curio:'Famiglia lessicale a sorpresa: <strong>insalata</strong> = "in-salata", cioè "messa nel sale". Ai tempi dei Romani le verdure venivano conservate in salamoia. Anche <strong>salame</strong> e <strong>salina</strong> appartengono alla stessa famiglia.'
+      }
+    ]
+  },
+
+  {
+    id:'la-cura', titolo:'La cura', artista:'Franco Battiato', autore:'Battiato – Sgalambro',
+    anno:1996, album:'L\'imboscata', durata:300, livello:3,
+    youtubeId:'cLJp-YJeuzc', coverPalette:'battiato', coverLetter:'B',
+    parole:[
+      { id:'ipocondrie', lemma:'ipocondrie', cat:'sostantivo · femminile plurale', time:27,
+        def:'Preoccupazioni eccessive per la propria salute, paura di essere malati anche quando non lo si è. Pensieri ossessivi sul corpo e sulle sue debolezze.',
+        etim:'Dal greco <em>hypokhóndrion</em>: <em>hypó</em> ("sotto") + <em>khóndros</em> ("cartilagine"). Letteralmente: "la zona sotto le costole". Anticamente si pensava che le malattie immaginarie nascessero dal ventre.',
+        fam:'ipocondriaco · ipotesi (stesso prefisso) · ipoteca',
+        syn:'paure morbose, fobie del corpo, ansie sanitarie',
+        ex:'Le sue ipocondrie gli avevano rovinato un sacco di pomeriggi che potevano essere bellissimi.',
+        reg:'colto',
+        curio:'In greco <strong>hypó</strong> significa "sotto". È lo stesso prefisso di <strong>ipotesi</strong> ("posta sotto"), <strong>ipoteca</strong> ("messa sotto"), <strong>ipocrita</strong> ("che giudica da sotto").'
+      },
+      { id:'turbamenti', lemma:'turbamenti', cat:'sostantivo · maschile plurale', time:31,
+        def:'Stati di agitazione interna, scompigli dell\'animo. Più profondi di una "preoccupazione": qualcosa che ti smuove dentro, ti fa perdere l\'equilibrio.',
+        etim:'Dal verbo <em>turbare</em>, dal latino <em>turba</em>, "folla in disordine, confusione". Letteralmente: "essere come una folla agitata".',
+        fam:'turba · turbine · turbolenza · disturbare · perturbare',
+        syn:'sconvolgimenti, agitazioni, inquietudini', ant:'serenità, calma, quiete',
+        ex:'I turbamenti di quei mesi lo avevano lasciato più adulto del previsto.',
+        reg:'letterario',
+        curio:'La parola <em>turba</em> in latino indicava una folla agitata, caotica. Da lì viene anche <strong>turbine</strong> (vortice di vento), <strong>turbolenza</strong> e <strong>disturbare</strong>. Quando sei <em>turbato</em>, hai dentro di te una piccola folla disordinata.'
+      },
+      { id:'ingiustizie', lemma:'ingiustizie', cat:'sostantivo · femminile plurale', time:38,
+        def:'Atti contrari alla giustizia. Tutto ciò che, secondo coscienza o legge, non è equo, non è giusto, non rispetta i diritti.',
+        etim:'Da <em>in-</em> ("non") + <em>giustizia</em>, dal latino <em>iustitia</em>, derivato di <em>ius, iuris</em> ("diritto, legge").',
+        fam:'giusto · giustizia · giudice · giurare · giuria · giurisprudenza',
+        syn:'soprusi, prevaricazioni, iniquità', ant:'giustizia, equità, rettitudine',
+        ex:'Le ingiustizie di quegli anni l\'avevano resa più dura ma anche più attenta.',
+        reg:'comune',
+        curio:'La radice <em>ius</em> è una delle più feconde dell\'italiano: <strong>giusto</strong>, <strong>giudice</strong>, <strong>giuria</strong>, <strong>giurare</strong>, <strong>giurisprudenza</strong>. Tutte parole che ruotano attorno a un\'unica idea: ciò che è di diritto.'
+      },
+      { id:'inganni', lemma:'inganni', cat:'sostantivo · maschile plurale', time:39,
+        def:'Atti con cui qualcuno fa credere il falso, conduce in errore, fa fare a un altro qualcosa che non avrebbe voluto.',
+        etim:'Dal verbo <em>ingannare</em>, dal latino tardo <em>ingannare</em>, di etimologia incerta (forse da <em>cantare</em> in senso ironico = "raccontare frottole").',
+        fam:'ingannare · ingannevole · sgannare · disinganno',
+        syn:'imbrogli, frodi, raggiri, truffe', ant:'sincerità, lealtà, verità',
+        ex:'Era stato fortunato: gli inganni più grandi lo avevano sfiorato senza colpirlo.',
+        reg:'comune',
+        curio:'Esiste una parola bellissima e poco usata: <strong>sgannare</strong>, "togliere l\'inganno". Quando "sganni" qualcuno gli stai facendo un dono: gli togli un velo.'
+      },
+      { id:'fallimenti', lemma:'fallimenti', cat:'sostantivo · maschile plurale', time:43,
+        def:'Imprese non riuscite, cose tentate e non realizzate. Anche, in senso tecnico-economico, lo stato di un\'impresa che non riesce più a pagare i debiti.',
+        etim:'Dal verbo <em>fallire</em>, dal latino tardo <em>fallire</em>, "ingannare, mancare". Stessa radice di <em>falso</em>, <em>fallace</em>, <em>fallo</em>.',
+        fam:'fallire · falso · fallace · fallo · infallibile',
+        syn:'sconfitte, insuccessi, disfatte', ant:'successi, riuscite, vittorie',
+        ex:'I fallimenti gli avevano insegnato più dei successi: da quelli, almeno, c\'era qualcosa da imparare.',
+        reg:'comune',
+        curio:'<strong>Infallibile</strong> = <em>in-fallibile</em>, "che non può fallire". Etimologicamente, l\'unico modo di essere infallibili è non provarci mai.'
+      },
+      { id:'ossessioni', lemma:'ossessioni', cat:'sostantivo · femminile plurale', time:51,
+        def:'Pensieri persistenti, fissi, che tornano a tormentarci anche quando non vogliamo. Idee che si "siedono sopra" la mente e non se ne vanno.',
+        etim:'Dal latino <em>obsessio</em>, derivato di <em>obsidere</em>: <em>ob-</em> ("contro, davanti") + <em>sedere</em> ("stare seduto"). Letteralmente: "stare seduto davanti a", "assediare".',
+        fam:'sedere · sede · assediare · presiedere · possedere · sussidio',
+        syn:'fissazioni, pensieri fissi, manie',
+        ex:'Aveva qualche ossessione, come tutti, ma le aveva imparate ad accogliere come ospiti scomodi.',
+        reg:'comune con eredità medico-psicologica',
+        curio:'Sorpresa etimologica: <strong>ossessione</strong> = "stare seduto davanti". L\'origine è la stessa di <em>assediare</em>: un\'ossessione è un pensiero che ti <strong>assedia</strong>, che ti sta davanti senza muoversi.'
+      },
+      { id:'manie', lemma:'manie', cat:'sostantivo · femminile plurale', time:55,
+        def:'Comportamenti ripetitivi e fissi, gusti o abitudini esagerate. Anche, in senso clinico, disturbi della psiche.',
+        etim:'Dal greco <em>manía</em>, "follia, ispirazione divina". Per i Greci la mania era un dono ambiguo degli dei: poteva produrre poeti o pazzi.',
+        fam:'maniaco · cleptomania · piromania · megalomania',
+        syn:'fissazioni, capricci, fisime, vezzi',
+        ex:'Aveva le sue piccole manie, come tutti: ordinare i libri per colore, contare i passi prima di entrare in casa.',
+        reg:'comune',
+        curio:'In greco <strong>manía</strong> non era solo malattia: Platone ne distingueva quattro tipi, e una delle più nobili era la <em>mania poetica</em>. Per gli antichi, il poeta era <em>maniaco</em> nel senso buono — preso da un\'ispirazione che lo faceva uscire di sé.'
+      },
+      { id:'preserverò', lemma:'preserverò', cat:'futuro semplice del verbo "preservare"', time:64,
+        def:'Conservare al riparo, mantenere intatto contro un pericolo. Più di "salvare": preservare significa proteggere prima che il danno arrivi.',
+        etim:'Dal latino <em>praeservare</em>: <em>prae-</em> ("davanti, prima") + <em>servare</em> ("custodire"). Letteralmente: "custodire prima".',
+        fam:'servare · conservare · osservare · riservare · serbatoio',
+        syn:'proteggerò, conserverò, salverò', ant:'esporrò, abbandonerò',
+        ex:'Preserverò questo silenzio per quando ne avrò bisogno davvero.',
+        reg:'letterario',
+        curio:'La radice <em>servare</em> è generosissima: <strong>conservare</strong> ("tenere insieme"), <strong>osservare</strong> ("custodire con lo sguardo"), <strong>riservare</strong> ("custodire da parte").'
+      },
+      { id:'essenza', lemma:'essenza', cat:'sostantivo · femminile', time:136,
+        def:'Ciò che fa essere qualcosa quello che è. Il nucleo profondo, irriducibile, di una cosa o di una persona — al di là delle apparenze e dei dettagli.',
+        etim:'Dal latino <em>essentia</em>, derivato del verbo <em>esse</em> ("essere"). Inventata dai filosofi medievali per tradurre il greco <em>ousía</em>, "ciò che è".',
+        fam:'essere · entità · essenziale · esistere · ente',
+        syn:'natura, sostanza, nocciolo, anima',
+        ex:'Si erano persi nei dettagli, dimenticando l\'essenza di quello che cercavano.',
+        reg:'colto / filosofico',
+        curio:'<strong>Essenza</strong> nasce come parola filosofica: i Medievali avevano bisogno di tradurre Aristotele e si sono inventati questo termine. Oggi è anche il nome dei profumi più puri: l\'essenza è ciò che resta quando hai tolto tutto il resto.'
+      },
+      { id:'inebrieranno', lemma:'inebrieranno', cat:'futuro del verbo "inebriare"', time:144,
+        def:'Riempire di una gioia o di un piacere così intensi da far quasi perdere il controllo. Letteralmente, ubriacare. In senso figurato, estasiare.',
+        etim:'Dal latino <em>inebriare</em>: <em>in-</em> ("dentro") + <em>ebrius</em> ("ubriaco"). Stessa radice di <em>ebbrezza</em>, <em>ebbro</em>.',
+        fam:'ebbro · ebbrezza · ubriaco (forma popolare di ebrius) · sobrio (s-ebrius)',
+        syn:'estasieranno, esalteranno',
+        ex:'Le prime giornate di primavera lo inebriavano sempre — gli sembrava di essere appena nato.',
+        reg:'letterario',
+        curio:'Sorpresa etimologica: <strong>sobrio</strong> = <em>se-ebrius</em>, "senza ubriachezza". E <strong>ubriaco</strong> è semplicemente la deformazione popolare di <em>ebrius</em>. Tre parole legate alla stessa idea, in tre registri diversi.'
+      },
+      { id:'buonaccia', lemma:'buonaccia', cat:'sostantivo · femminile', time:148,
+        def:'In linguaggio marinaresco: calma assoluta del mare, totale assenza di vento. Una bonaccia profonda, che ferma le navi a vela.',
+        etim:'Da <em>buona</em> + suffisso <em>-accia</em>. Era il vento mite ideale per i marinai, ma se diventa eccessivo (totale assenza di vento) blocca la nave.',
+        fam:'bonaccia (variante) · mareggiata',
+        syn:'bonaccia, calma piatta, calma del mare', ant:'tempesta, burrasca',
+        ex:'Quel pomeriggio era una buonaccia: non si muoveva nemmeno una foglia.',
+        reg:'letterario / marinaresco',
+        curio:'Curiosità: il suffisso <em>-accia</em> qui non è dispregiativo come al solito (cattivaccia, parolaccia), ma <strong>aumentativo</strong> — una "grandissima calma".'
+      },
+      { id:'trame', lemma:'trame', cat:'sostantivo · femminile plurale', time:156,
+        def:'Insieme dei fili che, intrecciati con l\'ordito, formano un tessuto. In senso figurato: l\'intreccio di una storia (il filo della "trama") oppure un complotto.',
+        etim:'Dal latino <em>trama</em>, parola tecnica del telaio: la "trama" è l\'insieme dei fili orizzontali che si intrecciano con l\'<em>ordito</em> (i fili verticali).',
+        fam:'tramare · ordito · tessere · trapunta · ricamare',
+        syn:'intrecci, tessuti, intrighi, complotti',
+        ex:'Battiato canta che intreccerà i capelli "come trame di un canto": la stessa parola può dire la stoffa, la storia o l\'intrigo.',
+        reg:'comune con uso poetico',
+        curio:'<strong>Trama</strong> ha tre vite: 1) l\'intreccio di un tessuto, 2) la storia di un libro o film ("la trama del romanzo"), 3) un complotto ("ordire una trama"). Ogni racconto, ogni complotto, è un <em>intreccio di fili</em>.'
+      }
+    ]
+  },
+
+  {
+    id:'leva-calcistica', titolo:'La leva calcistica del \'68', artista:'Francesco De Gregori', autore:'De Gregori',
+    anno:1982, album:'Titanic', durata:215, livello:1,
+    youtubeId:'uPjRXoo0eSg', coverPalette:'degregori', coverLetter:'D',
+    parole:[
+      { id:'polvere', lemma:'polvere', cat:'sostantivo · femminile', time:39,
+        def:'Sostanza finissima, fatta di particelle leggere che il vento solleva. In senso figurato: ciò che resta di qualcosa di abbandonato, dimenticato, finito.',
+        etim:'Dal latino <em>pulvis, pulveris</em>, "polvere", di origine indoeuropea.',
+        fam:'polverizzare · polveroso · pulviscolo',
+        syn:'pulviscolo, terriccio, sabbia fine',
+        ex:'Sui campi d\'estate la terra era polvere, e ogni passo sollevava una piccola nuvola.',
+        reg:'comune',
+        curio:'L\'espressione <em>"polvere alla polvere"</em> viene dalla Genesi: "Polvere sei e polvere ritornerai". È diventata simbolo della finitezza umana.'
+      },
+      { id:'rigore', lemma:'rigore', cat:'sostantivo · maschile', time:64,
+        def:'1) Severità, durezza nel rispettare regole. 2) Nel calcio: tiro libero dal dischetto contro la porta avversaria, "calcio di rigore", quando viene commesso un fallo grave in area.',
+        etim:'Dal latino <em>rigor, rigoris</em>, "durezza, freddezza", da <em>rigere</em> ("essere rigido"). Stessa radice di <em>rigido</em>, <em>frigido</em> (freddo, "che rende rigidi").',
+        fam:'rigido · rigoroso · rigorosamente · frigido · congelare',
+        syn:'severità, durezza, severo controllo',
+        ex:'Aveva un rigore ammirevole con sé stesso e nessuno con gli altri.',
+        reg:'comune',
+        curio:'De Gregori sfrutta la <strong>polisemia</strong> della parola: "sbagliare un calcio di rigore" è espressione tecnica del calcio, ma <em>rigore</em> significa anche "severità di giudizio". Il verso dice due cose insieme: che il rigore sportivo non basta a giudicare un giocatore, e che la severità non basta a giudicare un uomo.'
+      },
+      { id:'particolari', lemma:'particolari', cat:'sostantivo · maschile plurale', time:68,
+        def:'Dettagli, elementi piccoli e specifici di una situazione. Il particolare è ciò che, da solo, sembra poco — ma a volte basta a cambiare tutto.',
+        etim:'Dal latino <em>particularis</em>, derivato di <em>particula</em>, "piccola parte", diminutivo di <em>pars, partis</em> ("parte").',
+        fam:'parte · particella · particolarità · partito · partecipare',
+        syn:'dettagli, minuzie, specifiche', ant:'generalità, insieme',
+        ex:'I particolari di quella sera, presi uno per uno, non significavano niente. Ma messi insieme spiegavano tutto.',
+        reg:'comune',
+        curio:'L\'espressione <em>"non è da questi particolari che si giudica un giocatore"</em> è diventata un proverbio italiano grazie a De Gregori. Significa: i veri valori non si misurano dagli errori isolati.'
+      },
+      { id:'giudica', lemma:'giudicare', cat:'verbo · presente indicativo (3a persona)', time:72,
+        def:'Esprimere un\'opinione, una valutazione su qualcuno o qualcosa. Decidere il valore di una persona o di un\'azione.',
+        etim:'Dal latino <em>iudicare</em>, da <em>iudex, iudicis</em> ("giudice"): <em>ius</em> ("diritto") + <em>dicere</em> ("dire"). Letteralmente: "dire il diritto".',
+        fam:'giudice · giudizio · pregiudizio · pregiudicato · giurato',
+        syn:'valutare, stimare, esaminare',
+        ex:'Imparò a non giudicare i fallimenti degli altri: aveva visto da vicino quanto fanno male.',
+        reg:'comune',
+        curio:'Il <strong>pregiudizio</strong> è etimologicamente un <em>"giudizio precedente"</em>: una valutazione data prima di sapere. Per questo è quasi sempre sbagliato.'
+      },
+      { id:'altruismo', lemma:'altruismo', cat:'sostantivo · maschile', time:79,
+        def:'Atteggiamento di chi si interessa al bene degli altri, anche a costo del proprio. È il contrario di <em>egoismo</em>: pensare prima a chi sta vicino.',
+        etim:'Parola moderna, coniata in francese (<em>altruisme</em>) dal filosofo Auguste Comte nell\'Ottocento, dall\'italiano <em>altrui</em>, dal latino <em>alter</em>, "altro".',
+        fam:'altro · alterare · altruistico',
+        syn:'generosità, abnegazione, disinteresse', ant:'egoismo, individualismo',
+        ex:'Un piccolo altruismo, in un giorno qualunque, può cambiare la giornata di una persona.',
+        reg:'colto',
+        curio:'Curiosità: la parola <strong>altruismo</strong> è stata <em>inventata</em> nel 1830 dal filosofo francese Auguste Comte. Prima non esisteva. Aveva bisogno di un termine per indicare il contrario di "egoismo".'
+      },
+      { id:'fantasia', lemma:'fantasia', cat:'sostantivo · femminile', time:81,
+        def:'Capacità della mente di immaginare, di creare immagini di cose che non ci sono. Anche: invenzione, creatività, capacità di vedere oltre la realtà data.',
+        etim:'Dal greco <em>phantasía</em>, derivato di <em>phaínein</em> ("apparire, mostrare"). Stessa radice di <em>fantasma</em>, <em>fenomeno</em>, <em>fantastico</em>.',
+        fam:'fantasma · fenomeno · fantastico · diafano · epifania',
+        syn:'immaginazione, inventiva, creatività', ant:'realtà, concretezza',
+        ex:'La fantasia, in campo, vale più della tecnica: ti fa vedere passaggi che gli altri non vedono.',
+        reg:'comune',
+        curio:'Famiglia greca affascinante: <strong>fenomeno</strong> = "ciò che appare", <strong>fantasma</strong> = "ciò che si fa apparire", <strong>epifania</strong> = "apparizione sopra". La fantasia, in origine, è la capacità di <strong>far apparire le cose nella mente</strong>.'
+      },
+      { id:'tristi', lemma:'tristi', cat:'aggettivo · plurale', time:90,
+        def:'Pieni di tristezza, malinconici. In senso più ampio: che ispirano malinconia, infelici, sfortunati.',
+        etim:'Dal latino <em>tristis</em>, di etimologia incerta. Forse legato a <em>terere</em> ("logorare"): chi è triste è "consumato" dalla pena.',
+        fam:'tristezza · contristare · attristare · tristo (forma rara)',
+        syn:'malinconici, mesti, afflitti, infelici', ant:'allegri, gioiosi, felici',
+        ex:'I giocatori tristi, diceva De Gregori, ridono nei bar di chi ha sognato e non ha vinto.',
+        reg:'comune',
+        curio:'In italiano antico esiste <strong>tristo</strong> (da non confondere con <em>triste</em>), che significa "malvagio, cattivo" — come nell\'espressione <em>"un tristo soggetto"</em>. È la stessa parola, ma con un percorso semantico opposto: la tristezza che diventa cattiveria.'
+      },
+      { id:'appeso', lemma:'appeso', cat:'participio passato del verbo "appendere"', time:93,
+        def:'Sospeso, attaccato a qualcosa di alto in modo che penda verso il basso. In senso figurato, "appendere le scarpe al chiodo" significa smettere di praticare uno sport.',
+        etim:'Da <em>appendere</em>, dal latino <em>ad-pendere</em>: <em>ad-</em> ("verso") + <em>pendere</em> ("pesare, pendere"). Letteralmente: "far pendere verso".',
+        fam:'pendere · pendolo · sospendere · dipendente · pendente · spendere',
+        syn:'sospeso, attaccato, pendente',
+        ex:'Aveva appeso al muro la maglia di quando giocava: era diventata un quadro.',
+        reg:'comune',
+        curio:'L\'espressione <strong>"appendere le scarpe al chiodo"</strong> è entrata nel linguaggio comune dalle canzoni e dalle pagine sportive. Indica il ritiro definitivo di un atleta.'
+      },
+      { id:'innamorati', lemma:'innamorati', cat:'participio sostantivato del verbo "innamorarsi"', time:97,
+        def:'Coloro che sono nello stato d\'animo dell\'amore. In senso più ampio: persone profondamente prese da qualcuno o qualcosa.',
+        etim:'Da <em>innamorarsi</em>, da <em>in-</em> + <em>amore</em>, dal latino <em>amor</em>. Letteralmente: "entrare nell\'amore".',
+        fam:'amore · amare · amante · amabile · amico · disamore',
+        syn:'amanti, presi, infatuati', ant:'indifferenti, distaccati',
+        ex:'Erano innamorati da dieci anni, e ogni giorno, in modi diversi, ricominciavano da capo.',
+        reg:'comune',
+        curio:'In italiano la parola <strong>amico</strong> ha la stessa radice di <strong>amore</strong> — entrambe vengono da <em>amare</em>. L\'amico, etimologicamente, è "colui che ama".'
+      },
+      { id:'veduti', lemma:'veduti', cat:'participio passato del verbo "vedere" (forma letteraria)', time:108,
+        def:'Visti. Forma letteraria, antica, oggi più rara dell\'usuale "visti". Conserva un sapore poetico, da racconto.',
+        etim:'Dal latino <em>videre</em>, di origine indoeuropea. <em>Vedere</em> ha due participi: il moderno <em>visto</em> e il letterario <em>veduto</em>.',
+        fam:'visione · evidente · provvedere · video · televisione · invidia',
+        syn:'visti, scorti, osservati',
+        ex:'Quanti tramonti aveva veduti, e ogni volta era come la prima.',
+        reg:'letterario / antico',
+        curio:'L\'italiano ha conservato due participi di <em>vedere</em>: <strong>visto</strong> (forma moderna) e <strong>veduto</strong> (forma antica e poetica). De Gregori sceglie quella antica per dare al verso un sapore quasi popolare-narrativo.'
+      },
+      { id:'stregato', lemma:'stregato', cat:'participio passato del verbo "stregare"', time:128,
+        def:'Sottoposto a un incantesimo da una strega. In senso figurato: come per magia, in modo inspiegabile, attratto da qualcosa di misterioso.',
+        etim:'Da <em>strega</em>, dal latino <em>striga</em> ("uccello notturno di malaugurio"). La strega era considerata un essere magico legato alla notte.',
+        fam:'strega · stregoneria · stregare · stregone',
+        syn:'incantato, ammaliato, infatuato', ant:'libero, indifferente',
+        ex:'Quel pallone sembrava stregato: tornava sempre tra i piedi del ragazzino come se lo cercasse.',
+        reg:'comune',
+        curio:'La <em>strige</em> degli antichi romani era un uccello notturno (probabilmente la civetta) considerato di malaugurio. Da lì la parola si è trasformata in <strong>strega</strong>: la donna magica che, nelle credenze popolari, poteva trasformarsi in uccello e volare di notte.'
+      },
+      { id:'incollato', lemma:'incollato', cat:'participio passato del verbo "incollare"', time:131,
+        def:'Attaccato con la colla. In senso figurato: aderente, fermamente attaccato, come se fosse stato incollato.',
+        etim:'Da <em>in-</em> + <em>colla</em>, dal latino <em>colla</em>, di origine greca <em>kólla</em> ("colla, sostanza adesiva").',
+        fam:'colla · scollare · scollato · collante',
+        syn:'attaccato, aderente, appiccicato', ant:'staccato, separato, libero',
+        ex:'Il pallone gli rimaneva incollato al piede come se fossero la stessa cosa.',
+        reg:'comune',
+        curio:'Curiosità linguistica: in italiano abbiamo <strong>collo</strong> (parte del corpo, dal latino <em>collum</em>) e <strong>colla</strong> (sostanza adesiva, dal greco <em>kólla</em>). Sono <em>omografi</em> ma non parenti: vengono da radici completamente diverse.'
+      }
+    ]
+  },
+
+  {
+    id:'sogna-ragazzo', titolo:'Sogna ragazzo sogna', artista:'Roberto Vecchioni · Alfa', autore:'Vecchioni',
+    anno:1999, album:'Canzoni e cicogne (versione Sanremo 2024 con Alfa)', durata:265, livello:2,
+    youtubeId:'QG9WFhWW828', coverPalette:'vecchioni', coverLetter:'V',
+    parole:[
+      { id:'ragione', lemma:'ragione', cat:'sostantivo · femminile', time:31,
+        def:'1) Capacità di pensare, comprendere, distinguere il vero dal falso. 2) Motivo, causa di qualcosa. 3) Il fatto di avere torto o ragione in una discussione.',
+        etim:'Dal latino <em>ratio, rationis</em>, "calcolo, conto, ragionamento", dal verbo <em>reri</em> ("pensare").',
+        fam:'ragionare · ragionevole · razionale · razione · raziocinio',
+        syn:'intelletto, motivo, causa, giustizia',
+        ex:'La ragione non sta sempre con i più forti, anche quando sembrano averla a forza.',
+        reg:'comune',
+        curio:'Famiglia inaspettata: <strong>razione</strong> (porzione di cibo) e <strong>ragione</strong> (capacità di pensare) hanno la stessa radice latina <em>ratio</em>. Una "razione" è un <em>calcolo</em> di quanto cibo spetta a ciascuno; una "ragione" è un <em>calcolo</em> della mente.'
+      },
+      { id:'poeti', lemma:'poeti', cat:'sostantivo · maschile plurale', time:35,
+        def:'Persone che compongono poesie. In senso più ampio: chi sa vedere oltre la realtà ordinaria, chi crea con le parole, con l\'immaginazione.',
+        etim:'Dal greco <em>poiētḗs</em>, derivato di <em>poieîn</em> ("fare, creare"). Letteralmente: "il facitore, chi fa". In greco la poesia era prima di tutto un atto di <strong>creazione</strong>.',
+        fam:'poesia · poetica · poetare · onomatopea · prosopopea',
+        syn:'cantori, vati, lirici',
+        ex:'I poeti, diceva Vecchioni, spostano i fiumi con il pensiero. Forse non i fiumi veri, ma quelli dentro di noi, sì.',
+        reg:'comune con eredità greca',
+        curio:'In greco antico il <strong>poeta</strong> era letteralmente un <em>"facitore"</em>. La parola viene dallo stesso verbo (<em>poieîn</em>) da cui deriva, in inglese, <em>to make</em>. I Greci consideravano il poeta un creatore al pari del falegname.'
+      },
+      { id:'naviganti', lemma:'naviganti', cat:'sostantivo · maschile plurale', time:40,
+        def:'Coloro che navigano. In senso lato: viaggiatori del mare, ma anche, in senso figurato, esploratori dell\'ignoto, ricercatori.',
+        etim:'Dal latino <em>navigare</em>, da <em>navis</em> ("nave") + <em>agere</em> ("condurre"). Letteralmente: "condurre la nave".',
+        fam:'nave · navale · navigare · navigatore · naufragio',
+        syn:'marinai, viaggiatori del mare, marittimi',
+        ex:'I naviganti antichi conoscevano il cielo a memoria: era la loro mappa.',
+        reg:'letterario',
+        curio:'Curiosità etimologica: <strong>naufragio</strong> = <em>navis</em> ("nave") + <em>frangere</em> ("rompere"). Letteralmente: "rompere la nave".'
+      },
+      { id:'mantello', lemma:'mantello', cat:'sostantivo · maschile', time:62,
+        def:'1) Indumento esterno ampio e lungo, usato per coprirsi. 2) In senso figurato: ciò che ricopre, nasconde, protegge. Spesso simbolo di potere o di mistero.',
+        etim:'Dal latino <em>mantellum</em>, diminutivo di <em>mantum</em> ("manto"), parola di origine celtica.',
+        fam:'manto · mantellina · mantellata · ammantarsi',
+        syn:'cappa, manto, mantellina',
+        ex:'L\'amore non si nasconde sotto al mantello: a volte qualcuno deve vederlo, perché serva.',
+        reg:'comune',
+        curio:'Nelle fiabe e nei romanzi il <strong>mantello</strong> ha sempre una funzione magica: copre, nasconde, trasforma. Si pensi al mantello dell\'invisibilità di Harry Potter, al mantello rosso di Cappuccetto, al mantello di San Martino tagliato per il povero.'
+      },
+      { id:'verso', lemma:'verso', cat:'sostantivo · maschile (parola polisemica)', time:104,
+        def:'1) Linea di una poesia o canzone. 2) Direzione (andare verso casa). 3) Suono caratteristico di un animale (il verso del lupo). Stessa parola, tre significati diversi.',
+        etim:'Dal latino <em>versus</em>, "solco arato, riga", da <em>vertere</em> ("girare, voltare"). Originariamente: "il giro che fa l\'aratro a fine campo". Da lì il "verso" di una poesia, perché chi scrive "torna a capo" come l\'aratro.',
+        fam:'vertere · invertire · convertire · versione · versatile · controversia',
+        syn:'riga, linea, direzione, suono',
+        ex:'Manca solo un verso per la poesia. Puoi finirla tu.',
+        reg:'comune',
+        curio:'Bellissima origine: <strong>verso</strong> deriva da <em>vertere</em>, "voltare". Quando l\'aratro arrivava alla fine del campo, doveva girare e tornare indietro: quel "giro" era il <em>versus</em>. Da lì viene anche "tornare a capo" alla fine di una riga di poesia.'
+      },
+      { id:'regno', lemma:'regno', cat:'sostantivo · maschile', time:144,
+        def:'1) Stato governato da un re o da una regina. 2) In senso figurato: dominio, ambito di possesso o di potere personale.',
+        etim:'Dal latino <em>regnum</em>, da <em>rex, regis</em> ("re"), dalla radice indoeuropea <em>reg-</em>, "guidare in linea retta". Stessa radice di <em>regola</em>, <em>retto</em>, <em>regista</em>.',
+        fam:'re · reggere · regola · regista · regime · reggimento · diritto',
+        syn:'reame, dominio, monarchia',
+        ex:'Nessun regno è più grande di questa piccola cosa che è la vita.',
+        reg:'comune con eredità letteraria',
+        curio:'La radice <em>reg-</em> "guidare in linea retta" è una delle più ricche dell\'italiano. Ne vengono <strong>regola</strong>, <strong>retto</strong>, <strong>regista</strong>, <strong>diritto</strong>, <strong>regime</strong>. Tutte parole che condividono l\'idea di <em>tenere dritta una linea</em>.'
+      },
+      { id:'olivo', lemma:'olivo', cat:'sostantivo · maschile', time:166,
+        def:'Albero sempreverde tipico del Mediterraneo, da cui si ricava l\'olio d\'oliva. È simbolo di pace, di longevità, di sapienza.',
+        etim:'Dal latino <em>oleum</em> ("olio") e <em>oliva</em>, dal greco <em>élaiwon</em>.',
+        fam:'olio · oliva · oliveto · oleoso',
+        syn:'olivo (variante più letteraria), pianta dell\'olio',
+        ex:'Pianterai un olivo, convinto ancora di vederlo fiorire.',
+        reg:'comune con eredità simbolica',
+        curio:'L\'<strong>olivo</strong> è simbolo universale di pace: nella Bibbia, dopo il diluvio, una colomba porta a Noè un ramoscello d\'olivo. Vivono per centinaia d\'anni — alcuni superano i mille — e per questo simboleggiano anche la <strong>pazienza</strong>: piantarli è un atto di fiducia nel futuro.'
+      },
+      { id:'fiorire', lemma:'fiorire', cat:'verbo · infinito', time:170,
+        def:'1) Mettere fiori, sbocciare. 2) In senso figurato: sviluppare appieno le proprie qualità, manifestare il proprio meglio.',
+        etim:'Dal latino tardo <em>florire</em>, da <em>flos, floris</em> ("fiore"). Stessa radice di <em>flora</em>, <em>flòrido</em>, <em>infiorescenza</em>.',
+        fam:'fiore · flora · florido · sfiorire · infiorescenza',
+        syn:'sbocciare, prosperare, schiudersi', ant:'appassire, sfiorire, marcire',
+        ex:'Quel ragazzo era pronto a fiorire: bastava soltanto aspettare un\'altra stagione.',
+        reg:'comune',
+        curio:'Curiosità: in italiano abbiamo <strong>fiorire</strong> e il suo contrario <strong>sfiorire</strong>. Lo stesso verbo, con un prefisso, indica la nascita o la fine. Vecchioni qui sceglie il primo: piantare un olivo a fine vita è scommettere sul fioritura.'
+      },
+      { id:'memoria', lemma:'memoria', cat:'sostantivo · femminile', time:194,
+        def:'Capacità di ricordare. Anche: l\'insieme dei ricordi che una persona conserva, il "deposito" interno della propria storia.',
+        etim:'Dal latino <em>memoria</em>, da <em>memor</em> ("che ricorda"), di origine indoeuropea.',
+        fam:'memoria · memorabile · commemorare · rimembrare',
+        syn:'ricordo, rimembranza, retrospettiva', ant:'oblio, dimenticanza',
+        ex:'Piccolo ragazzo nella mia memoria: tante volte e tanti dentro questa storia.',
+        reg:'comune',
+        curio:'Sorpresa: la <strong>Memoria</strong> per i Greci era una dea — Mnemosyne — ed era la madre delle <strong>Muse</strong>. Cioè: senza memoria non c\'è poesia.'
+      },
+      { id:'inchiostro', lemma:'inchiostro', cat:'sostantivo · maschile', time:223,
+        def:'Liquido scuro usato per scrivere o stampare. Anche, in senso simbolico: la materia stessa della scrittura, ciò che resta sulla pagina.',
+        etim:'Dal latino tardo <em>encaustum</em>, dal greco <em>énkauston</em>: <em>en-</em> ("dentro") + <em>kaustón</em> ("bruciato"). Originariamente era un inchiostro fatto con pigmenti bruciati a fuoco — letteralmente, "ciò che è bruciato dentro".',
+        fam:'caustico (stessa radice greca) · encausto · cauterio',
+        syn:'china (un tipo particolare di inchiostro)',
+        ex:'Userò l\'inchiostro invisibile per poterlo nascondere.',
+        reg:'comune con eredità colta',
+        curio:'Etimologia sorprendente: <strong>inchiostro</strong> = "bruciato dentro". Anticamente i pigmenti scuri si ottenevano bruciando materiali (carbone, ossa). Anche la parola <strong>caustico</strong> ("che brucia, che corrode") deriva dalla stessa radice greca.'
+      },
+      { id:'traccia', lemma:'traccia', cat:'sostantivo · femminile', time:226,
+        def:'1) Segno lasciato dal passaggio di qualcuno. 2) In senso astratto: piccolo indizio, residuo di qualcosa che è stato. 3) Linea di una canzone su un disco.',
+        etim:'Dal francese antico <em>trace</em>, dal latino popolare <em>tractiare</em>, da <em>tractus</em> ("tirato, tracciato"), participio di <em>trahere</em> ("tirare").',
+        fam:'tracciare · tratto · trattato · attrarre · ritrarre · trattenere',
+        syn:'orma, segno, indizio, scia',
+        ex:'Voglio scrivere e cancellare e non lasciarne traccia, nemmeno una.',
+        reg:'comune con uso letterario',
+        curio:'La radice <em>trahere</em> ("tirare") è generosa: <strong>tratto</strong> (linea tirata), <strong>trattato</strong> (testo che "tira insieme" argomenti), <strong>attrarre</strong> ("tirare verso"), <strong>distrarre</strong> ("tirare via"), <strong>contratto</strong> ("tirato insieme").'
+      },
+      { id:'panorama', lemma:'panorama', cat:'sostantivo · maschile', time:248,
+        def:'Vista ampia e completa di un paesaggio. In senso figurato: visione d\'insieme di una situazione, di un settore, di un tema.',
+        etim:'Dal greco <em>pán</em> ("tutto") + <em>hórama</em> ("vista, ciò che si vede"). Letteralmente: "vista totale, di tutto".',
+        fam:'panoramica · paneuropeo · pandemia · pantheon',
+        syn:'paesaggio, vista, scenario, visione d\'insieme',
+        ex:'Più alta è la salita, più si spera che il panorama valga la fatica.',
+        reg:'comune con eredità greca',
+        curio:'Il prefisso greco <strong>pan-</strong> ("tutto") è incredibilmente fertile: <strong>pandemia</strong> ("malattia di tutto il popolo"), <strong>pantheon</strong> ("tempio di tutti gli dei"), <strong>pancromatico</strong> ("di tutti i colori").'
       }
     ]
   }
 ];
 
-/* ============================================================
-   STATO PERSISTENTE
-   ============================================================ */
-const LS_DIZ = 'vocaut_diz_v1';
-const LS_CANZ = 'vocaut_canz_v1';
-
-let DIZ = (()=>{ try{return JSON.parse(localStorage.getItem(LS_DIZ)||'{}')}catch(e){return {}} })();
-let CANZSTAT = (()=>{ try{return JSON.parse(localStorage.getItem(LS_CANZ)||'{}')}catch(e){return {}} })();
-
-function salvaDiz(){ localStorage.setItem(LS_DIZ, JSON.stringify(DIZ)); }
-function salvaCanz(){ localStorage.setItem(LS_CANZ, JSON.stringify(CANZSTAT)); }
-
 let canzoneCorrente = null;
 let player = null;
 let pollInterval = null;
+let isPlaying = false;
+let quizState = null;
 
-/* ============================================================
-   ROUTER
-   ============================================================ */
 function vai(viewName, payload){
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  const view = document.querySelector(`.view[data-view="${viewName}"]`);
-  if(view) view.classList.add('active');
-  const navbtn = document.querySelector(`.nav-btn[data-go="${viewName}"]`);
-  if(navbtn) navbtn.classList.add('active');
+  document.querySelector(`.view[data-view="${viewName}"]`)?.classList.add('active');
+  document.querySelector(`.nav-btn[data-go="${viewName}"]`)?.classList.add('active');
   window.scrollTo({top:0, behavior:'smooth'});
-  if(viewName === 'dizionario') renderDizionario();
   if(viewName === 'catalogo') renderCatalogo();
   if(viewName === 'lettura' && payload) apriCanzone(payload);
   if(viewName === 'quiz') avviaQuiz();
 }
-document.querySelectorAll('[data-go]').forEach(el=>{
-  el.addEventListener('click', ()=>vai(el.dataset.go));
-});
+document.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click', ()=>vai(el.dataset.go)));
+document.getElementById('cta-home').addEventListener('click', ()=>vai('catalogo'));
 
-/* ============================================================
-   UTILITY
-   ============================================================ */
 function fmtMS(s){
   s = Math.max(0, Math.floor(s||0));
   const m = Math.floor(s/60), r = s%60;
   return `${m}:${r.toString().padStart(2,'0')}`;
 }
-function aggiornaCounterTopbar(){
-  const n = Object.keys(DIZ).length;
-  const el = document.getElementById('diz-count');
-  el.textContent = n;
-}
-function bumpCounter(){
-  const el = document.getElementById('diz-count');
-  el.classList.remove('bump');
-  void el.offsetWidth;
-  el.classList.add('bump');
-  setTimeout(()=>el.classList.remove('bump'), 400);
-}
 
-/* ============================================================
-   DIZIONARIO (HOME)
-   ============================================================ */
-let filtroDiz = 'recent';
-
-function renderDizionario(){
-  const tot = Object.keys(DIZ).length;
-  const tutte = Object.entries(DIZ);
-  const padr = tutte.filter(([,v])=>v.stato==='padroneggiata').length;
-  const canzExpl = new Set(tutte.map(([,v])=>v.canzoneId)).size;
-
-  // counter card
-  const numEl = document.getElementById('dcc-num');
-  numEl.textContent = tot;
-  numEl.classList.toggle('has-words', tot > 0);
-
-  const barWrap = document.getElementById('dcc-bar-wrap');
-  if(tot > 0){
-    barWrap.style.display = '';
-    document.getElementById('dcc-padr').textContent = padr;
-    document.getElementById('dcc-tot').textContent = tot;
-    document.getElementById('dcc-bar-fill').style.width = ((padr/tot)*100) + '%';
-  } else {
-    barWrap.style.display = 'none';
-  }
-
-  // hero text adattivo
-  const eyebrow = document.getElementById('hero-eyebrow');
-  const sub = document.getElementById('hero-sub');
-  if(tot === 0){
-    eyebrow.textContent = 'inizia da qui';
-    sub.textContent = 'Apri il Catalogo, scegli una canzone, ascolta. Le parole che ti colpiscono finiscono qui dentro: prima incontrate, poi padroneggiate dopo il quiz. Da quel momento sono tue.';
-  } else {
-    eyebrow.textContent = `${tot} parol${tot===1?'a':'e'} · ${canzExpl} canzon${canzExpl===1?'e':'i'}`;
-    sub.textContent = 'Le parole che hai raccolto. Quelle con la stella le hai padroneggiate al quiz: usale quando scrivi e quando parli, e diventeranno tue per davvero.';
-  }
-
-  // filters
-  const filtersEl = document.getElementById('diz-filters');
-  filtersEl.style.display = tot > 0 ? '' : 'none';
-  document.getElementById('f-padr').textContent = padr;
-
-  // content
-  const content = document.getElementById('diz-content');
-  if(tot === 0){
-    content.innerHTML = `
-      <div class="empty-shell">
-        <div class="empty-words">
-          <span class="empty-word">fragrante</span>
-          <span class="empty-word">supplica</span>
-          <span class="empty-word">stagnante</span>
-          <span class="empty-word">tradizione</span>
-          <span class="empty-word">colombo</span>
-          <span class="empty-word">prudenza</span>
-          <span class="empty-word">collina</span>
-          <span class="empty-word">saggezza</span>
-        </div>
-        <h2>Il tuo dizionario è ancora vuoto.</h2>
-        <p>Ti aspettano dodici parole nella prima canzone. Mettiti le cuffie e scegli quelle che ti piacciono.</p>
-        <button class="btn-cta" data-go="catalogo">
-          <svg><use href="#i-grid"/></svg> Apri il catalogo
-        </button>
-      </div>
-    `;
-    content.querySelector('[data-go]').addEventListener('click', ()=>vai('catalogo'));
-    return;
-  }
-
-  // ordina secondo filtro
-  let arr = tutte.slice();
-  if(filtroDiz === 'padr') arr = arr.filter(([,v])=>v.stato==='padroneggiata');
-  if(filtroDiz === 'alfa') arr.sort((a,b)=>a[1].lemma.localeCompare(b[1].lemma,'it'));
-  else arr.sort((a,b)=>b[1].dataIncontro - a[1].dataIncontro);
-
-  if(arr.length === 0){
-    content.innerHTML = `<div class="empty-shell"><p>Ancora nessuna parola padroneggiata. Fai il quiz su una canzone per riempire questa sezione con le stelle.</p></div>`;
-    return;
-  }
-
-  content.innerHTML = `<div class="diz-grid">${
-    arr.map(([id, v]) => `
-      <div class="diz-card ${v.stato==='padroneggiata'?'padr':''}">
-        <div class="diz-card-tag"><svg><use href="#i-stella"/></svg> padroneggiata</div>
-        <div class="diz-card-lemma">${v.lemma}</div>
-        <div class="diz-card-cat">${v.cat}</div>
-        <div class="diz-card-def">${v.def}</div>
-        <div class="diz-card-fonte">
-          <svg><use href="#i-nota"/></svg>
-          da <em>${v.canzoneTit}</em>
-        </div>
-      </div>
-    `).join('')
-  }</div>`;
-}
-
-document.querySelectorAll('.diz-filter').forEach(b=>{
-  b.addEventListener('click', ()=>{
-    filtroDiz = b.dataset.filter;
-    document.querySelectorAll('.diz-filter').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    renderDizionario();
-  });
-});
-
-/* ============================================================
-   CATALOGO
-   ============================================================ */
 function renderCatalogo(){
   const grid = document.getElementById('tracce-grid');
   grid.innerHTML = CANZONI.map((c, i) => {
-    const completata = CANZSTAT[c.id]?.completata;
     const liv = [1,2,3].map(n => `<span class="${n<=c.livello?'on':''}"></span>`).join('');
     return `
-      <div class="traccia ${completata?'completata':''}" data-id="${c.id}">
-        <div class="traccia-stato"><svg><use href="#i-tick"/></svg></div>
+      <div class="traccia" data-id="${c.id}">
         <div class="traccia-cover">${coverSVG(c.coverLetter, c.coverPalette)}</div>
         <div>
           <div class="traccia-eyebrow">
@@ -1532,22 +1377,21 @@ function renderCatalogo(){
   });
 }
 
-/* ============================================================
-   LETTURA
-   ============================================================ */
 function apriCanzone(canzoneId){
   const c = CANZONI.find(x => x.id === canzoneId);
   if(!c) return;
   canzoneCorrente = c;
   document.getElementById('cover-host').innerHTML = coverSVG(c.coverLetter, c.coverPalette);
   document.getElementById('p-eyebrow-txt').textContent = `${c.album?c.album+' · ':''}${c.anno}`;
-  document.getElementById('p-title').innerHTML = c.titolo.replace(/(dei ciliegi)/i, '<em>dei ciliegi</em>');
+  document.getElementById('p-title').textContent = c.titolo;
   document.getElementById('p-artist').textContent = `${c.artista} · ${c.autore}`;
   document.getElementById('p-time-tot').textContent = fmtMS(c.durata);
   caricaPlayerYT(c.youtubeId);
   renderGlossario(c);
   resetParolaCorrente();
   document.getElementById('btn-quiz').disabled = false;
+  isPlaying = false;
+  setPlayIcon(false);
 }
 
 let ytReady = false;
@@ -1559,16 +1403,20 @@ function loadYTApi(cb){
   window.onYouTubeIframeAPIReady = ()=>{ ytReady = true; cb(); };
 }
 function caricaPlayerYT(videoId){
-  const host = document.getElementById('player-iframe-host');
+  const host = document.getElementById('yt-host');
   host.innerHTML = '<div id="yt-player"></div>';
   if(pollInterval) clearInterval(pollInterval);
   loadYTApi(() => {
     if(player){ try{ player.destroy(); }catch(e){} player = null; }
     player = new YT.Player('yt-player', {
-      videoId,
-      playerVars: { rel:0, modestbranding:1, playsinline:1, enablejsapi:1 },
+      videoId, width:1, height:1,
+      playerVars: { rel:0, modestbranding:1, playsinline:1, enablejsapi:1, controls:0 },
       events: {
-        onReady: () => { pollInterval = setInterval(tickPlayer, 250); }
+        onReady: () => { pollInterval = setInterval(tickPlayer, 250); },
+        onStateChange: e => {
+          if(e.data === 1){ isPlaying = true; setPlayIcon(true); }
+          else if(e.data === 2 || e.data === 0){ isPlaying = false; setPlayIcon(false); }
+        }
       }
     });
   });
@@ -1586,9 +1434,7 @@ function tickPlayer(){
 function trovaParolaAttiva(t, parole){
   const ord = [...parole].sort((a,b)=>a.time-b.time);
   let curr = null;
-  for(const p of ord){
-    if(p.time <= t && t - p.time < 8) curr = p;
-  }
+  for(const p of ord){ if(p.time <= t && t - p.time < 8) curr = p; }
   return curr;
 }
 let lastAttiva = null;
@@ -1598,75 +1444,80 @@ function attivaParola(p){
   document.querySelectorAll('.parola').forEach(el=>el.classList.remove('attiva'));
   const pcWrap = document.getElementById('parola-corrente');
   const pcLemma = document.getElementById('pc-lemma');
+  const pcCat = document.getElementById('pc-cat');
   if(!p){
     pcWrap.classList.add('idle'); pcWrap.classList.remove('active');
-    pcLemma.textContent = 'in ascolto…';
+    pcLemma.textContent = isPlaying ? 'in ascolto…' : 'premi play e ascolta';
+    pcCat.textContent = '';
     return;
   }
-  pcWrap.classList.remove('idle');
-  pcWrap.classList.add('active');
+  pcWrap.classList.remove('idle'); pcWrap.classList.add('active');
   pcLemma.textContent = p.lemma;
+  pcCat.textContent = p.cat;
   const el = document.querySelector(`.parola[data-id="${p.id}"]`);
-  if(el){
-    el.classList.add('attiva');
-    el.scrollIntoView({behavior:'smooth', block:'center'});
-  }
+  if(el){ el.classList.add('attiva'); el.scrollIntoView({behavior:'smooth', block:'center'}); }
 }
 function resetParolaCorrente(){
   lastAttiva = null;
   const pc = document.getElementById('parola-corrente');
   pc.classList.add('idle'); pc.classList.remove('active');
-  document.getElementById('pc-lemma').textContent = 'in ascolto…';
+  document.getElementById('pc-lemma').textContent = 'premi play e ascolta';
+  document.getElementById('pc-cat').textContent = '';
 }
+function setPlayIcon(playing){
+  const ic = document.getElementById('play-icon');
+  ic.innerHTML = `<use href="${playing?'#i-pause':'#i-play'}"/>`;
+}
+document.getElementById('btn-play').addEventListener('click', ()=>{
+  if(!player || !player.playVideo) return;
+  if(isPlaying){ player.pauseVideo(); } else { player.playVideo(); }
+});
+document.getElementById('btn-stop').addEventListener('click', ()=>{
+  if(!player || !player.stopVideo) return;
+  player.pauseVideo(); player.seekTo(0, true);
+  setTimeout(()=>{
+    document.getElementById('p-time-cur').textContent = '0:00';
+    document.getElementById('p-progress-fill').style.width = '0%';
+    resetParolaCorrente();
+  }, 100);
+});
+document.getElementById('btn-restart').addEventListener('click', ()=>{
+  if(!player || !player.seekTo) return;
+  player.seekTo(0, true); player.playVideo();
+});
+document.getElementById('p-progress').addEventListener('click', e=>{
+  if(!player || !player.seekTo) return;
+  const r = e.currentTarget.getBoundingClientRect();
+  const ratio = (e.clientX - r.left) / r.width;
+  const d = player.getDuration() || canzoneCorrente.durata;
+  player.seekTo(d * ratio, true);
+});
 
-/* ============================================================
-   GLOSSARIO
-   ============================================================ */
 function renderGlossario(c){
   const lista = document.getElementById('glossario-list');
   const ordinate = [...c.parole].sort((a,b)=>a.time-b.time);
-  lista.innerHTML = ordinate.map(p => {
-    const inDiz = DIZ[p.id];
-    const padr = inDiz?.stato === 'padroneggiata';
-    return `
-      <div class="parola ${inDiz?'in-dizionario':''} ${padr?'padroneggiata':''}" data-id="${p.id}">
-        <button class="parola-head" type="button">
-          <span class="parola-time">${fmtMS(p.time)}</span>
-          <span class="parola-lemma">${p.lemma}</span>
-          <span class="parola-cat">${p.cat}</span>
-          <span class="parola-toggle"><svg><use href="#i-down"/></svg></span>
-        </button>
-        <div class="parola-body">
-          ${p.reg?`<div class="scheda-registro">${p.reg}</div>`:''}
-          <div class="scheda-row"><div class="scheda-lbl">Definizione</div><div class="scheda-def">${p.def}</div></div>
-          <div class="scheda-row"><div class="scheda-lbl">Etimologia</div><div class="scheda-etim">${p.etim}</div></div>
-          ${p.fam?`<div class="scheda-row"><div class="scheda-lbl">Famiglia</div><div class="scheda-fam">${p.fam}</div></div>`:''}
-          ${p.syn?`<div class="scheda-row"><div class="scheda-lbl">Sinonimi${p.ant?' · contrari':''}</div><div class="scheda-syn"><strong>≈</strong> ${p.syn}${p.ant?` · <strong>≠</strong> ${p.ant}`:''}</div></div>`:''}
-          <div class="scheda-row"><div class="scheda-lbl">In una frase</div><div class="scheda-ex">${p.ex}</div></div>
-          ${p.curio?`<div class="scheda-row"><div class="scheda-lbl">Curiosità</div><div class="scheda-curio">${p.curio}</div></div>`:''}
-          <div class="scheda-add">
-            <button class="btn-add" type="button" data-add="${p.id}">
-              <svg><use href="#i-plus"/></svg><span class="btn-add-txt"><span>Aggiungi al dizionario</span></span>
-            </button>
-          </div>
-        </div>
+  lista.innerHTML = ordinate.map(p => `
+    <div class="parola" data-id="${p.id}">
+      <button class="parola-head" type="button">
+        <span class="parola-time">${fmtMS(p.time)}</span>
+        <span class="parola-lemma">${p.lemma}</span>
+        <span class="parola-cat">${p.cat}</span>
+        <span class="parola-toggle"><svg><use href="#i-down"/></svg></span>
+      </button>
+      <div class="parola-body">
+        ${p.reg?`<div class="scheda-registro">${p.reg}</div>`:''}
+        <div class="scheda-row"><div class="scheda-lbl">Definizione</div><div class="scheda-def">${p.def}</div></div>
+        <div class="scheda-row"><div class="scheda-lbl">Etimologia</div><div class="scheda-etim">${p.etim}</div></div>
+        ${p.fam?`<div class="scheda-row"><div class="scheda-lbl">Famiglia</div><div class="scheda-fam">${p.fam}</div></div>`:''}
+        ${p.syn?`<div class="scheda-row"><div class="scheda-lbl">Sinonimi${p.ant?' · contrari':''}</div><div class="scheda-syn"><strong>≈</strong> ${p.syn}${p.ant?` · <strong>≠</strong> ${p.ant}`:''}</div></div>`:''}
+        <div class="scheda-row"><div class="scheda-lbl">In una frase</div><div class="scheda-ex">${p.ex}</div></div>
+        ${p.curio?`<div class="scheda-row"><div class="scheda-lbl">Curiosità</div><div class="scheda-curio">${p.curio}</div></div>`:''}
       </div>
-    `;
-  }).join('');
-
+    </div>
+  `).join('');
   lista.querySelectorAll('.parola-head').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      btn.closest('.parola').classList.toggle('aperta');
-      aggiornaContatoreEsplorate();
-    });
+    btn.addEventListener('click', ()=>{ btn.closest('.parola').classList.toggle('aperta'); aggiornaContatoreEsplorate(); });
   });
-  lista.querySelectorAll('[data-add]').forEach(btn=>{
-    btn.addEventListener('click', e=>{
-      e.stopPropagation();
-      aggiungiAlDizionario(btn.dataset.add, c.id, btn);
-    });
-  });
-
   document.getElementById('btn-tutte').onclick = ()=>{
     const tutte = lista.querySelectorAll('.parola');
     const aperte = lista.querySelectorAll('.parola.aperta').length;
@@ -1676,7 +1527,6 @@ function renderGlossario(c){
   };
   document.getElementById('btn-quiz').onclick = ()=>vai('quiz');
   document.getElementById('quiz-back').onclick = ()=>vai('lettura', canzoneCorrente.id);
-
   aggiornaContatoreEsplorate();
 }
 function aggiornaContatoreEsplorate(){
@@ -1686,62 +1536,14 @@ function aggiornaContatoreEsplorate(){
   document.getElementById('g-counter').textContent = `${aperte} / ${tot} esplorate`;
 }
 
-/* ============================================================
-   AGGIUNGI AL DIZIONARIO + ANIMAZIONE
-   ============================================================ */
-function aggiungiAlDizionario(parolaId, canzoneId, btn){
-  const c = CANZONI.find(x => x.id === canzoneId);
-  const p = c.parole.find(x => x.id === parolaId);
-  if(!p) return;
-  if(DIZ[parolaId]) return;
-  DIZ[parolaId] = {
-    stato:'incontrata',
-    canzoneId,
-    canzoneTit:c.titolo,
-    lemma:p.lemma, cat:p.cat, def:p.def,
-    dataIncontro: Date.now()
-  };
-  salvaDiz();
-  document.querySelector(`.parola[data-id="${parolaId}"]`)?.classList.add('in-dizionario');
-  // animazione "vola"
-  if(btn){
-    const r = btn.getBoundingClientRect();
-    const float = document.createElement('div');
-    float.className = 'float-bit';
-    float.textContent = p.lemma;
-    float.style.left = (r.left + r.width/2 - 60) + 'px';
-    float.style.top  = (r.top - 20) + 'px';
-    document.body.appendChild(float);
-    setTimeout(()=>float.remove(), 1400);
-  }
-  mostraToast(`<em>${p.lemma}</em> nel tuo dizionario`);
-  bumpCounter();
-  aggiornaCounterTopbar();
-}
-
-/* ============================================================
-   TOAST
-   ============================================================ */
-function mostraToast(html, padroneggiata=false){
-  const wrap = document.getElementById('toast-wrap');
-  const t = document.createElement('div');
-  t.className = 'toast' + (padroneggiata?' padr':'');
-  t.innerHTML = `<span class="toast-icon"><svg><use href="${padroneggiata?'#i-stella':'#i-tick'}"/></svg></span> ${html}`;
-  wrap.appendChild(t);
-  setTimeout(()=>t.remove(), 3200);
-}
-
-/* ============================================================
-   QUIZ
-   ============================================================ */
-let quizState = null;
 function avviaQuiz(){
   if(!canzoneCorrente) return;
+  if(player && player.pauseVideo) player.pauseVideo();
   const parole = canzoneCorrente.parole;
   const N = Math.min(5, parole.length);
   const pool = [...parole].sort(()=>Math.random()-0.5).slice(0, N);
   const domande = pool.map(p => generaDomanda(p, parole));
-  quizState = { domande, idx:0, risposte:[], canzoneId: canzoneCorrente.id };
+  quizState = { domande, idx:0, risposte:[] };
   renderQuiz();
 }
 function generaDomanda(parola, tutte){
@@ -1774,9 +1576,7 @@ function generaDomanda(parola, tutte){
 }
 function renderQuiz(){
   const shell = document.getElementById('quiz-shell');
-  if(quizState.idx >= quizState.domande.length){
-    return renderQuizFine();
-  }
+  if(quizState.idx >= quizState.domande.length){ return renderQuizFine(); }
   const d = quizState.domande[quizState.idx];
   const tot = quizState.domande.length;
   shell.innerHTML = `
@@ -1784,7 +1584,7 @@ function renderQuiz(){
       <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${(quizState.idx/tot)*100}%"></div></div>
       <div class="quiz-progress-num">${quizState.idx+1} / ${tot}</div>
     </div>
-    <div class="quiz-eyebrow">prova lessicale · ${canzoneCorrente.titolo}</div>
+    <div class="quiz-eyebrow">test finale · ${canzoneCorrente.titolo}</div>
     <div class="quiz-q">${d.q}</div>
     ${d.sub ? `<div class="quiz-sub">${d.sub}</div>` : ''}
     <div class="quiz-options" id="qopts">
@@ -1793,13 +1593,8 @@ function renderQuiz(){
     <div class="quiz-feedback" id="qfb"></div>
     <button class="quiz-next" id="qnext">${quizState.idx+1 === tot ? 'Vedi il bilancio' : 'Prossima domanda'} →</button>
   `;
-  shell.querySelectorAll('.quiz-opt').forEach(b=>{
-    b.addEventListener('click', ()=>rispondi(b.dataset.id, d));
-  });
-  document.getElementById('qnext').onclick = ()=>{
-    quizState.idx++;
-    renderQuiz();
-  };
+  shell.querySelectorAll('.quiz-opt').forEach(b=>b.addEventListener('click', ()=>rispondi(b.dataset.id, d)));
+  document.getElementById('qnext').onclick = ()=>{ quizState.idx++; renderQuiz(); };
 }
 function rispondi(idScelto, d){
   const corretta = idScelto === d.giusta;
@@ -1818,61 +1613,31 @@ function renderQuizFine(){
   const shell = document.getElementById('quiz-shell');
   const giuste = quizState.risposte.filter(r=>r.corretta).length;
   const tot = quizState.risposte.length;
-  let nuovePadr = 0;
-  quizState.risposte.forEach(r=>{
-    if(r.corretta){
-      const parola = canzoneCorrente.parole.find(p=>p.id===r.parolaId);
-      if(!DIZ[r.parolaId]){
-        DIZ[r.parolaId] = {
-          stato:'padroneggiata',
-          canzoneId: canzoneCorrente.id,
-          canzoneTit: canzoneCorrente.titolo,
-          lemma: parola.lemma, cat: parola.cat, def: parola.def,
-          dataIncontro: Date.now()
-        };
-        nuovePadr++;
-      } else if(DIZ[r.parolaId].stato !== 'padroneggiata'){
-        DIZ[r.parolaId].stato = 'padroneggiata';
-        nuovePadr++;
-      }
-    }
-  });
-  salvaDiz();
-  if(giuste >= Math.ceil(tot*0.6)){
-    CANZSTAT[canzoneCorrente.id] = { completata:true };
-    salvaCanz();
-  }
-  aggiornaCounterTopbar();
-
   let messaggio;
-  if(giuste === tot) messaggio = 'Ineccepibile. Queste parole sono ufficialmente tue.';
-  else if(giuste >= tot*0.6) messaggio = 'Le parole padroneggiate hanno la stella nel tuo dizionario.';
-  else messaggio = 'Riascolta la canzone e riprova: queste parole meritano un altro giro.';
-
+  if(giuste === tot) messaggio = 'Ineccepibile. Hai compreso tutte le parole della canzone.';
+  else if(giuste >= tot*0.6) messaggio = 'Buon lavoro. Le parole che hai sbagliato meritano un secondo ascolto.';
+  else messaggio = 'Riascolta la canzone con calma e riprova: queste parole hanno bisogno di un altro giro.';
   const bilancio = quizState.risposte.map(r=>{
     const p = canzoneCorrente.parole.find(x=>x.id===r.parolaId);
     return `
       <div class="bilancio-riga">
         <div class="bilancio-lemma">${p.lemma}</div>
-        <div class="bilancio-tag ${r.corretta?'ok':'ko'}">${r.corretta?'★ padroneggiata':'da rivedere'}</div>
+        <div class="bilancio-tag ${r.corretta?'ok':'ko'}">${r.corretta?'compresa':'da rivedere'}</div>
       </div>
     `;
   }).join('');
-
   shell.innerHTML = `
     <div class="quiz-fine">
       <div class="quiz-fine-num">${giuste}<span class="tot">/${tot}</span></div>
-      <h2>${nuovePadr>0 ? `<em>${nuovePadr}</em> nuov${nuovePadr===1?'a':'e'} parol${nuovePadr===1?'a':'e'} con la stella` : 'Bilancio della prova'}</h2>
+      <h2>${giuste === tot ? '<em>Tutte</em> comprese' : `<em>${giuste}</em> parol${giuste===1?'a':'e'} su ${tot}`}</h2>
       <p>${messaggio}</p>
       <div class="quiz-fine-actions">
-        <button class="btn-cta" data-go="dizionario">
-          <svg><use href="#i-libro"/></svg> Vai al mio dizionario
-        </button>
-        <button class="btn-ghost" id="rifai-quiz">Rifai la prova</button>
-        <button class="btn-ghost" id="torna-canzone">Torna alla canzone</button>
+        <button class="btn-cta-big" id="rifai-quiz"><svg><use href="#i-trofeo"/></svg> Rifai il test</button>
+        <button class="btn-secondary" id="torna-canzone">Torna alla canzone</button>
+        <button class="btn-secondary" data-go="catalogo">Prova un'altra canzone</button>
       </div>
       <div class="quiz-fine-bilancio">
-        <div class="quiz-fine-bilancio-title">Bilancio</div>
+        <div class="quiz-fine-bilancio-title">Bilancio della canzone</div>
         ${bilancio}
       </div>
     </div>
@@ -1880,18 +1645,9 @@ function renderQuizFine(){
   shell.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>vai(b.dataset.go)));
   document.getElementById('rifai-quiz').onclick = avviaQuiz;
   document.getElementById('torna-canzone').onclick = ()=>vai('lettura', canzoneCorrente.id);
-
-  if(nuovePadr > 0){
-    setTimeout(()=>mostraToast(`<em>+${nuovePadr}</em> nel tuo dizionario`, true), 400);
-  }
 }
 
-/* ============================================================
-   BOOT
-   ============================================================ */
-renderDizionario();
-aggiornaCounterTopbar();
-document.querySelector('.nav-btn[data-go="dizionario"]').classList.add('active');
+renderCatalogo();
 </script>
 </body>
 </html>
