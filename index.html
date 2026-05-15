@@ -668,6 +668,200 @@ body.home-active .topbar{display:none}
   background-size:contain;background-repeat:no-repeat;background-position:center;
 }
 
+/* DIZIONARIO ============================================== */
+.diz-head{
+  display:flex;align-items:flex-end;justify-content:space-between;gap:32px;
+  padding:48px 0 32px;border-bottom:1px solid var(--border);margin-bottom:32px;
+}
+.diz-head h1{font-size:64px;line-height:1;margin:0 0 12px;letter-spacing:-0.02em;font-weight:800}
+.diz-head h1 em{font-style:italic;color:var(--accent)}
+.diz-head p{margin:0;color:var(--ink-soft);max-width:520px;font-size:16px;line-height:1.5}
+.diz-stats{display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:13px;color:var(--ink-soft)}
+.diz-stats b{font-size:32px;color:var(--accent);font-weight:700;line-height:1}
+
+.diz-tabs{display:flex;gap:8px;margin-bottom:24px;border-bottom:1px solid var(--border)}
+.diz-tab{
+  background:transparent;border:none;padding:14px 24px;font-size:15px;font-weight:600;color:var(--ink-soft);
+  cursor:pointer;border-bottom:3px solid transparent;display:flex;align-items:center;gap:10px;
+  font-family:inherit;transition:all .2s;
+}
+.diz-tab svg{width:18px;height:18px;fill:currentColor}
+.diz-tab:hover{color:var(--ink)}
+.diz-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+.diz-panel{display:none}
+.diz-panel.active{display:block}
+
+/* Filtri */
+.diz-filters{margin-bottom:24px}
+.diz-search-wrap{position:relative;margin-bottom:14px}
+.diz-search{
+  width:100%;padding:16px 22px;font-size:17px;font-family:inherit;
+  background:var(--surface);border:2px solid var(--border);border-radius:14px;
+  color:var(--ink);outline:none;transition:border-color .15s;
+}
+.diz-search:focus{border-color:var(--accent)}
+.diz-filter-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.diz-select{
+  flex:1;min-width:200px;padding:11px 16px;font-size:14px;font-family:inherit;
+  background:var(--surface);border:1.5px solid var(--border);border-radius:10px;
+  color:var(--ink);cursor:pointer;outline:none;
+}
+.diz-select:focus{border-color:var(--accent)}
+.diz-clear{
+  padding:11px 18px;background:transparent;border:1.5px solid var(--border);border-radius:10px;
+  font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;color:var(--ink-soft);
+}
+.diz-clear:hover{border-color:var(--accent);color:var(--accent)}
+
+/* Nav A-Z */
+.diz-az-nav{
+  display:flex;gap:4px;flex-wrap:wrap;margin-bottom:24px;
+  padding:14px;background:var(--surface-soft);border-radius:14px;
+  justify-content:center;
+}
+.diz-az-letter{
+  min-width:32px;height:32px;display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;border:none;border-radius:8px;font-family:inherit;font-size:14px;font-weight:700;
+  color:var(--ink-soft);cursor:pointer;transition:all .15s;
+}
+.diz-az-letter:hover{background:var(--surface);color:var(--accent)}
+.diz-az-letter.has-words{color:var(--accent)}
+.diz-az-letter:disabled{color:#ccc;cursor:default}
+
+/* Grid parole */
+.diz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.diz-card{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:14px;
+  padding:18px 20px;cursor:pointer;transition:all .15s;position:relative;
+  display:flex;flex-direction:column;gap:6px;
+}
+.diz-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,0.06)}
+.diz-card-lemma{font-size:22px;font-weight:700;color:var(--ink);font-family:'Bricolage Grotesque', sans-serif}
+.diz-card-cat{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.05em;font-weight:600}
+.diz-card-canzone{font-size:13px;color:var(--accent);font-style:italic;margin-top:auto;padding-top:8px;border-top:1px solid var(--border)}
+.diz-card-badges{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.diz-card-badge{
+  display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:6px;
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;
+}
+.diz-card-badge.anglicismo{background:#D6ECFA;color:#0F4C75}
+.diz-card-badge.retorica{background:#E8D9F2;color:#3F2A6E}
+.diz-card-badge.trappola{background:#FFE5A0;color:#7A4F00}
+.diz-card-badge.gergale{background:#D7E8C8;color:#3A5520}
+.diz-card-badge.nomeproprio{background:#F5D6E3;color:#7A2D4D}
+
+.diz-empty{padding:48px;text-align:center;color:var(--ink-soft);font-size:15px}
+
+/* Modal scheda parola */
+.diz-modal-bg{
+  position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;
+  display:flex;align-items:center;justify-content:center;padding:24px;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.diz-modal-bg.active{opacity:1;pointer-events:all}
+.diz-modal{
+  background:var(--surface);border-radius:24px;max-width:680px;width:100%;
+  max-height:88vh;overflow-y:auto;padding:36px 40px;position:relative;
+  transform:scale(0.96);transition:transform .2s;
+}
+.diz-modal-bg.active .diz-modal{transform:scale(1)}
+.diz-modal-close{
+  position:absolute;top:16px;right:16px;width:38px;height:38px;
+  background:var(--surface-soft);border:none;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--ink-soft);
+}
+.diz-modal-close:hover{background:var(--accent);color:white}
+.diz-modal-lemma{font-size:42px;font-weight:800;line-height:1.05;margin:0 0 4px;font-family:'Bricolage Grotesque',sans-serif}
+.diz-modal-cat{font-size:13px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;margin-bottom:18px}
+.diz-modal-canzone{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 14px;
+  background:var(--surface-soft);border-radius:10px;margin-bottom:20px;font-size:13px;
+}
+.diz-modal-canzone em{font-style:italic;color:var(--accent);font-weight:600;font-style:normal}
+.diz-modal-section{margin-bottom:18px}
+.diz-modal-section h4{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--ink-soft);margin:0 0 8px;font-weight:700}
+.diz-modal-section p{margin:0;line-height:1.55;color:var(--ink);font-size:15px}
+
+/* Sezione PROVA */
+.diz-prova-shell{max-width:680px;margin:0 auto}
+.diz-prova-intro{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:24px;
+  padding:48px;text-align:center;
+}
+.diz-prova-intro h2{font-size:34px;margin:0 0 12px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-0.01em}
+.diz-prova-intro p{margin:0 0 28px;color:var(--ink-soft);line-height:1.55;max-width:480px;margin-left:auto;margin-right:auto}
+.diz-prova-start{
+  padding:18px 36px;background:var(--accent);color:white;border:none;border-radius:14px;
+  font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;
+}
+.diz-prova-start:hover{background:#0c2d70}
+
+.diz-prova-question{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:24px;padding:36px 40px;
+}
+.diz-prova-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;font-size:13px;color:var(--ink-soft)}
+.diz-prova-meta-score{font-weight:700;color:var(--accent)}
+.diz-prova-progress{
+  height:6px;background:var(--surface-soft);border-radius:6px;margin-bottom:28px;overflow:hidden;
+}
+.diz-prova-progress-bar{height:100%;background:var(--accent);transition:width .3s}
+.diz-prova-type{
+  display:inline-block;padding:5px 12px;border-radius:6px;background:var(--surface-soft);
+  font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-soft);font-weight:700;margin-bottom:16px;
+}
+.diz-prova-prompt{font-size:22px;line-height:1.4;margin:0 0 28px;font-weight:600}
+.diz-prova-prompt em{font-style:italic;color:var(--accent);font-weight:700}
+.diz-prova-prompt .blank{
+  display:inline-block;min-width:120px;border-bottom:3px solid var(--accent);
+  margin:0 4px;padding:0 6px;color:transparent;
+}
+.diz-prova-options{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.diz-prova-option{
+  padding:14px 18px;background:var(--surface-soft);border:2px solid transparent;border-radius:12px;
+  font-family:inherit;font-size:15px;cursor:pointer;text-align:left;color:var(--ink);
+  transition:all .15s;line-height:1.4;
+}
+.diz-prova-option:hover{border-color:var(--accent);background:white}
+.diz-prova-option.correct{background:#D7E8C8;border-color:#5BA86C;color:#1F4D2E;cursor:default}
+.diz-prova-option.wrong{background:#FFE5A0;border-color:#D49B30;color:#7A4F00;cursor:default}
+.diz-prova-option.disabled{pointer-events:none;opacity:0.6}
+.diz-prova-feedback{
+  padding:18px 20px;background:var(--surface-soft);border-radius:12px;margin-bottom:20px;
+  display:none;line-height:1.55;
+}
+.diz-prova-feedback.show{display:block}
+.diz-prova-feedback.ok{background:#E8F2DD;border-left:4px solid #5BA86C}
+.diz-prova-feedback.ko{background:#FFF3D6;border-left:4px solid #D49B30}
+.diz-prova-feedback strong{display:block;margin-bottom:6px;color:var(--ink)}
+.diz-prova-next{
+  padding:14px 28px;background:var(--accent);color:white;border:none;border-radius:12px;
+  font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;display:block;margin-left:auto;
+}
+.diz-prova-next:hover{background:#0c2d70}
+
+.diz-prova-end{
+  background:var(--surface);border:1.5px solid var(--border);border-radius:24px;padding:48px;text-align:center;
+}
+.diz-prova-end-score{font-size:72px;font-weight:800;color:var(--accent);line-height:1;margin-bottom:6px;font-family:'Bricolage Grotesque',sans-serif}
+.diz-prova-end-of{font-size:14px;color:var(--ink-soft);margin-bottom:24px}
+.diz-prova-end-msg{font-size:18px;line-height:1.5;margin-bottom:28px;font-weight:600}
+.diz-prova-end-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.diz-prova-end-buttons button{
+  padding:14px 24px;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;
+}
+.diz-prova-end-buttons .primary{background:var(--accent);color:white}
+.diz-prova-end-buttons .secondary{background:var(--surface-soft);color:var(--ink)}
+
+@media(max-width:720px){
+  .diz-head{flex-direction:column;align-items:flex-start}
+  .diz-head h1{font-size:44px}
+  .diz-grid{grid-template-columns:1fr}
+  .diz-modal{padding:24px 22px}
+  .diz-modal-lemma{font-size:32px}
+  .diz-prova-question, .diz-prova-intro, .diz-prova-end{padding:28px 22px}
+}
+
 /* QUIZ */
 .quiz-shell{
   max-width:760px;margin:0 auto;
@@ -815,6 +1009,7 @@ body.home-active .footer{display:none}
     <nav class="nav">
       <button class="nav-btn active" data-go="home"><svg><use href="#i-home"/></svg>Home</button>
       <button class="nav-btn" data-go="catalogo"><svg><use href="#i-grid"/></svg>Catalogo</button>
+      <button class="nav-btn" data-go="dizionario"><svg><use href="#i-libro"/></svg>Dizionario</button>
     </nav>
   </div>
 </header>
@@ -838,6 +1033,7 @@ body.home-active .footer{display:none}
         <nav class="banner-nav">
           <button class="banner-nav-btn active" data-go="home"><svg><use href="#i-home"/></svg>Home</button>
           <button class="banner-nav-btn" data-go="catalogo"><svg><use href="#i-grid"/></svg>Catalogo</button>
+          <button class="banner-nav-btn" data-go="dizionario"><svg><use href="#i-libro"/></svg>Dizionario</button>
         </nav>
       </div>
     </div>
@@ -945,6 +1141,56 @@ body.home-active .footer{display:none}
   <div class="wrap">
     <button class="player-back" id="quiz-back"><svg><use href="#i-back"/></svg> Torna alla canzone</button>
     <div class="quiz-shell" id="quiz-shell"></div>
+  </div>
+</main>
+
+<main class="view" data-view="dizionario">
+  <div class="wrap">
+    <header class="diz-head">
+      <div>
+        <h1>Il <em>dizionario</em>.</h1>
+        <p>Tutte le parole imparate ascoltando. Sfogliale, cercale, mettiti alla prova.</p>
+      </div>
+      <div class="diz-stats" id="diz-stats"></div>
+    </header>
+
+    <div class="diz-tabs">
+      <button class="diz-tab active" data-tab="sfoglia"><svg><use href="#i-libro"/></svg> Sfoglia A–Z</button>
+      <button class="diz-tab" data-tab="prova"><svg><use href="#i-trofeo"/></svg> Mettiti alla prova</button>
+    </div>
+
+    <!-- TAB SFOGLIA -->
+    <section class="diz-panel active" data-panel="sfoglia">
+      <div class="diz-filters">
+        <div class="diz-search-wrap">
+          <input type="search" class="diz-search" id="diz-search" placeholder="Cerca una parola, una canzone, un significato..." />
+        </div>
+        <div class="diz-filter-row">
+          <select class="diz-select" id="diz-canzone">
+            <option value="">Tutte le canzoni</option>
+          </select>
+          <select class="diz-select" id="diz-badge">
+            <option value="">Tutte le categorie</option>
+            <option value="anglicismo">EN · Anglicismi</option>
+            <option value="retorica">Φ · Figure retoriche</option>
+            <option value="trappola">⚠ · Trappole digitali</option>
+            <option value="gergale">⚒ · Lessico tecnico</option>
+            <option value="nomeproprio">★ · Nomi propri</option>
+          </select>
+          <button class="diz-clear" id="diz-clear">Pulisci</button>
+        </div>
+      </div>
+      <div class="diz-az-nav" id="diz-az-nav"></div>
+      <div class="diz-grid" id="diz-grid"></div>
+      <div class="diz-empty" id="diz-empty" style="display:none">
+        Nessuna parola trovata con questi filtri.
+      </div>
+    </section>
+
+    <!-- TAB PROVA -->
+    <section class="diz-panel" data-panel="prova">
+      <div class="diz-prova-shell" id="diz-prova-shell"></div>
+    </section>
   </div>
 </main>
 
@@ -3366,6 +3612,860 @@ const CANZONI = [
         curio:'Curiosità etimologica: <strong>penetrare</strong> deriva da <em>penitus</em>, "dentro, profondamente". <strong>Impenetrabile</strong> = "in cui non si può entrare" — una persona <em>impenetrabile</em> è chi non si lascia capire. <strong>Penetrante</strong> in italiano si dice di uno sguardo, di un odore, di un suono che <em>arriva fino in fondo</em>. <strong>Modi di dire</strong>: <em>"penetrare il mistero"</em> = comprendere fino in fondo. Bellissima la metafora di Fossati: la musica come <em>forza che supera le difese</em>, che entra anche dove non c\'è porta.'
       }
     ]
+  },
+
+  {
+    id:'meravigliosa-creatura', titolo:'Meravigliosa creatura', artista:'Gianna Nannini', autore:'Mara Redeghieri · Gianna Nannini',
+    anno:1995, album:'Dispetto', durata:239, livello:2,
+    youtubeId:'_XAJNSyUWkE', coverPalette:'vecchioni', coverLetter:'G',
+    parole:[
+      { id:'mari', lemma:'mari', cat:'sostantivo · maschile plurale', time:29,
+        def:'Vasti spazi d\'acqua salata che ricoprono gran parte della Terra. In poesia: simbolo di immensità, di viaggio, di distanze da superare per amore.',
+        etim:'Dal latino <em>mare</em>, di origine indoeuropea. Stessa radice in tutte le lingue europee: francese <em>mer</em>, inglese <em>marine</em>, tedesco <em>Meer</em>, spagnolo <em>mar</em>. Una delle parole più condivise dell\'Europa antica.',
+        fam:'marino · marittimo · marina · mareggiata · oltremare · mariniera',
+        syn:'oceani, distese salate, acque',
+        ex:'Molti mari e fiumi attraverserò: l\'inizio è già una promessa epica, da cavaliere medievale.',
+        reg:'comune con uso poetico',
+        curio:'Bellissima immagine epica: il <em>"attraversare molti mari"</em> è un\'espressione classica della poesia amorosa. Ulisse attraversa il Mediterraneo per tornare a Penelope, Tristano e Isotta si cercano oltre il mare, gli innamorati nei romanzi medievali compiono viaggi marini per ritrovarsi. Quando Nannini canta <em>"molti mari attraverserò"</em>, sta evocando 3000 anni di letteratura europea — l\'amore come <em>impresa epica</em>.'
+      },
+      { id:'terra', lemma:'terra', cat:'sostantivo · femminile', time:37,
+        def:'1) Il pianeta su cui viviamo. 2) Suolo, superficie del mondo dove camminiamo. 3) Regione, paese natale ("la mia terra"). 4) In poesia: dimensione corporea contrapposta al cielo.',
+        etim:'Dal latino <em>terra</em>, di origine indoeuropea. Stessa radice di <em>terreno</em>, <em>territorio</em>, <em>terrestre</em>, e — sorpresa — di <em>tartufo</em> (tubero "della terra"!) e <em>interrare</em>.',
+        fam:'terreno · territorio · terrestre · terremoto · interrare · disterro · terrazza',
+        syn:'suolo, mondo, regione, paese',
+        ex:'Dentro la tua terra mi ritroverai: la "terra" qui è metafora del corpo dell\'altro, del suo intimo.',
+        reg:'comune con valore poetico',
+        curio:'Famiglia ricca dal latino <em>terra</em>: <strong>territorio</strong> ("ciò che appartiene alla terra"), <strong>terremoto</strong> ("movimento della terra"), <strong>terracotta</strong> (terra cotta nel forno), <strong>terraferma</strong> (terra stabile, opposta al mare). Sorpresa: <strong>tartufo</strong> deriva da <em>terrae tuber</em>, "tubero della terra" — quel fungo profumato che cresce sottoterra e che richiede cani addestrati per trovarlo. Anche il <strong>territorio</strong> di una pizzeria è suo "feudo" linguistico.'
+      },
+      { id:'ritrovare', lemma:'ritrovare', cat:'verbo · futuro semplice', time:39,
+        def:'1) Trovare di nuovo, recuperare ciò che si era perso. 2) Incontrare nuovamente dopo separazione. 3) Riscoprire dentro di sé qualcosa che si era dimenticato.',
+        etim:'Composto: <em>ri-</em> ("di nuovo") + <em>trovare</em>, dal latino tardo <em>tropare</em>, da <em>tropus</em> ("modo, espressione musicale"). Letteralmente: "trovare di nuovo, ripercorrere".',
+        fam:'trovare · trovata · ritrovamento · ritrovato · introvabile',
+        syn:'recuperare, riscoprire, rincontrare, riacquistare', ant:'perdere, smarrire, abbandonare',
+        ex:'Dentro la tua terra mi ritroverai: il viaggio dell\'amante è in fondo un <em>ritrovarsi</em>.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>trovare</strong> in origine non significava "scoprire per caso". Veniva dal latino tardo <em>tropare</em>, che era un termine <em>musicale</em>: "comporre, modulare". I <em>trovatori</em> medievali (in francese <em>troubadours</em>) erano i poeti-musicisti che <em>"trovavano"</em> versi e melodie. Da loro deriva il senso moderno di "trovare". Anche <em>"trovatello"</em> (il bambino abbandonato, "trovato") condivide la radice. In linguistica, "trovare" è la parola che è passata dal <em>creare arte</em> al <em>incontrare per caso</em>.'
+      },
+      { id:'turbini', lemma:'turbini', cat:'sostantivo · maschile plurale', time:43,
+        def:'1) Vortici di vento o di acqua che girano vorticosamente. 2) In senso figurato: agitazione interiore, confusione di emozioni ("turbini di pensieri").',
+        etim:'Dal latino <em>turbo, turbinis</em>, "trottola, movimento rotatorio", da <em>turbare</em> ("agitare"). Stessa radice di <em>turbare</em>, <em>turbolento</em>, <em>conturbante</em>, e — sorpresa — di <em>turbante</em> (il copricapo orientale, "ciò che si avvolge")!',
+        fam:'turbare · turbamento · turbolento · perturbare · turbante',
+        syn:'vortici, mulinelli, tornado, agitazione',
+        ex:'Turbini e tempeste io cavalcherò: le immagini più potenti della natura, evocate per dire "farei qualsiasi cosa".',
+        reg:'comune con uso letterario',
+        curio:'Sorpresa straordinaria: <strong>turbante</strong> (il copricapo arabo) deriva dalla stessa radice di <em>turbine</em>! Entrambi vengono dal latino <em>turbare</em>, "girare avvolgendo". Il turbante è letteralmente "<em>l\'avvolgimento</em>" del tessuto sulla testa. Anche <strong>turbolento</strong> (di una persona o di un volo aereo) = "che si agita", <strong>perturbare</strong> = "agitare attraverso". Tutta una famiglia che gira attorno all\'idea del <em>movimento vorticoso</em>.'
+      },
+      { id:'tempeste', lemma:'tempeste', cat:'sostantivo · femminile plurale', time:46,
+        def:'1) Forti perturbazioni atmosferiche con vento, pioggia, fulmini, mare agitato. 2) In senso figurato: momenti di grande agitazione, conflitti, eventi drammatici della vita.',
+        etim:'Dal latino <em>tempestas, tempestatis</em>, derivato di <em>tempus</em> ("tempo"). In origine significava semplicemente "tempo atmosferico" (anche bello), poi specificò il significato in "tempo violento".',
+        fam:'tempo · tempestoso · tempestare · contemporaneo · temporale',
+        syn:'bufere, uragani, perturbazioni, agitazioni', ant:'calma, bonaccia, serenità',
+        ex:'Turbini e tempeste io cavalcherò: il cavaliere romantico promette di affrontare l\'impossibile.',
+        reg:'comune con uso letterario',
+        curio:'Sorpresa etimologica: <strong>tempesta</strong> e <strong>tempo</strong> sono la stessa parola! In latino <em>tempestas</em> era semplicemente "lo stato del tempo": poteva essere <em>tempestas bona</em> ("buon tempo") o <em>tempestas mala</em> ("cattivo tempo"). Solo nelle lingue romanze ha preso il significato esclusivo di "cattivo tempo". <strong>Letteratura</strong>: <em>"La Tempesta"</em> è un\'opera teatrale di Shakespeare (1611) e un celebre dipinto di Giorgione (1508). Foscolo nei <em>Sepolcri</em> usa <em>"tempesta"</em> più volte come metafora dell\'esistenza umana.'
+      },
+      { id:'cavalcare', lemma:'cavalcare', cat:'verbo · futuro semplice', time:50,
+        def:'1) Andare a cavallo, montare e guidare un cavallo. 2) In senso figurato: dominare qualcosa di potente ("cavalcare l\'onda", "cavalcare la tigre").',
+        etim:'Dal latino tardo <em>caballicare</em>, da <em>caballus</em> ("cavallo da lavoro, ronzino"). Sorpresa: i Romani avevano due parole — <em>equus</em> (cavallo nobile) e <em>caballus</em> (cavallo comune, popolare). Le lingue romanze hanno scelto la parola popolare!',
+        fam:'cavallo · cavaliere · cavalleria · cavalcata · cavalcioni · cavalcavia',
+        syn:'andare a cavallo, montare; (figurato): dominare, governare',
+        ex:'Turbini e tempeste io cavalcherò: la promessa cavalleresca di domare le forze della natura.',
+        reg:'comune con uso epico',
+        curio:'<strong>Sorpresa lessicale</strong>: i Romani avevano due parole per "cavallo". <em>Equus</em> era il cavallo <strong>nobile</strong>, di razza, da guerra — usato nella poesia alta (Virgilio nell\'<em>Eneide</em>). <em>Caballus</em> era il cavallo <strong>comune</strong>, da lavoro, quasi spregiativo (un "ronzino"). Eppure tutte le lingue romanze hanno scelto la parola popolare: italiano <em>cavallo</em>, spagnolo <em>caballo</em>, francese <em>cheval</em>. È sopravvissuto il linguaggio del popolo, non quello dei poeti. Anche l\'inglese <em>cavalry</em> ("cavalleria") deriva da lì. E <strong>cavalcavia</strong> = "che cavalca la via", il ponte sopra la strada.'
+      },
+      { id:'fulmini', lemma:'fulmini', cat:'sostantivo · maschile plurale', time:53,
+        def:'Scariche elettriche atmosferiche, di solito durante un temporale. Si manifestano come lampi luminosi seguiti dal tuono. In senso figurato: eventi improvvisi e violenti.',
+        etim:'Dal latino <em>fulmen, fulminis</em>, da <em>fulgere</em> ("splendere, lampeggiare"). Stessa radice di <em>fulgore</em>, <em>fulgido</em>, <em>folgorare</em>, <em>folgore</em>.',
+        fam:'fulgore · fulgido · folgorare · folgore · fulminare · fulmineo',
+        syn:'saette, lampi, folgori',
+        ex:'Volerò tra i fulmini per averti: l\'iperbole massima del coraggio amoroso.',
+        reg:'comune con valore epico',
+        curio:'<strong>Mitologia</strong>: nell\'antica Roma, i <em>fulmini</em> erano armi di <strong>Giove</strong> (Zeus per i greci). Quando un fulmine colpiva un luogo, quel posto diventava <em>sacro</em>, segnato dalla divinità. Esisteva una scienza divinatoria chiamata <em>"fulguratura"</em>: i sacerdoti studiavano la direzione e l\'intensità dei fulmini per interpretare i messaggi degli dèi. <strong>Modi di dire</strong>: <em>"colpo di fulmine"</em> = innamoramento istantaneo, <em>"come un fulmine a ciel sereno"</em> = evento del tutto inaspettato. <strong>Italiano antico</strong>: <em>fulmineo</em> = velocissimo (un attacco fulmineo).'
+      },
+      { id:'meravigliosa', lemma:'meravigliosa', cat:'aggettivo · femminile (parola chiave)', time:57,
+        def:'Che desta meraviglia, stupore, ammirazione. Più di "bella": è qualcosa che ti fa <em>fermare a guardare</em>, che non si stanca di essere ammirato.',
+        etim:'Da <em>meraviglia</em>, dal latino <em>mirabilia</em>, "cose da ammirare", da <em>mirari</em> ("ammirare, guardare con stupore"). La radice <em>mir-</em> indica <strong>lo sguardo che si meraviglia</strong>.',
+        fam:'meraviglia · ammirare · miracolo · mirabile · mirino · specchio · mirare',
+        syn:'splendida, prodigiosa, magnifica, mirabile, stupefacente', ant:'ordinaria, comune, banale',
+        ex:'Meravigliosa creatura sei sola al mondo: la dichiarazione totale dell\'unicità dell\'amata.',
+        reg:'comune con uso letterario',
+        curio:'<strong>FAMIGLIA STRAORDINARIA</strong>: dalla radice latina <em>mir-</em> ("guardare con stupore") nasce un\'intera galassia di parole italiane: <strong>meraviglia</strong> (lo stupore stesso), <strong>ammirare</strong> ("guardare con meraviglia"), <strong>miracolo</strong> ("cosa da ammirare", evento incredibile), <strong>mirabile</strong> ("degno di essere ammirato"), <strong>mirino</strong> (il "piccolo specchio" per guardare attraverso, sulle armi o sulle macchine fotografiche), <strong>mirare</strong> (guardare con attenzione, prendere la mira). E sorpresa: <strong>specchio</strong> deriva dal latino <em>speculum</em> = "ciò in cui ci si specchia", "ciò che fa meravigliare". Tutta la cultura visiva italiana costruita su una sola radice: <em>guardare con stupore</em>. <strong>Lezione poetica</strong>: dire che qualcuno è <em>meraviglioso</em> è dichiarare etimologicamente che <em>"non ci si stanca di guardarlo"</em>. Nannini scegliendo questa parola sta dicendo molto più di "bella".'
+      },
+      { id:'creatura', lemma:'creatura', cat:'sostantivo · femminile', time:60,
+        def:'1) Essere vivente, in particolare visto come opera di Dio o della Natura. 2) Termine affettuoso per indicare una persona ("povera creatura"). 3) Bambino piccolo, neonato.',
+        etim:'Dal latino tardo <em>creatura</em>, da <em>creare</em> ("dare vita, generare"), di origine indoeuropea. Stessa radice di <em>crescere</em>, <em>creatore</em>, <em>increato</em>, e — sorpresa — di <em>incremento</em>!',
+        fam:'creare · creatore · creativo · crescere · increato · incremento',
+        syn:'essere vivente, individuo, persona, bambino',
+        ex:'Meravigliosa creatura sei sola al mondo: il termine "creatura" alza il registro a livello quasi religioso, sacralizzando la persona amata.',
+        reg:'colto con eredità religiosa',
+        curio:'Sorpresa etimologica: <strong>creatura</strong>, <strong>creare</strong>, <strong>crescere</strong>, <strong>incremento</strong> sono parenti! Tutti derivano dalla stessa radice indoeuropea che indicava il <em>"far venire alla luce, far aumentare"</em>. La <em>creatura</em> è letteralmente "ciò che è stato fatto crescere". Anche <strong>increato</strong> ("che non è stato creato") = attributo di Dio in teologia. <strong>Italianismo</strong>: nel parlato meridionale, "creatura" è sinonimo di "bambino piccolo": <em>"poveretta, è solo una creatura!"</em>. È uno dei termini più antichi dell\'italiano popolare.'
+      },
+      { id:'accanto', lemma:'accanto', cat:'avverbio', time:71,
+        def:'1) Vicino, al fianco di qualcuno o qualcosa. 2) In senso figurato: in compagnia, con il sostegno di qualcuno ("ti sarò sempre accanto").',
+        etim:'Composto italiano: <em>a-</em> (preposizione di moto/stato) + <em>canto</em>, dal latino <em>canthus</em> ("bordo, lato, fianco di un oggetto"). Letteralmente: "al lato, al fianco". <strong>NON</strong> è parente di "canto" musicale (che viene da <em>cantus</em>).',
+        fam:'cantone · cantuccio · canto (lato, bordo)',
+        syn:'vicino, al fianco, presso, prossimo', ant:'lontano, distante, separato',
+        ex:'Meravigliosa paura di averti accanto: la tenerezza spaventosa del sentirsi vicini.',
+        reg:'comune',
+        curio:'Curiosità linguistica importante: in italiano abbiamo <strong>due parole "canto" diverse e non parenti</strong>! Il <em>canto</em> musicale (dal latino <em>cantus</em>, "ciò che si canta") e il <em>canto</em> = "bordo, lato" (dal latino <em>canthus</em>, "angolo, fianco di una ruota"). Da quest\'ultimo derivano <strong>accanto</strong> ("al lato"), <strong>cantone</strong> ("grande lato", da cui anche "Cantone Ticino" in Svizzera!), <strong>cantuccio</strong> ("piccolo lato, biscotto rettangolare toscano"). Sono <em>omografi</em> ma non parenti — un caso classico di parole italiane uguali nate da radici diverse.'
+      },
+      { id:'bruciare', lemma:'bruciare', cat:'verbo · presente indicativo', time:78,
+        def:'1) Consumare con il fuoco. 2) In senso figurato: sentire un\'emozione intensa, ardente ("bruciare di passione"). 3) Provare dolore acuto ("mi bruciano gli occhi").',
+        etim:'Dal francese antico <em>brusler</em>, di origine incerta. Forse legato al latino <em>perustulare</em>, "ardere completamente". Stessa radice di <em>brucio</em>, <em>bruciore</em>, <em>brusio</em> (?).',
+        fam:'bruciatura · bruciore · brucio · brucia-grassi',
+        syn:'ardere, fiammeggiare, divampare; (figurato): provare passione',
+        ex:'Occhi di sole mi bruciano in mezzo al cuore: la metafora dell\'innamoramento come fuoco interno.',
+        reg:'comune',
+        curio:'<strong>Metafora antichissima</strong>: il <em>"bruciare d\'amore"</em> è una delle metafore più antiche della poesia mondiale. Saffo (poetessa greca, VI sec. a.C.) scriveva: <em>"un fuoco sottile scorre sotto la pelle"</em>. Catullo (poeta latino): <em>"odi et amo"</em> ("odio e amo") usava il fuoco come metafora del tormento. Petrarca nel <em>Canzoniere</em>: <em>"qual donna attende a gloriosa fama / di senno, di valor, di cortesia, / miri fiso nella vista mia"</em>. Quando Nannini canta <em>"mi bruciano in mezzo al cuore"</em>, sta rinnovando una metafora di 2500 anni.'
+      },
+      { id:'luce', lemma:'luce', cat:'sostantivo · femminile', time:100,
+        def:'1) Forma di energia che illumina e permette di vedere. 2) In senso figurato: speranza, chiarezza, verità ("vedere la luce in fondo al tunnel"). 3) In poesia: gli occhi, il viso dell\'amata.',
+        etim:'Dal latino <em>lux, lucis</em>, di origine indoeuropea. Stessa radice di <em>lucido</em>, <em>lucente</em>, <em>elucubrare</em>, <em>luna</em> (sì, parente!), e — sorpresa — di <em>illustre</em>.',
+        fam:'lucido · lucente · illuminare · lume · luna · luminoso · elucubrare · illustre',
+        syn:'chiarezza, splendore, bagliore', ant:'buio, oscurità, tenebra',
+        ex:'Luce dei miei occhi brilla su di me: espressione classica dell\'innamoramento, "luce" = persona amata.',
+        reg:'comune con uso letterario',
+        curio:'<strong>Famiglia magnifica</strong>: dalla radice <em>luc-</em> (luce) nascono <strong>illustre</strong> ("che porta luce", famoso), <strong>illustrazione</strong> ("rendere luminoso, chiarire"), <strong>luna</strong> ("la lucente" — sì, è parente!), <strong>lume</strong>, <strong>lucciola</strong> ("piccola luce"), <strong>elucubrare</strong> ("lavorare alla luce della lucerna", studiare di notte). Sorpresa storica: anticamente gli studiosi lavoravano <em>alla luce</em> delle lucerne, da cui il verbo "elucubrare" = "pensare a lungo, di notte". <strong>Modi di dire</strong>: <em>"luce dei miei occhi"</em> è espressione antichissima: già nella Bibbia ("Il Signore è luce dei miei occhi"), poi nei poeti d\'amore. Significa: <em>"ciò senza cui non vedrei più nulla, sei tutto per me"</em>.'
+      },
+      { id:'mille', lemma:'mille', cat:'aggettivo numerale', time:108,
+        def:'1) Il numero 1000. 2) In senso figurato: un numero altissimo, indefinito, una quantità enorme ("ti dico mille volte", "mille pensieri").',
+        etim:'Dal latino <em>mille</em>, plurale <em>milia</em>. La parola è arrivata anche nell\'inglese <em>mile</em> (miglio): la "mille passi" era l\'antica unità di misura romana per le strade. Stessa radice di <em>milione</em> ("grande mille") e <em>millimetro</em> ("millesimo di metro").',
+        fam:'milione · millennio · millimetro · milligrammo · millepiedi · miglio',
+        syn:'mille, mille e una, innumerevoli (al plurale figurato)',
+        ex:'Voglio mille lune per accarezzarti: l\'iperbole epica per dire "tanto, all\'infinito".',
+        reg:'comune',
+        curio:'<strong>Iperbole classica</strong>: <em>"mille"</em> in italiano e nelle lingue romanze è il numero per eccellenza dell\'<strong>iperbole</strong> (l\'esagerazione poetica). <em>"Le mille e una notte"</em> è una raccolta araba di racconti (il "mille e una" significa "infinite, oltre il numerabile"). <em>"I Mille"</em> di Garibaldi (1860) — ma in realtà erano 1089! <em>"Lago di Como, ai cui piedi è la Brianza, mille cose insieme"</em> (Manzoni). <strong>Modi di dire</strong>: "mille pensieri" (= tantissimi), "in mille pezzi" (= completamente rotto), "ringraziarti mille volte" (= con tutto il cuore). Nannini lo usa nel pieno della tradizione poetica.'
+      },
+      { id:'lune', lemma:'lune', cat:'sostantivo · femminile plurale (poetico)', time:110,
+        def:'1) Plurale poetico di <em>luna</em>: il satellite della Terra. Al plurale "lune" indica scorrere del tempo, mesi (una luna = un mese lunare). 2) In senso figurato: stati d\'animo variabili ("ha le sue lune").',
+        etim:'Dal latino <em>luna</em>, derivato dalla radice <em>luc-</em> ("splendere"). Letteralmente: "la lucente". Stessa famiglia di <em>luce</em>, <em>illustre</em>, <em>luminoso</em>.',
+        fam:'lunare · plenilunio · novilunio · lunedì (giorno della Luna) · lunatico',
+        syn:'(plurale poetico) mesi lunari, tempo, ciclo',
+        ex:'Voglio mille lune per accarezzarti: "mille lune" = mille mesi, una vita intera.',
+        reg:'poetico',
+        curio:'<strong>Famiglia ricca</strong>: dalla <em>luna</em> derivano <strong>lunedì</strong> (giorno della Luna, in inglese <em>Monday</em> = "Moon-day"), <strong>plenilunio</strong> ("luna piena"), <strong>novilunio</strong> ("luna nuova"), <strong>lunatico</strong> (anticamente: "chi cambia umore con le fasi lunari"). <strong>Lessico poetico</strong>: <em>"lune"</em> al plurale è uno dei segnali del registro poetico — significa "mesi" o "lungo tempo". Leopardi: <em>"Sempre caro mi fu quest\'ermo colle"</em>. Mille lune = la traversata di un\'intera vita d\'attesa. Nannini riprende un\'espressione antica della poesia amorosa: "aspettare mille lune" = "aspettare per sempre".'
+      },
+      { id:'accarezzare', lemma:'accarezzare', cat:'verbo · infinito', time:110,
+        def:'1) Sfiorare dolcemente con la mano (i capelli, il viso, un animale). 2) In senso figurato: cullare un pensiero, una speranza, un sogno ("accarezzare un\'idea").',
+        etim:'Composto: <em>a-</em> (intensivo) + <em>carezza</em>, dal latino <em>caritia</em>, derivato di <em>carus</em> ("caro, amato"). Letteralmente: "rendere caro col tocco". Stessa radice di <em>caro</em>, <em>carità</em>, <em>caritatevole</em>.',
+        fam:'carezza · caro · carità · caritatevole · caramente',
+        syn:'sfiorare, lisciare, blandire; (figurato): cullare, vagheggiare',
+        ex:'Voglio mille lune per accarezzarti: il tempo che diventa carezza, ininterrotta e infinita.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>carezza</strong>, <strong>caro</strong> e <strong>carità</strong> sono la stessa famiglia! Tutte vengono dal latino <em>carus</em>, "caro, amato". La <em>carezza</em> è letteralmente "atto di rendere caro col tocco". La <em>carità</em> cristiana è "l\'amore per ciò che è caro": le opere di carità sono le opere d\'amore per il prossimo. Anche l\'inglese <em>charity</em> ("carità, ente benefico") condivide la stessa radice. <strong>Lezione</strong>: in italiano basta una <em>carezza</em> per ricordarci che chi accarezziamo ci è <em>caro</em>.'
+      },
+      { id:'pendere', lemma:'pendere', cat:'verbo · presente indicativo (1a persona)', time:114,
+        def:'1) Stare appeso, sospeso a qualcosa. 2) Inclinarsi da una parte (la torre di Pisa <em>pende</em>). 3) In senso figurato: dipendere completamente da qualcuno o qualcosa ("pendo dalle tue labbra").',
+        etim:'Dal latino <em>pendere</em>, "essere sospeso", di origine indoeuropea. Stessa radice di <em>pendolo</em>, <em>pendente</em>, <em>sospendere</em>, <em>dipendere</em>, <em>appendere</em>, <em>spendere</em> (sì! parente).',
+        fam:'pendolo · pendente · sospendere · dipendere · appendere · spendere · pensare (parente!)',
+        syn:'essere sospeso, dipendere, inclinarsi',
+        ex:'Pendo dai tuoi sogni: l\'innamorato è sospeso a ciò che l\'altro sogna, come un quadro al muro.',
+        reg:'comune con uso letterario',
+        curio:'<strong>Sorpresa stupefacente</strong>: <strong>pensare</strong> e <strong>pendere</strong> sono parenti! In latino <em>pensare</em> significava "pesare, soppesare" (verbo intensivo di <em>pendere</em>). Quando "pensiamo", etimologicamente <em>"soppesiamo"</em> le idee, le valutiamo come fossero su una bilancia. Anche <strong>compensare</strong> ("pesare insieme, bilanciare"), <strong>dispendere</strong> ("appendere via, spendere"), <strong>sospensione</strong> ("appendere sotto"), <strong>impendente</strong> ("che pende sopra, imminente") condividono la radice. <strong>Modo di dire</strong>: <em>"pendere dalle labbra di qualcuno"</em> = ascoltarlo con totale attenzione, come se fossimo letteralmente sospesi alle sue parole. Nannini fa lo stesso con i sogni dell\'amato.'
+      },
+      { id:'vegliare', lemma:'vegliare', cat:'verbo · presente indicativo (1a persona)', time:118,
+        def:'1) Restare svegli, non dormire (di solito di notte). 2) In senso figurato: prendersi cura, sorvegliare con amore qualcuno che dorme o è in difficoltà. 3) Onorare un defunto restando con lui prima del funerale.',
+        etim:'Dal latino <em>vigilare</em>, "stare svegli", derivato di <em>vigil</em> ("sveglio, attento"). Stessa radice di <em>vigile</em>, <em>vigilanza</em>, <em>sveglia</em>, <em>svegliare</em>, e — sorpresa — di <em>veglia</em> (la riunione serale).',
+        fam:'vigile · vigilanza · sveglia · svegliare · veglia · risvegliare · vigilare',
+        syn:'sorvegliare, custodire, restare svegli', ant:'dormire, addormentarsi',
+        ex:'Veglio su di te: la promessa più tenera dell\'amore — custodire il sonno dell\'altro.',
+        reg:'comune con uso letterario',
+        curio:'<strong>Bellezza dell\'opposizione</strong>: Nannini gioca su due verbi opposti — <em>"veglio su di te / non svegliarti ancora"</em>. <strong>Vegliare</strong> (restare svegli per custodire) e <strong>svegliare</strong> (far uscire dal sonno) sono parenti diretti, ma significano azioni opposte rispetto al sonno dell\'altro. <strong>Famiglia ricca</strong>: <em>veglia</em> (la riunione serale di famiglia, ormai rara), <em>vigilia</em> (giorno prima di una festa: la "vigilia di Natale" = "stare svegli aspettando Natale"), <em>vigilanza</em>, <em>vigile urbano</em>. <em>Sveglio</em> e <em>sveglia</em> hanno la stessa radice ma con il prefisso <em>s-</em> che inverte: "uscire dallo stato di chi veglia o dorme". <strong>Sorpresa</strong>: anche <em>vigliacco</em> in origine significava "chi sta sveglio quando dovrebbe lavorare" (un fannullone notturno), poi è diventato "vile".'
+      },
+      { id:'paradiso', lemma:'paradiso', cat:'sostantivo · maschile', time:202,
+        def:'1) Nelle religioni monoteiste: luogo di felicità eterna dopo la morte, dimora di Dio e dei beati. 2) In senso figurato: luogo bellissimo, di pace e bellezza ("è un paradiso terrestre"). 3) Stato di felicità intensa.',
+        etim:'Dal greco <em>parádeisos</em>, dall\'iranico antico <em>pairi-daēza</em>: <em>pairi</em> ("attorno") + <em>daēza</em> ("muro, recinto"). Letteralmente: "giardino recintato". Era il <strong>giardino reale persiano</strong>.',
+        fam:'paradisiaco · paradisiacamente',
+        syn:'cielo, eden, gloria, beatitudine; (figurato): meraviglia, luogo idilliaco',
+        ex:'All\'improvviso tu scendi nel paradiso: la felicità amorosa è entrare in un giardino segreto.',
+        reg:'comune con eredità religiosa',
+        curio:'<strong>STORIA STUPEFACENTE</strong>: la parola <em>"paradiso"</em> non nasce religiosa, nasce <strong>politica</strong>! Era il <em>"pairi-daēza"</em> dei re persiani, circa 2500 anni fa: un <strong>giardino reale recintato</strong>, dove il re passeggiava tra alberi, fiori e animali esotici. I greci che conobbero la Persia (Senofonte, soprattutto) si entusiasmarono per questi giardini e adottarono la parola: <em>parádeisos</em>. Quando, secoli dopo, i traduttori della <em>Bibbia greca</em> dovettero rendere in greco l\'Eden biblico (il "Giardino della Genesi"), scelsero <em>parádeisos</em>. Da lì, la parola persiana è entrata nel Cristianesimo e da lì in tutte le lingue europee: italiano <em>paradiso</em>, inglese <em>paradise</em>, francese <em>paradis</em>. Un viaggio di <strong>2500 anni</strong> da un giardino reale persiano al cielo dei santi cristiani.'
+      }
+    ]
+  },
+
+  {
+    id:'scrivimi', titolo:'Scrivimi', artista:'Nino Buonocore', autore:'Adelmo Buonocore · Michele De Vitis',
+    anno:1990, album:'Sabato, domenica e lunedì', durata:220, livello:1,
+    youtubeId:'ptLqjDwUHXs', coverPalette:'deandre', coverLetter:'B',
+    parole:[
+      { id:'scrivere', lemma:'scrivere', cat:'verbo · imperativo / infinito', time:6,
+        def:'1) Tracciare segni che rappresentano parole o numeri (su carta, schermo, supporto). 2) Comporre un testo (lettera, articolo, libro). 3) Inviare un messaggio scritto a qualcuno.',
+        etim:'Dal latino <em>scribere</em>, "incidere, graffiare". In origine non si "scriveva" su carta: si <strong>incideva</strong> su tavolette d\'argilla o di cera con uno <em>stilo</em> appuntito. La radice indoeuropea <em>(s)kribh-</em> indicava proprio "graffiare, segnare".',
+        fam:'scrittura · scriba · scrittore · descrivere · prescrizione · manoscritto · scrigno (parente!) · postscriptum',
+        syn:'redigere, comporre, vergare, annotare, segnare', ant:'leggere, cancellare, dimenticare',
+        ex:'Scrivimi quando il vento avrà spogliato gli alberi: la richiesta che dà il titolo alla canzone.',
+        reg:'comune',
+        curio:'<strong>Sorpresa etimologica</strong>: <strong>scrivere</strong>, <strong>scriba</strong>, <strong>manoscritto</strong>, <strong>postscriptum</strong> e — incredibile — <strong>scrigno</strong> sono tutti parenti! Lo <em>scrigno</em> in origine era un piccolo cofano <em>inciso</em> con decorazioni, ed è etimologicamente "ciò che è stato graffiato sopra". <strong>Lezione storica</strong>: nelle prime civiltà mesopotamiche, lo "scrivere" era un\'arte da specialisti — gli <em>scribi</em> erano una casta colta che <em>incideva</em> i caratteri cuneiformi sulla creta umida. La parola "scrivere" porta ancora dentro di sé quel gesto antico: <em>tracciare segni con la forza della mano</em>.'
+      },
+      { id:'alberi', lemma:'alberi', cat:'sostantivo · maschile plurale', time:14,
+        def:'Piante perenni di grandi dimensioni, con tronco di legno e ramificazioni. Si distinguono in <em>caducifoglie</em> (perdono le foglie in autunno) e <em>sempreverdi</em>.',
+        etim:'Dal latino <em>arbor, arboris</em>, di origine indoeuropea. Stessa radice di <em>arboreo</em>, <em>arboricolo</em>, <em>arboscello</em>. La doppia forma — <em>albero</em> (italiano) e <em>arbore</em> (italiano antico/letterario) — riflette l\'evoluzione fonetica della parola.',
+        fam:'arboreo · arboricolo · arboscello · disboscare · imboschire',
+        syn:'pianta, fusto, vegetale arboreo',
+        ex:'Quando il vento avrà spogliato gli alberi: l\'immagine dell\'autunno, l\'attesa.',
+        reg:'comune',
+        curio:'<strong>Bellezza italiana</strong>: in italiano abbiamo due forme — <em>albero</em> (uso comune) e <em>arbore</em> (uso letterario o tecnico). Dante usa entrambe. <strong>Lessico ricco</strong>: <em>arboreto</em> (collezione di alberi), <em>arborescenza</em> (forma a "ramo"), <em>arboricoltura</em>, <em>disboscare</em> ("togliere il bosco"). <strong>Buonocore</strong>, nella canzone, usa gli alberi come <em>orologio della natura</em>: quando si "spogliano" (perdono le foglie), siamo in autunno — il momento in cui si scrive di più, perché si sta più in casa, ci si sente più soli.'
+      },
+      { id:'parlare', lemma:'parlare', cat:'verbo · infinito', time:31,
+        def:'1) Esprimersi a voce, comunicare con la parola. 2) Discutere, conversare. 3) In senso figurato: trattare, raccontare ("parlare di qualcosa").',
+        etim:'Dal latino tardo <em>parabolare</em>, da <em>parabola</em> (dal greco <em>parabolḗ</em>, "paragone, accostamento"). Letteralmente: "fare paragoni, raccontare per immagini". In origine "parlare" era un\'azione <em>narrativa</em>, non solo comunicativa.',
+        fam:'parola · parabola · parlante · parlamento · parlantina · interpellare',
+        syn:'esprimersi, conversare, dialogare, discutere', ant:'tacere, ammutolire',
+        ex:'Poca voglia di parlare allora... scrivimi: scrivere come alternativa al parlare, quando la voce non basta o non vuole uscire.',
+        reg:'comune',
+        curio:'<strong>Sorpresa etimologica</strong>: <strong>parlare</strong> e <strong>parlamento</strong> sono parenti! Il <em>parlamento</em> è etimologicamente "il luogo dove si <em>parla</em>", dove si discute, si fanno paragoni. Anche <strong>parlantina</strong> ("il facile parlare", grande capacità di chiacchierare). <strong>Famiglia</strong>: <em>parola</em>, <em>parabola</em>, <em>parlare</em>, <em>parolaccia</em>, <em>parolaio</em>, <em>parolina</em> — tutti dalla stessa radice greca. <strong>Lezione</strong>: "parlare" letteralmente significava <em>"raccontare per analogie, fare parabole"</em> — come Gesù che nei Vangeli racconta le sue verità attraverso parabole.'
+      },
+      { id:'sentirsi', lemma:'sentirsi', cat:'verbo riflessivo · infinito', time:37,
+        def:'1) Percepire dentro di sé un\'emozione, uno stato fisico o psicologico ("sentirsi felice, stanco, fragile"). 2) Mettersi in contatto reciproco ("ci sentiamo domani").',
+        etim:'Da <em>sentire</em>, dal latino <em>sentire</em>, "percepire con i sensi o con la mente". Stessa radice di <em>senso</em>, <em>sensazione</em>, <em>sensibile</em>, <em>sentimento</em>, <em>presentimento</em>, <em>dissenso</em>, <em>consenso</em>.',
+        fam:'sentire · senso · sentimento · sensibile · presentimento · consenso · dissenso · sensitivo',
+        syn:'avvertire, percepire, provare emozione', ant:'essere indifferente, ignorare',
+        ex:'Scrivimi, servirà a sentirti meno fragile: scrivere come cura interiore.',
+        reg:'comune',
+        curio:'<strong>Famiglia magnifica</strong>: dal latino <em>sentire</em> nascono <strong>senso</strong>, <strong>sentimento</strong>, <strong>sensibilità</strong>, <strong>presentimento</strong> ("sentire prima"), <strong>consenso</strong> ("sentire insieme"), <strong>dissenso</strong> ("sentire diversamente"), <strong>risentito</strong>. <strong>Lezione filosofica</strong>: per gli antichi greci e latini, <em>sentire</em> non significava solo "provare emozioni": era anche "percepire con i sensi" e "<em>comprendere con la mente</em>". Pensare e sentire erano la stessa cosa. Nella canzone, Buonocore unisce le due dimensioni: <em>sentirsi meno fragile</em> è insieme un\'emozione e una percezione del proprio stato.'
+      },
+      { id:'fragile', lemma:'fragile', cat:'aggettivo', time:38,
+        def:'1) Che si rompe facilmente, delicato. 2) In senso figurato: debole emotivamente, vulnerabile, sensibile.',
+        etim:'Dal latino <em>fragilis</em>, da <em>frangere</em> ("rompere, spezzare"). Letteralmente: "facile a rompersi". Stessa radice di <em>frangere</em>, <em>frantumi</em>, <em>frantoio</em>, <em>infrangere</em>, <em>frammento</em>, <em>refrazione</em>.',
+        fam:'frangere · frantumi · frantoio · infrangere · frammento · naufragio (parente!)',
+        syn:'delicato, debole, gracile, vulnerabile', ant:'robusto, forte, resistente, solido',
+        ex:'Servirà a sentirti meno fragile: lo scrivere come argine alla fragilità interiore.',
+        reg:'comune',
+        curio:'<strong>Sorpresa etimologica enorme</strong>: <strong>fragile</strong> e <strong>naufragio</strong> sono parenti! Entrambi derivano da <em>frangere</em>, "rompere". Il <em>naufragio</em> è letteralmente <em>navis-fragium</em> = "rottura della nave". Anche <strong>frammento</strong> ("piccolo pezzo rotto"), <strong>frantumi</strong>, <strong>refrazione</strong> ("la luce che si rompe in colori"), <strong>infrangere</strong>. Tutta una famiglia che ruota attorno all\'idea del <em>rompersi</em>. <strong>Una persona "fragile"</strong> è letteralmente "una persona che si rompe facilmente". Bellissima la metafora di Buonocore: la fragilità si combatte con la scrittura, perché le parole scritte sono più solide di quelle parlate.'
+      },
+      { id:'indifferenza', lemma:'indifferenza', cat:'sostantivo · femminile', time:49,
+        def:'Mancanza di interesse, di partecipazione emotiva, di reazione. Atteggiamento di chi non si lascia toccare da ciò che accade agli altri o nel mondo.',
+        etim:'Dal latino tardo <em>indifferentia</em>: <em>in-</em> ("non") + <em>differentia</em> ("differenza"), da <em>differre</em> ("portare via, distinguere"). Letteralmente: "il <em>non</em> fare differenza", il non distinguere tra ciò che merita attenzione e ciò che no.',
+        fam:'differenza · differire · differente · indifferente · differenziare',
+        syn:'apatia, freddezza, disinteresse, distacco', ant:'partecipazione, attenzione, sensibilità',
+        ex:'Quando nella gente troverai solamente indifferenza: il vuoto sociale a cui rispondere con uno sforzo personale di vicinanza.',
+        reg:'colto',
+        curio:'<strong>Riflessione semantica</strong>: <em>"indifferenza"</em> è una parola moderna e fortissima. Significa letteralmente <em>"non fare differenza"</em>: non distinguere tra chi soffre e chi gode, tra chi merita attenzione e chi no. Per Antonio Gramsci, l\'indifferenza era <em>"il peso morto della storia"</em>: il male non è solo nei cattivi, è anche in chi <em>non si interessa</em>. <strong>Lezione civica</strong>: l\'indifferenza è il contrario della cittadinanza attiva. Buonocore, nella canzone, propone un piccolo rimedio quotidiano contro l\'indifferenza: <em>scrivere a un amico</em>. Un gesto minimo, ma <em>fa differenza</em>.'
+      },
+      { id:'dimenticare', lemma:'dimenticare', cat:'verbo · imperativo (forma negativa)', time:56,
+        def:'1) Non ricordare più, perdere dalla memoria. 2) In senso più ampio: trascurare, lasciare indietro qualcuno o qualcosa.',
+        etim:'Dal latino tardo <em>dementicare</em>: <em>de-</em> ("via, fuori") + <em>mens, mentis</em> ("mente"). Letteralmente: "togliere dalla mente". Stessa radice di <em>mente</em>, <em>mentale</em>, <em>memoria</em>, <em>demenza</em>, <em>commemorare</em>.',
+        fam:'mente · mentale · memoria · commemorare · demenza · ammonizione · monito',
+        syn:'scordare, trascurare, oblio', ant:'ricordare, rammentare, commemorare',
+        ex:'Tu non ti dimenticare mai di me: la preghiera fondamentale della canzone.',
+        reg:'comune',
+        curio:'<strong>Famiglia magnifica</strong>: dalla radice latina <em>mens-</em> ("mente") nascono <strong>mentale</strong>, <strong>memoria</strong>, <strong>commemorare</strong> ("ricordare insieme"), <strong>demenza</strong> ("uscita dalla mente"), <strong>amnesia</strong> (greco, "senza memoria"). <strong>Dimenticare</strong> è letteralmente <em>"togliere dalla mente"</em>, come svuotare una stanza. <strong>Lezione affettiva</strong>: nella richiesta di Buonocore <em>"non ti dimenticare mai di me"</em> c\'è una verità antichissima — la più grande paura di chi ama non è essere rifiutato, è essere <em>dimenticato</em>. Petrarca lo sapeva, Dante lo sapeva, tutti i poeti d\'amore lo sanno.'
+      },
+      { id:'capire', lemma:'capire', cat:'verbo · futuro semplice', time:71,
+        def:'1) Comprendere il significato di qualcosa. 2) Intendere lo stato d\'animo, le intenzioni di qualcuno. 3) Accettare con comprensione ("io saprò capire").',
+        etim:'Dal latino <em>capere</em>, "prendere, afferrare". Letteralmente: "afferrare con la mente". Stessa radice di <em>capace</em>, <em>capacità</em>, <em>capienza</em>, <em>capitale</em>, <em>concepire</em>, <em>ricevere</em>, <em>percepire</em>, <em>accettare</em>.',
+        fam:'capace · capacità · capienza · capitale · concepire · ricevere · percepire · accettare',
+        syn:'comprendere, intendere, afferrare (figurato)', ant:'fraintendere, equivocare, non cogliere',
+        ex:'Non ti devi preoccupare, io saprò capire: la promessa di un\'accoglienza totale.',
+        reg:'comune',
+        curio:'<strong>Famiglia stupenda</strong>: dal latino <em>capere</em> ("prendere") nasce un\'intera galassia di parole italiane: <strong>capace</strong> ("che può prendere dentro di sé"), <strong>capienza</strong> ("quanto può prendere"), <strong>capitale</strong> ("ciò che è alla testa, ciò che prende per primo"), <strong>concepire</strong> ("prendere insieme dentro di sé"), <strong>ricevere</strong> ("prendere indietro"), <strong>percepire</strong> ("prendere attraverso"), <strong>accettare</strong> ("prendere verso di sé"). <strong>Lezione</strong>: <em>capire</em> non è un\'azione passiva — è un gesto <em>attivo</em>, un <em>afferrare con la mente</em>. Quando dici "ho capito", letteralmente stai dicendo "ho preso, ho afferrato".'
+      },
+      { id:'sapere', lemma:'sapere', cat:'verbo · futuro semplice / infinito', time:76,
+        def:'1) Avere conoscenza di qualcosa, essere informato. 2) Avere imparato a fare qualcosa ("sapere nuotare"). 3) Avere l\'odore o il sapore di ("sapere di fragola"). 4) Sostantivo: la conoscenza ("il sapere").',
+        etim:'Dal latino <em>sapere</em>, in origine "avere sapore, gustare", da <em>sapor</em> ("sapore"). Stessa radice di <em>sapido</em>, <em>insipido</em>, <em>sapiente</em>, <em>sapienza</em>, <em>assaporare</em>.',
+        fam:'sapore · sapido · insipido · sapiente · sapienza · assaporare · saggio',
+        syn:'conoscere, essere a conoscenza, padroneggiare',
+        ex:'A me basta di sapere che mi pensi anche un minuto: la conoscenza minima e sufficiente.',
+        reg:'comune',
+        curio:'<strong>Sorpresa etimologica meravigliosa</strong>: <strong>sapere</strong> in origine significava <em>"avere sapore"</em>! Per i Romani il <em>sapere</em> era legato al gusto — chi <em>sa</em> è chi <em>ha assaggiato</em>, chi ha sperimentato direttamente. Da lì: <em>sapido</em> ("che ha sapore"), <em>insipido</em> ("senza sapore, banale"), <em>sapiente</em> ("colui che assaggia la conoscenza"). Anche <strong>saggio</strong> e <strong>assaggiare</strong> condividono la radice. <strong>Lezione filosofica</strong>: per i Romani, <em>conoscere</em> era come <em>assaggiare un cibo</em> — esperienza diretta, sapore, contatto. Non c\'era distinzione tra il sapere intellettuale e il sapere dei sensi.'
+      },
+      { id:'pensare', lemma:'pensare', cat:'verbo · presente indicativo', time:78,
+        def:'1) Esercitare l\'attività della mente, riflettere, ragionare. 2) Ricordare con affetto qualcuno ("pensare a una persona cara"). 3) Avere un\'opinione ("io penso che...").',
+        etim:'Dal latino <em>pensare</em>, "pesare, soppesare", verbo intensivo di <em>pendere</em> ("essere sospeso, pendere"). Letteralmente: "soppesare le idee come su una bilancia".',
+        fam:'pendere · pensiero · ponderare · sospendere · dispensare · compensare',
+        syn:'riflettere, ragionare, meditare, ricordare', ant:'distrarsi, dimenticare',
+        ex:'A me basta di sapere che mi pensi anche un minuto: il pensiero come prova d\'affetto, minima e sufficiente.',
+        reg:'comune',
+        curio:'<strong>Sorpresa</strong>: <strong>pensare</strong> = letteralmente "<em>pesare</em>"! Per i Romani, pensare era <em>soppesare</em> le idee, valutarle come su una bilancia. Stessa radice di <strong>ponderare</strong> ("riflettere con peso", da <em>pondus</em>, "peso"), <strong>compensare</strong> ("pesare insieme, bilanciare"), <strong>dispensare</strong> ("distribuire dopo aver pesato"). Anche <strong>pensione</strong> deriva da lì: era originariamente "ciò che si pesava" (e si pagava) regolarmente. <strong>Lezione</strong>: quando "pensi a qualcuno", etimologicamente lo <em>soppesi</em>, dai peso e importanza alla sua esistenza nella tua mente.'
+      },
+      { id:'accontentarsi', lemma:'accontentarsi', cat:'verbo riflessivo · infinito', time:82,
+        def:'Essere contento di poco, non chiedere di più. Adattarsi a una situazione minima senza protestare.',
+        etim:'Da <em>contento</em>, dal latino <em>contentus</em>, participio di <em>continere</em> ("contenere"). Letteralmente: "trattenuto in sé, soddisfatto di ciò che si ha". Stessa radice di <em>contenuto</em>, <em>continenza</em>, <em>continente</em>, <em>contenere</em>.',
+        fam:'contento · contenere · contenuto · continenza · continente · trattenere',
+        syn:'appagarsi, soddisfarsi, rassegnarsi', ant:'pretendere, esigere, lamentarsi',
+        ex:'Io so accontentarmi anche di un semplice saluto: la sapienza di chi sa godere del poco.',
+        reg:'comune',
+        curio:'<strong>Sorpresa etimologica</strong>: <strong>contento</strong> e <strong>continente</strong> sono la stessa parola! Entrambe vengono dal latino <em>continere</em>, "tenere dentro, trattenere". Una persona <em>contenta</em> è "<em>che si tiene dentro</em>" la propria felicità, non straripa di desideri. Un <em>continente</em> è una "grande terra che <em>contiene</em>" mari, montagne, popoli. Anche <strong>continenza</strong> ("autocontrollo") condivide la radice. <strong>Lezione di saggezza</strong>: nell\'antichità, <em>l\'uomo contento</em> era considerato un saggio. Aristotele diceva: <em>"La felicità è la virtù dell\'animo che si accontenta di quello che ha"</em>.'
+      },
+      { id:'vicini', lemma:'vicini', cat:'aggettivo · plurale', time:90,
+        def:'1) Che si trovano poco distante, prossimi. 2) Affini, in sintonia, legati da affetto o simpatia.',
+        etim:'Dal latino <em>vicinus</em>, da <em>vicus</em> ("villaggio, quartiere"). Letteralmente: "del villaggio, del rione". I <em>vicini</em> erano in origine "gli abitanti dello stesso piccolo villaggio".',
+        fam:'vicinato · vicinanza · avvicinare · vicus (latino)',
+        syn:'prossimi, accanto, ravvicinati', ant:'lontani, distanti, separati',
+        ex:'Ci vuole poco per sentirsi più vicini: la vicinanza non è una questione di chilometri.',
+        reg:'comune',
+        curio:'<strong>Sorpresa etimologica</strong>: <strong>vicino</strong> deriva dal latino <em>vicus</em>, "villaggio". I <em>vicini</em> in origine erano "<em>quelli del paese</em>" — chi viveva nello stesso piccolo abitato. <strong>Lessico storico</strong>: <em>vicus</em> ha dato anche il nome a molti toponimi italiani — Vicenza, Vicovaro, Vicchio, Vicolungo, e ovunque si trovi <em>Vico</em> nei nomi delle vie ("Vico stretto", "Vico Equense"). Lo stesso <strong>vicolo</strong> = "piccolo <em>vicus</em>", piccolo passaggio del villaggio. <strong>Lezione di Buonocore</strong>: nella canzone, "sentirsi più vicini" significa ricreare quella <em>prossimità del villaggio antico</em> attraverso le parole scritte, anche quando si è fisicamente lontani.'
+      },
+      { id:'limpido', lemma:'limpido', cat:'aggettivo · maschile', time:99,
+        def:'1) Trasparente, chiaro, senza torbidezza (acqua limpida, cielo limpido). 2) In senso figurato: chiaro, comprensibile, onesto ("uno sguardo limpido").',
+        etim:'Dal latino <em>limpidus</em>, di origine probabilmente etrusca, legato a <em>lympha</em> ("acqua pura, ninfa delle acque"). Stessa radice di <em>linfa</em> (il liquido delle piante, ma anche il fluido dei vasi linfatici nel corpo umano).',
+        fam:'limpidezza · linfa · linfatico · ninfa (greco, parente!)',
+        syn:'chiaro, trasparente, terso, cristallino', ant:'torbido, oscuro, opaco, confuso',
+        ex:'Quando il cielo sembrerà più limpido: l\'arrivo della primavera, della speranza nuova.',
+        reg:'colto con uso letterario',
+        curio:'<strong>Sorpresa stupefacente</strong>: <strong>limpido</strong> e <strong>ninfa</strong> sono parenti! Entrambi derivano dal latino <em>lympha</em>, che a sua volta veniva dal greco <em>nýmphē</em> ("ninfa, dea delle acque dolci"). Le <em>ninfe</em> erano divinità che vivevano nelle sorgenti, nei fiumi, nei laghi — le "guardiane dell\'acqua pura". Anche <strong>linfa</strong> (il liquido che scorre nelle piante e nel corpo umano) viene da lì. <strong>Lezione</strong>: quando dici che un\'acqua è <em>limpida</em>, etimologicamente stai dicendo che è "<em>degna di una ninfa</em>", pura come quella della sorgente sacra. Bellissimo.'
+      },
+      { id:'cantare', lemma:'cantare', cat:'verbo · infinito', time:116,
+        def:'1) Emettere con la voce suoni musicali, eseguire una canzone. 2) Per estensione: emettere versi (gli uccelli "cantano"). 3) In poesia: celebrare ("cantare le gesta di un eroe").',
+        etim:'Dal latino <em>cantare</em>, frequentativo di <em>canere</em> ("intonare, suonare"). Letteralmente: "cantare ripetutamente, continuare a intonare". Stessa radice di <em>canto</em> (musicale), <em>cantore</em>, <em>cantiere</em> (no, falsa parentela), <em>incantare</em>.',
+        fam:'canto · cantore · canzone · cantilena · incantare · scantare',
+        syn:'intonare, salmodiare, modulare; (letterario): celebrare',
+        ex:'Ma tu non aspettar la sera, se hai voglia di cantare: il canto come gesto immediato della gioia.',
+        reg:'comune',
+        curio:'<strong>Famiglia ricca</strong>: dal latino <em>canere/cantare</em> nascono <strong>canto</strong>, <strong>canzone</strong>, <strong>cantore</strong>, <strong>cantilena</strong>, <strong>incantare</strong> ("affascinare col canto", come le sirene di Ulisse), <strong>incanto</strong>. Anche <strong>scantato</strong> (in alcuni dialetti: "spaventato, perso") = "<em>fuori dal canto</em>, fuori dall\'incantesimo". <strong>Lezione poetica</strong>: nelle culture antiche, <em>cantare</em> era un\'azione sacra. I poeti dell\'epica (Omero, Virgilio) iniziavano sempre con un imperativo — "<em>Canta, o Musa!</em>". Anche oggi, quando Buonocore dice "se hai voglia di cantare", evoca quella tradizione antica: <em>il canto come modo di esistere</em>.'
+      },
+      { id:'innamorata', lemma:'innamorata', cat:'aggettivo / participio · femminile', time:131,
+        def:'1) Colei che è nello stato d\'animo dell\'amore. 2) Più in generale: colei che è profondamente presa da qualcuno o qualcosa.',
+        etim:'Da <em>innamorarsi</em>, da <em>in-</em> + <em>amore</em>, dal latino <em>amor</em>. Letteralmente: "entrare nell\'amore". Stessa radice di <em>amore</em>, <em>amare</em>, <em>amante</em>, <em>amabile</em>, <em>amico</em>.',
+        fam:'amore · amare · amante · amabile · amico · disamore',
+        syn:'innamorata, presa, conquistata, infatuata',
+        ex:'Anche quando penserai che ti sei innamorata, tu non ti dimenticare mai di me: la richiesta più toccante della canzone — l\'amicizia che resiste anche al nuovo amore.',
+        reg:'comune',
+        curio:'<strong>Bellezza poetica del verso</strong>: Buonocore non chiede di non innamorarsi — sa che è impossibile. Chiede solo di <em>non dimenticarlo</em>. È una richiesta di <em>amicizia che convive col nuovo amore</em>, non di esclusività. Bellissima distinzione lessicale: in italiano abbiamo <strong>amore</strong> (sentimento intenso, esclusivo, romantico) e <strong>amicizia</strong> (legame profondo ma non possessivo). La canzone vive su questa tensione: <em>chi scrive</em> ama, ma chiede solo di restare nella memoria, non di essere ricambiato. Una richiesta di posto nel cuore, non di possesso.'
+      },
+      { id:'dire', lemma:'dire', cat:'verbo · infinito', time:64,
+        def:'1) Esprimere con le parole, comunicare. 2) Affermare, asserire, raccontare. 3) Esprimere un\'opinione ("dire la propria").',
+        etim:'Dal latino <em>dicere</em>, di origine indoeuropea <em>deik-</em> ("indicare, mostrare"). Stessa radice di <em>dito</em> (l\'organo che <em>indica</em>!), <em>dittatore</em> ("colui che <em>detta</em>"), <em>predicare</em>, <em>indice</em>, <em>indicazione</em>, <em>contraddire</em>.',
+        fam:'detto · dito · indice · indicare · predicare · dittatore · contraddire · maledire · benedire',
+        syn:'comunicare, affermare, esprimere, parlare',
+        ex:'Se non sai come dire, se non trovi le parole: il momento più tenero — quando le parole mancano.',
+        reg:'comune',
+        curio:'<strong>Sorpresa etimologica enorme</strong>: <strong>dire</strong> e <strong>dito</strong> sono parenti! Entrambi derivano dalla radice indoeuropea <em>deik-</em>, che significava "<em>indicare</em>, mostrare". Il <em>dito</em> è l\'organo con cui si <em>indica</em>; <em>dire</em> è "<em>indicare con le parole</em>". Stessa famiglia: <strong>indice</strong> (il dito che indica, e anche l\'elenco che indica le pagine), <strong>dittatore</strong> (in origine: il magistrato che "dettava" gli ordini), <strong>contraddire</strong> ("dire contro"), <strong>benedire</strong> ("dire bene"), <strong>maledire</strong> ("dire male"). Tutta una galassia di parole costruite sul gesto antico di <em>indicare con le parole o con il dito</em>.'
+      },
+      { id:'parole', lemma:'parole', cat:'sostantivo · femminile plurale', time:168,
+        def:'Unità di lingua dotate di significato, pronunciate o scritte. La parola è l\'elemento base con cui costruiamo frasi, pensieri, racconti.',
+        etim:'Dal latino tardo <em>parabola</em>, dal greco <em>parabolḗ</em> ("paragone, accostamento"). Letteralmente: "ciò che si accosta, paragone". La <em>parola</em> in origine non era un singolo termine — era un <em>racconto che spiega per analogia</em>, una "parabola" come quelle dei Vangeli.',
+        fam:'parlare · parabola · parolaccia · parolaio · parolina · interpellare',
+        syn:'vocaboli, termini, lemmi, espressioni',
+        ex:'Se non trovi le parole: il momento in cui la lingua manca, e si scrive proprio per ritrovarle.',
+        reg:'comune',
+        curio:'<strong>Sorpresa straordinaria</strong>: <strong>parola</strong> deriva da <em>parabola</em>! Le <em>parabole</em> che Gesù raccontava nei Vangeli (la parabola del seminatore, del figliol prodigo, del buon samaritano) sono etimologicamente parenti dirette di ogni nostra "parola". In origine, <em>parlare</em> significava <em>raccontare per immagini, fare paragoni</em>. Solo col tempo "parola" è diventata un\'unità linguistica più piccola. <strong>Lezione</strong>: ogni volta che usiamo una parola, etimologicamente stiamo facendo un piccolo paragone, accostando un suono a un significato. Anche <strong>parolaccia</strong>, <strong>parolone</strong>, <strong>parolina</strong> condividono la stessa radice.'
+      },
+      { id:'mai', lemma:'mai', cat:'avverbio', time:58,
+        def:'1) In nessun tempo, in nessun momento ("non l\'ho mai visto"). 2) In senso enfatico, in domande ("come mai?", "dove mai?"). 3) Anche col significato di "sempre" in costruzioni particolari ("mai più").',
+        etim:'Dal latino <em>magis</em>, "più". <strong>Sorpresa</strong>: <em>mai</em> e <em>più</em> sono la stessa parola! In italiano antico "mai" significava ancora "più" (Dante: "<em>nei tuoi pensier mai non sarò assente</em>"). Col tempo, in costruzioni negative ("non mai"), ha preso il significato opposto di "in nessun tempo".',
+        fam:'più · maggiore · maggiormente · mainonteattualmente · giammai',
+        syn:'(in nessun tempo): in nessun momento, neppure una volta',
+        ex:'Tu non ti dimenticare mai di me: <em>"mai"</em> qui rinforza la negazione, "non in nessun tempo".',
+        reg:'comune',
+        curio:'<strong>SORPRESA ENORME</strong>: <strong>mai</strong> e <strong>più</strong> in italiano sono parenti diretti! Entrambi derivano dal latino <em>magis</em>, "più". In italiano antico, <em>mai</em> significava ancora <em>"più, di più"</em>. Solo col tempo, in espressioni come <em>"non mai"</em> = "non più, non in nessun momento", ha preso il significato negativo che ha oggi. Curiosità: <em>"giammai"</em> = "<em>già mai</em>" = "in nessun tempo, in nessuna circostanza", è ancora oggi usato in poesia. Quando dici "mai" — etimologicamente — stai ancora dicendo "di più". <strong>Lezione</strong>: le parole cambiano significato nei secoli; "mai" è uno degli esempi più strabilianti dell\'italiano. Una stessa parola che oggi vale "<em>nessuna volta</em>" e ieri valeva "<em>più di tutto</em>".'
+      }
+    ]
+  },
+
+  {
+    id:'la-cura-per-me', titolo:'La cura per me', artista:'Giorgia', autore:'Riccardo Fabbriconi (Blanco) · Michele Zocca · Giorgia Todrani',
+    anno:2025, album:'G', durata:214, livello:2,
+    youtubeId:'-ixB0yDkLO4', coverPalette:'cremonini', coverLetter:'G',
+    parole:[
+      { id:'cercare', lemma:'cercare', cat:'verbo · presente indicativo (e passato prossimo)', time:13,
+        def:'1) Andare a vedere, esplorare per trovare qualcosa o qualcuno. 2) In senso figurato: desiderare profondamente qualcosa che non si ha ancora, o che si è perso.',
+        etim:'Dal latino tardo <em>circare</em>, "girare intorno", derivato di <em>circus</em> ("cerchio"). Letteralmente: <strong>"andare in giro per trovare"</strong>. Stessa radice di <em>circolo</em>, <em>circondare</em>, <em>circuito</em>.',
+        fam:'cercatore · ricerca · ricercare · circolo · circondare · circuito',
+        syn:'rovistare, esplorare, indagare, ambire', ant:'trovare, possedere, abbandonare',
+        ex:'Che ho cercato, che hai cercato: l\'apertura della canzone è già una dichiarazione di ricerca reciproca.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>cercare</strong> in origine non significava "guardare con attenzione". Veniva dal latino <em>circare</em>, "girare in cerchio". Si <em>cercava</em> qualcosa <strong>girandoci intorno</strong>, come fa un cane quando perlustra il territorio. Stessa radice di <em>circolo</em>, <em>cerchio</em>, <em>circondare</em>. Anche oggi, quando "cerchi" una cosa nella stanza, etimologicamente <em>"giri intorno"</em> agli oggetti. Una parola così antica che porta dentro di sé il gesto del corpo che cerca.'
+      },
+      { id:'avvicinare', lemma:'avvicinare', cat:'verbo · presente indicativo (riflessivo)', time:13,
+        def:'1) Far diventare più vicino, portare più vicino. 2) Riflessivo (<em>avvicinarsi</em>): muoversi verso qualcuno o qualcosa per esserne più vicini. 3) In senso figurato: stabilire un legame con qualcuno.',
+        etim:'Composto: <em>a-</em> (verso) + <em>vicino</em>, dal latino <em>vicinus</em> ("del villaggio, del quartiere"), da <em>vicus</em> ("villaggio, borgo, strada"). Stessa radice di <em>vico</em> (in toponimi: Vico Equense), <em>vicinato</em>, <em>vicinanza</em>.',
+        fam:'vicino · vicinato · vicinanza · ravvicinare · vico',
+        syn:'accostare, appressare, abbordare', ant:'allontanare, separare, distaccare',
+        ex:'Più ti avvicini e più io mi allontano: il paradosso amoroso, due movimenti contrari.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>vicino</strong> deriva da <em>vicus</em>, "villaggio". Nell\'antica Roma il <em>vicus</em> era un piccolo nucleo abitato, una strada del villaggio. Da lì <strong>vicinus</strong> = "che abita lo stesso vicus", cioè "che abita vicino". Anche i nomi <em>Vico Equense</em>, <em>Vicolungo</em>, <em>Vicovaro</em> conservano questa parola antichissima. <strong>Modo di dire</strong>: <em>"essere del vicinato"</em> = appartenere a una piccola comunità che si conosce. Avvicinarsi a qualcuno è etimologicamente <em>"entrare nel suo vicinato"</em>, fare parte del suo mondo prossimo.'
+      },
+      { id:'allontanare', lemma:'allontanare', cat:'verbo · presente indicativo (riflessivo)', time:14,
+        def:'1) Far diventare più lontano, mandare via. 2) Riflessivo (<em>allontanarsi</em>): muoversi via da qualcuno o qualcosa. 3) In senso figurato: prendere le distanze emotive da qualcuno.',
+        etim:'Composto: <em>a-</em> + <em>lontano</em>, dal latino tardo <em>longitanus</em>, derivato di <em>longus</em> ("lungo"). Letteralmente: <em>"rendere distante quanto una grande lunghezza"</em>.',
+        fam:'lontano · lontananza · longevo · longitudine · oblungo',
+        syn:'distanziare, separare, scostare, distogliere', ant:'avvicinare, accostare, attirare',
+        ex:'Più ti avvicini e più io mi allontano: lo scarto emotivo che cresce mentre l\'altro si avvicina.',
+        reg:'comune',
+        curio:'<strong>Famiglia ricca</strong>: <strong>lontano</strong> e <strong>lungo</strong> sono parenti! Entrambi derivano dal latino <em>longus</em> ("lungo"). Da lì <strong>longitudine</strong> (la lunghezza geografica del mondo), <strong>longevo</strong> ("che vive a lungo"), <strong>oblungo</strong> (più lungo che largo). Anche l\'inglese <em>long</em>, il francese <em>long</em>, il tedesco <em>lang</em> condividono la radice. <strong>Coppia di opposti perfetti</strong>: <em>avvicinare/allontanare</em>, <em>vicino/lontano</em> — i due movimenti fondamentali dei sentimenti umani.'
+      },
+      { id:'emozione', lemma:'emozione', cat:'sostantivo · femminile', time:27,
+        def:'1) Stato d\'animo intenso, sensazione forte (gioia, paura, commozione). 2) Per estensione: ogni movimento interiore che modifica l\'umore e il comportamento.',
+        etim:'Dal latino tardo <em>emotio, emotionis</em>, da <em>emovere</em>: <em>e-</em> (fuori) + <em>movere</em> (muovere). Letteralmente: <strong>"movimento verso l\'esterno"</strong>. L\'emozione è etimologicamente <em>"qualcosa che ci muove fuori dal nostro stato normale"</em>.',
+        fam:'emotivo · emozionare · muovere · commuovere · promuovere · rimuovere · movimento',
+        syn:'sentimento, sensazione, agitazione, commozione', ant:'apatia, indifferenza, calma',
+        ex:'Ogni mia stupida emozione: l\'autocritica di chi sa di farsi prendere troppo dai sentimenti.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>emozione</strong>, <strong>commozione</strong>, <strong>movimento</strong>, <strong>muovere</strong>, <strong>promuovere</strong>, <strong>rimuovere</strong>, <strong>motore</strong>, <strong>mobile</strong> sono tutti parenti! Tutti dal latino <em>movere</em> ("muovere"). L\'<em>emozione</em> è il "movimento fuori da sé", la <em>commozione</em> è il "movimento insieme" (= sentirsi mossi internamente). Anche <strong>terremoto</strong> = "movimento della terra". Tutta l\'esperienza interiore italiana è descritta con parole di <em>movimento</em>: provare un\'emozione = essere mossi.'
+      },
+      { id:'bugia', lemma:'bugia', cat:'sostantivo · femminile', time:32,
+        def:'1) Affermazione consapevolmente falsa, detta per ingannare. 2) In senso più ampio: ciò che non corrisponde alla verità.',
+        etim:'Dall\'arabo <em>būǧīya</em>, dall\'antico nome di <strong>Bugia</strong> (oggi <em>Béjaïa</em>), città dell\'Algeria. Da quel porto si esportavano in Europa <em>candele di cera</em>, dette appunto "bugie" (cera di Bugia). Il senso "menzogna" è arrivato in italiano per via separata, ma curiosamente la parola è identica.',
+        fam:'bugiardo · bugiardella · bugia (la candela) · bugiarderia',
+        syn:'menzogna, falsità, inganno, frottola', ant:'verità, sincerità, franchezza',
+        ex:'Dirti una bugia o la verità: il dilemma morale della canzone.',
+        reg:'comune',
+        curio:'<strong>Curiosità etimologica notevole</strong>: in italiano abbiamo due "bugie" — la <em>menzogna</em> (di origine francese antica) e la <em>bugia-candela</em>, il piccolo portacandela basso usato dai nobili. Quest\'ultima viene dal nome della città di <strong>Bugia</strong> (oggi Béjaïa), in Algeria, da cui si importava la cera per fare le candele. Sono <em>omografi</em> ma di origini diverse. <strong>Modo di dire</strong>: <em>"avere le gambe corte"</em> (proverbio: le bugie hanno le gambe corte) = significa che la bugia non va lontano, viene presto scoperta.'
+      },
+      { id:'ingoiare', lemma:'ingoiare', cat:'verbo · infinito', time:60,
+        def:'1) Far passare cibo o liquido dalla bocca allo stomaco attraverso la gola. 2) In senso figurato: subire, sopportare in silenzio (<em>"ingoiare un\'offesa"</em>, <em>"ingoiare le lacrime"</em>).',
+        etim:'Composto: <em>in-</em> + <em>gola</em>, dal latino <em>gula</em>. Letteralmente: "far entrare nella gola". Stessa radice di <em>gola</em>, <em>gulosità</em>, <em>ghiotto</em>, <em>ingordo</em>.',
+        fam:'gola · ingordo · ghiotto · gulosa · ingozzare · sgolato',
+        syn:'inghiottire, deglutire; (figurato): sopportare, mandar giù', ant:'sputare, rifiutare, espellere',
+        ex:'Per finire a ingoiare tutta la paura: il modo di dire italiano "ingoiare la paura" = sopportare in silenzio l\'ansia.',
+        reg:'comune con uso figurato',
+        curio:'<strong>Modi di dire italiani con "ingoiare"</strong>: <em>"ingoiare il rospo"</em> = accettare di fare qualcosa di sgradito, <em>"ingoiare le lacrime"</em> = trattenere il pianto, <em>"ingoiare un\'offesa"</em> = non reagire a un insulto subito. <strong>Sorpresa etimologica</strong>: <strong>ghiotto</strong>, <strong>ingordo</strong>, <strong>gulosità</strong> condividono la radice di <em>gola</em>. La gola è la parte del corpo che divide il volto dal busto, e da sempre simboleggia il piacere (e l\'eccesso) del mangiare. Nei sette vizi capitali, <em>gola</em> è uno dei vizi: il piacere smodato del cibo.'
+      },
+      { id:'rimanere', lemma:'rimanere', cat:'verbo · infinito', time:62,
+        def:'1) Restare in un luogo, non andarsene. 2) Continuare a essere in una certa condizione (<em>"rimanere zitto"</em>, <em>"rimanere solo"</em>). 3) Essere lasciato come traccia (<em>"non rimane nulla"</em>).',
+        etim:'Dal latino <em>remanere</em>: <em>re-</em> (indietro) + <em>manere</em> (restare). Letteralmente: "restare indietro". Stessa radice di <em>permanere</em>, <em>immanente</em>, <em>maniero</em> (luogo dove si <em>rimane</em>), <em>magione</em>.',
+        fam:'rimanente · resto · restare · permanere · immanente · maniero · magione',
+        syn:'restare, fermarsi, perdurare, sopravvivere', ant:'andarsene, partire, sparire',
+        ex:'Di rimanere sola in questa stanza buia: la paura più grande del testo.',
+        reg:'comune',
+        curio:'Sorpresa: <strong>maniero</strong> (il castello, la dimora) e <strong>magione</strong> (= "casa" in italiano poetico) sono parenti di <em>rimanere</em>! Entrambi derivano dal latino <em>manere</em> ("restare"). La <em>magione</em> è etimologicamente <em>"il luogo dove si rimane stabilmente"</em>. Il <em>maniero</em> è la "casa del signore" — dove la famiglia <em>rimane</em> per generazioni. Anche <em>"in maniera"</em> = "in modo permanente, in modo stabile". Tutta una famiglia che gira attorno all\'idea del <em>restare</em>.'
+      },
+      { id:'cura', lemma:'cura', cat:'sostantivo · femminile (parola chiave del titolo)', time:68,
+        def:'1) Attenzione premurosa, custodia (<em>"prendersi cura"</em>). 2) Trattamento medico per guarire da una malattia. 3) In senso figurato: ciò che dà sollievo, rimedio.',
+        etim:'Dal latino <em>cura</em>, "attenzione, preoccupazione", di origine indoeuropea. Stessa radice di <em>curare</em>, <em>curioso</em>, <em>accurato</em>, <em>procurare</em>, <em>sicuro</em> (= "<em>se-curus</em>", "senza cura, senza preoccupazione"!), <em>curatore</em>.',
+        fam:'curare · curioso · curiosità · accurato · procurare · sicuro · curatore · pedicure · manicure',
+        syn:'attenzione, premura, rimedio, terapia',
+        ex:'Solo tu sei la cura per me: la persona amata come rimedio contro la solitudine.',
+        reg:'comune',
+        curio:'<strong>FAMIGLIA STUPEFACENTE</strong>: dalla radice <em>cura</em> nascono parole opposte! <strong>Curioso</strong> = "pieno di cura, di attenzione" (positivo). <strong>Sicuro</strong> = <em>se-curus</em>, "<em>senza</em> cura, senza preoccupazione" (anche positivo, ma per <em>negazione</em>). <strong>Accurato</strong> = "fatto con cura". <strong>Procurare</strong> = "prendersi cura di ottenere". <strong>Pedicure</strong>, <strong>manicure</strong> sono parole francesi che significano letteralmente "cura dei piedi", "cura delle mani". <strong>Dialogo con La cura di Battiato</strong>: nel catalogo c\'è già <em>La cura</em> di Battiato (1996) — registro alto, filosofico, dove l\'amante promette di "curare" l\'altra come un medico-sapiente. <em>La cura per me</em> di Giorgia (2025) usa la stessa parola ma in registro contemporaneo: la cura è la persona amata stessa. Confronto bellissimo tra due epoche e due registri.'
+      },
+      { id:'scordare', lemma:'scordare', cat:'verbo · infinito (forma toscana-letteraria)', time:81,
+        def:'1) Dimenticare, perdere il ricordo di qualcosa o qualcuno. 2) Forma più letteraria di <em>dimenticare</em>, ancora usata in tutta Italia con sfumatura poetica.',
+        etim:'Composto stupefacente: <em>s-</em> (privativo, "togliere") + <em>core</em> (forma antica e poetica di <em>cuore</em>). Letteralmente: <strong>"togliere dal cuore"</strong>. Stessa famiglia di <em>cuore</em>, <em>ricordare</em> ("<em>ri-cor-dare</em>" = riportare al cuore!), <em>coraggio</em>.',
+        fam:'cuore · cordiale · ricordare · ricordo · concordia · discordia · coraggio · misericordia',
+        syn:'dimenticare, smemorare, scancellare', ant:'ricordare, rammentare, memorare',
+        ex:'Tutto passa, ma scordarti non so ancora come si faccia: la difficoltà di togliere qualcuno dal cuore.',
+        reg:'comune con sfumatura letteraria',
+        curio:'<strong>SCOPERTA STRAORDINARIA</strong>: <strong>scordare</strong> contiene <em>core</em>, forma antica di <em>cuore</em>. Letteralmente significa <em>"togliere dal cuore"</em>. È la <strong>perfetta opposizione</strong> di <strong>ricordare</strong> = <em>ri-cor-dare</em> = "riportare al cuore". Per i latini e per gli italiani antichi, la memoria stava nel <strong>cuore</strong>, non nel cervello — e questa idea è sopravvissuta in entrambe le parole. <strong>Famiglia magica</strong>: <em>cuore</em> → <em>cordiale</em> ("col cuore"), <em>concordia</em> ("con un solo cuore"), <em>discordia</em> ("cuori diversi"), <em>coraggio</em> ("la forza del cuore"), <em>misericordia</em> ("cuore per chi soffre"), <em>accordare</em> ("mettere d\'accordo i cuori"). E quando "ti scordo", etimologicamente <em>ti tolgo dal cuore</em>. Quando dici <em>"non si scorda mai"</em>, dici che <em>"resta sempre nel cuore"</em>. La canzone di Giorgia gioca esattamente con questa difficoltà: come si fa a <em>togliere</em> qualcuno dal proprio cuore?'
+      },
+      { id:'rovinare', lemma:'rovinare', cat:'verbo · imperfetto indicativo', time:88,
+        def:'1) Danneggiare, distruggere qualcosa che era integro. 2) Far cadere in disgrazia, mandare in rovina. 3) Detto di un\'esperienza: guastarne il piacere.',
+        etim:'Dal latino <em>ruina</em>, "crollo, caduta", da <em>ruere</em> ("precipitare, crollare"). Stessa radice di <em>rovina</em>, <em>ruina</em>, <em>rudere</em>, <em>diruto</em>, e — sorpresa — di <em>ruscello</em> ("piccolo torrente che <em>precipita</em>")!',
+        fam:'rovina · ruina · rudere · ruscello · rovinoso · diruto',
+        syn:'danneggiare, distruggere, guastare, demolire', ant:'salvare, riparare, restaurare',
+        ex:'Qualcosa lo dovevo rovinare: l\'autocritica di chi sa di aver distrutto un buon rapporto.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>ruscello</strong>, <strong>rovina</strong>, <strong>rudere</strong> sono parenti! Tutti derivano dal latino <em>ruere</em> ("precipitare"). Il <em>ruscello</em> è etimologicamente <em>"l\'acqua che precipita"</em> giù per la collina. La <em>rovina</em> è il "<em>precipitare</em>" di un edificio. Il <em>rudere</em> è ciò che resta dopo il crollo. Anche <strong>rovesciare</strong> (= "girare al rovescio") condivide la radice. Tutti gesti del <em>cadere giù con forza</em>.'
+      },
+      { id:'nascondere', lemma:'nascondere', cat:'verbo · presente indicativo', time:91,
+        def:'1) Mettere qualcosa in un luogo segreto perché non si veda. 2) Tenere nascosto un sentimento, una verità, un pensiero. 3) Riparare alla vista (<em>"il muro nasconde il giardino"</em>).',
+        etim:'Dal latino tardo <em>abscondere</em>: <em>abs-</em> (lontano) + <em>condere</em> (porre, riporre). Stessa famiglia di <em>condire</em> (= "mettere insieme"), <em>fondare</em>, <em>fondo</em>, <em>profondo</em>, <em>condotto</em>.',
+        fam:'nascondino · nascosto · ascoso (poetico) · ascondere · condire · fondare · profondo',
+        syn:'celare, occultare, mascherare, dissimulare', ant:'rivelare, mostrare, palesare, scoprire',
+        ex:'E nascondo una lacrima nel mare: l\'iperbole del dolore inavvertibile.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>nascondere</strong>, <strong>fondare</strong>, <strong>profondo</strong>, <strong>condire</strong> sono tutti parenti! Tutti derivano dalla radice latina <em>-condere</em> ("porre, riporre"). <em>Nascondere</em> = "porre lontano". <em>Fondare</em> = "porre in basso, alla base". <em>Profondo</em> = "posto molto in basso". <em>Condire</em> = "porre insieme" (gli ingredienti). Anche <strong>nascondino</strong> (il gioco) deriva da lì: chi si <em>nasconde</em> si pone in un luogo lontano dagli sguardi. Tutta una famiglia che gira attorno al <em>posizionare</em>.'
+      },
+      { id:'infinito', lemma:'infinito', cat:'aggettivo / sostantivo · maschile', time:97,
+        def:'1) Che non ha fine, illimitato, sconfinato. 2) Sostantivo: l\'illimitato, ciò che va oltre ogni misura ("guardare l\'infinito"). 3) In grammatica: <em>modo infinito</em> del verbo (es. "andare", "fare").',
+        etim:'Dal latino <em>infinitus</em>: <em>in-</em> (non) + <em>finitus</em> (limitato, terminato), participio di <em>finire</em>. Letteralmente: <strong>"non finito, senza fine"</strong>. Stessa radice di <em>fine</em>, <em>finito</em>, <em>definire</em>, <em>raffinare</em>.',
+        fam:'fine · finito · definire · raffinare · confinare · finestra (parente!)',
+        syn:'sconfinato, illimitato, eterno, immenso', ant:'finito, limitato, definito, breve',
+        ex:'Ferito, voglio andare avanti all\'infinito: la promessa di non fermarsi mai.',
+        reg:'colto',
+        curio:'<strong>"L\'Infinito" di Leopardi</strong> (1819): la poesia più famosa della letteratura italiana parla proprio dell\'<em>infinito</em>. Dal colle di Recanati, il poeta guarda oltre la siepe e immagina <em>"interminati spazi"</em>. La parola <em>"infinito"</em> è il cuore della poesia romantica europea — l\'aspirazione a superare i limiti della vita quotidiana. <strong>Famiglia ricca</strong>: <em>finestra</em> = "piccola fine", da <em>fenestra</em>, "piccola apertura"; <em>confinare</em> = "mettere un limite comune". Anche <strong>raffinare</strong> = "rendere fino" (sottile, perfetto). La <em>fine</em> in italiano significa sia "termine" sia "delicato" — due significati che convivono per gusto e per misura.'
+      },
+      { id:'trovare', lemma:'trovare', cat:'verbo · infinito', time:99,
+        def:'1) Scoprire qualcosa o qualcuno che si cercava. 2) Imbattersi in qualcosa per caso. 3) In senso figurato: scoprire dentro di sé qualcosa (<em>"trovare il coraggio"</em>).',
+        etim:'Dal latino tardo <em>tropare</em>, da <em>tropus</em> ("modo, espressione musicale"). In origine era un termine <em>musicale</em>: "comporre, modulare". I <em>trovatori</em> medievali erano i poeti-musicisti che <em>"trovavano"</em> versi e melodie.',
+        fam:'trovata · trovatore · ritrovare · introvabile · trovarobe',
+        syn:'scoprire, scovare, incontrare, rinvenire', ant:'perdere, smarrire, ignorare',
+        ex:'Trovarti dentro gli occhi di un cane smarrito: cercare la persona amata negli sguardi degli altri.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>trovare</strong> in origine non significava "scoprire per caso", ma <em>"comporre arte"</em>. I <strong>trovatori</strong> medievali (in francese <em>troubadours</em>) erano i poeti-musicisti delle corti provenzali del XII-XIII secolo — quelli che hanno <em>inventato</em> la poesia d\'amore moderna. Erano "trovatori" perché <em>"trovavano"</em> versi e melodie nuovi. Anche <strong>trovatello</strong> (il bambino abbandonato, "trovato") condivide la radice. <strong>Trovarobe</strong> in teatro è chi <em>trova</em> gli oggetti di scena. Il senso moderno di "scoprire qualcosa di nascosto" è arrivato dopo, per estensione.'
+      },
+      { id:'smarrito', lemma:'smarrito', cat:'aggettivo / participio passato', time:102,
+        def:'1) Che ha perso la strada, perduto. 2) In senso figurato: confuso, disorientato, che ha perso il senso di orientamento o di certezza (<em>"avere uno sguardo smarrito"</em>).',
+        etim:'Da <em>smarrire</em>, di origine incerta — forse dal germanico antico <em>marrjan</em> ("ostacolare, danneggiare") con prefisso intensivo <em>s-</em>. La parola è entrata in italiano nel Medioevo, da fonte popolare.',
+        fam:'smarrire · smarrimento',
+        syn:'perduto, sperduto, confuso, disorientato', ant:'sicuro, fermo, orientato, deciso',
+        ex:'Trovarti dentro gli occhi di un cane smarrito: l\'immagine commovente di chi cerca rifugio.',
+        reg:'comune con uso letterario',
+        curio:'<strong>"Mi ritrovai per una selva oscura"</strong> — l\'incipit della <em>Divina Commedia</em> (Dante, 1321): <em>"Nel mezzo del cammin di nostra vita / mi ritrovai per una selva oscura / ché la diritta via era <strong>smarrita</strong>"</em>. La parola <em>smarrita</em> è uno dei segnali poetici più forti dell\'italiano: indica chi ha perso non solo la strada, ma anche il senso della propria vita. <strong>Modo di dire</strong>: <em>"avere uno sguardo smarrito"</em> = avere gli occhi di chi non capisce più dove si trovi. Giorgia usa la parola riferita a un <em>cane</em>: l\'immagine dell\'animale randagio diventa metafora dell\'innamorato che cerca un padrone.'
+      },
+      { id:'rincorrere', lemma:'rincorrere', cat:'verbo · infinito', time:152,
+        def:'1) Correre dietro a qualcuno o qualcosa per raggiungerlo. 2) In senso figurato: inseguire con insistenza un obiettivo, un\'aspirazione, un amore.',
+        etim:'Composto: <em>ri-</em> (di nuovo, indietro) + <em>correre</em>, dal latino <em>currere</em> ("correre"). Stessa famiglia di <em>corrente</em>, <em>corsa</em>, <em>corso</em>, <em>discorso</em>, <em>concorso</em>, <em>soccorso</em>, <em>ricorso</em>.',
+        fam:'correre · corsa · corrente · corso · discorso · concorso · soccorso · percorso',
+        syn:'inseguire, perseguire, dare la caccia', ant:'evitare, scansare, fuggire',
+        ex:'Non ho voglia di rincorrerti: la dichiarazione di chi smette di inseguire.',
+        reg:'comune',
+        curio:'<strong>Famiglia magnifica</strong>: dal latino <em>currere</em> ("correre") nasce una galassia di parole italiane. <strong>Corrente</strong> (il flusso che corre, sia acqua sia elettricità). <strong>Discorso</strong> = "correre tra le parole" (mentre parli, le parole "scorrono"). <strong>Concorso</strong> = "correre insieme". <strong>Percorso</strong> = "correre attraverso". <strong>Soccorso</strong> = "correre sotto, in aiuto". <strong>Decorso</strong> = "correre giù", durata. <strong>Modo di dire</strong>: <em>"rincorrere un sogno"</em> = lavorare con costanza per realizzarlo; <em>"rincorrere il tempo"</em> = sentirsi sempre in ritardo. La canzone usa il senso amoroso: <em>smettere di rincorrere</em> = smettere di dipendere da qualcuno che si allontana.'
+      },
+      { id:'salire', lemma:'salire', cat:'verbo · infinito', time:154,
+        def:'1) Andare verso l\'alto, muoversi in altezza. 2) Aumentare di livello (la temperatura sale, i prezzi salgono). 3) In senso figurato: progredire socialmente, fare carriera.',
+        etim:'Dal latino <em>salire</em>, "saltare, balzare". In latino classico significava infatti "saltare" — il senso di "andare in alto" si è sviluppato in italiano. Stessa radice di <em>saltare</em>, <em>salto</em>, <em>saltello</em>, <em>esultare</em>, <em>insultare</em> ("saltare sopra qualcuno").',
+        fam:'salita · saltare · salto · esultare · risalire · assalto · insultare',
+        syn:'ascendere, montare, scalare, arrampicarsi', ant:'scendere, calare, abbassarsi',
+        ex:'Seguire la tua ombra e salire fino sugli alberi: l\'immagine epica del seguire l\'amato ovunque.',
+        reg:'comune',
+        curio:'<strong>Sorpresa enorme</strong>: <strong>salire</strong>, <strong>saltare</strong>, <strong>esultare</strong>, <strong>insultare</strong> sono tutti parenti! In latino <em>salire</em> significava <em>"saltare"</em> — un movimento improvviso verso l\'alto. Da lì: <strong>saltare</strong> (in italiano) = "balzare", <strong>salire</strong> = "andare in alto" (etimologicamente "balzare in alto"), <strong>esultare</strong> = "<em>ex-saltare</em>", saltare di gioia (uscire saltando dal proprio stato normale!), <strong>insultare</strong> = "<em>in-saltare</em>", saltare addosso a qualcuno con offese. Tutta una famiglia che parte da un <em>balzo</em>. Anche <strong>assalto</strong> = "saltare contro" militarmente.'
+      },
+      { id:'guardare', lemma:'guardare', cat:'verbo · gerundio', time:156,
+        def:'1) Rivolgere lo sguardo verso qualcosa o qualcuno, osservare. 2) Prestare attenzione, considerare (<em>"guardare le cose con calma"</em>). 3) Custodire, proteggere (<em>"guardia"</em>).',
+        etim:'Dal germanico antico <em>wardōn</em>, "osservare, vigilare, custodire". Stessa radice del francese <em>regarder</em>, dell\'inglese <em>guard</em> ("guardia") e <em>warden</em> ("guardiano"), del tedesco <em>warten</em> ("aspettare").',
+        fam:'guardia · guardare · sguardo · riguardo · salvaguardia · guardaroba · guardiano',
+        syn:'osservare, contemplare, scrutare, sorvegliare', ant:'ignorare, distogliere lo sguardo',
+        ex:'Guardando il cielo sapendo che lo stai guardando ora anche tu: l\'idea poetica di sentirsi vicini guardando la stessa cosa.',
+        reg:'comune',
+        curio:'<strong>Sorpresa etimologica</strong>: <strong>guardare</strong>, <strong>guardia</strong>, <strong>sguardo</strong>, <strong>riguardo</strong>, <strong>guardaroba</strong>, <strong>salvaguardia</strong> sono tutti parenti! Tutti dal germanico <em>wardōn</em> ("osservare, vigilare"). In origine "guardare" significava <em>"vigilare, custodire"</em>, non solo "osservare con gli occhi". Da lì la <strong>guardia</strong> (chi vigila), il <strong>guardaroba</strong> (chi custodisce gli abiti), la <strong>salvaguardia</strong> (chi salva e custodisce). Anche l\'inglese <em>guard</em> e il francese <em>garde</em> condividono la stessa origine. <strong>Modo di dire</strong>: <em>"guardare in faccia qualcuno"</em> = avere il coraggio di affrontarlo direttamente.'
+      },
+      { id:'spegnere', lemma:'spegnere', cat:'verbo · presente indicativo', time:170,
+        def:'1) Far cessare la combustione di un fuoco, la luce di una lampada, il funzionamento di un apparecchio. 2) In senso figurato: far cessare un sentimento, un\'emozione, un desiderio (<em>"spegnere la paura"</em>).',
+        etim:'Dal latino <em>expingere</em>, "spegnere completamente", composto: <em>ex-</em> (fuori) + <em>pinguere</em> (forma popolare di <em>extinguere</em>, "estinguere"). In italiano è una forma irregolare. Stessa radice di <em>estinguere</em>, <em>estinto</em>, <em>estinzione</em>.',
+        fam:'estinguere · estinto · estinzione · spento · spegnimento',
+        syn:'estinguere, smorzare, soffocare, soffiare via', ant:'accendere, alimentare, ravvivare',
+        ex:'Spengo la paura di rimanere sola: la decisione di mettere fine al sentimento doloroso.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>spegnere</strong> ed <strong>estinguere</strong> sono la stessa parola in forme diverse! <em>Estinguere</em> è la forma colta latina, <em>spegnere</em> è la forma popolare evolutasi nel volgare italiano. Si dice anche <em>"specie estinta"</em> (animali scomparsi per sempre) o <em>"un vulcano estinto"</em> (che non erutta più). <strong>Modi di dire poetici</strong>: <em>"spegnere la sete"</em> (con acqua), <em>"spegnere la voce"</em> (smettere di parlare), <em>"spegnere la rabbia"</em> (calmarsi). La metafora di Giorgia è bellissima: <em>"spengo la paura"</em> come se la paura fosse una candela o un fuoco che si può soffiare via.'
+      }
+    ]
+  },
+
+  {
+    id:'amico-e', titolo:'L\'amico è', artista:'Dario Baldan Bembo', autore:'Dario Baldan Bembo · Paolo Barabani',
+    anno:1977, album:'Aida', durata:230, livello:1,
+    youtubeId:'WO5S1ULM4UY', coverPalette:'nomadi', coverLetter:'D',
+    parole:[
+      { id:'amico', lemma:'amico', cat:'sostantivo · maschile (parola chiave)', time:36,
+        def:'Persona alla quale si è legati da affetto profondo, fiducia reciproca, simpatia. Non parente, non innamorato: una scelta libera del cuore.',
+        etim:'Dal latino <em>amicus</em>, derivato di <em>amare</em> ("amare"). Letteralmente: <strong>"chi ama"</strong>. Stessa radice di <em>amare</em>, <em>amante</em>, <em>amabile</em>, <em>amico</em>, <em>amicizia</em>, e di <em>amore</em> stesso.',
+        fam:'amare · amante · amabile · amicizia · amorevole · amato · amorino',
+        syn:'compagno, camerata, sodale, intimo', ant:'nemico, avversario, estraneo',
+        ex:'L\'amico è una persona schietta come te: la dichiarazione che apre la canzone.',
+        reg:'comune',
+        curio:'<strong>FAMIGLIA STRAORDINARIA</strong>: l\'<em>amico</em>, etimologicamente, è <strong>"chi ama"</strong>. La parola viene direttamente dal latino <em>amare</em>, e condivide la radice con tutta la galassia dell\'amore italiano: <em>amante</em>, <em>amabile</em>, <em>amorevole</em>, <em>amato</em>, <em>amare</em>, <em>amore</em>, <em>amorino</em>. Per i Romani la parola <em>amicus</em> non era debole: indicava un legame importante quanto quello familiare. <strong>Lezione poetica</strong>: dire "<em>è il mio amico</em>" significa etimologicamente <em>"è uno che mi ama, e io lui"</em>. Cicerone, nel suo trattato <em>De amicitia</em> (44 a.C.), scriveva: <em>"Senza amicizia, la vita non è vita"</em>. <strong>Curiosità</strong>: l\'aggettivo <em>amichevole</em> conserva ancora la forma latina <em>-icus</em>; anche <em>nemico</em> è l\'opposto di <em>amico</em> con il prefisso negativo <em>in-</em> (latino <em>in-amicus</em> → <em>inimicus</em> → <em>nemico</em>).'
+      },
+      { id:'persona', lemma:'persona', cat:'sostantivo · femminile', time:39,
+        def:'1) Essere umano, individuo. 2) In filosofia e diritto: l\'individuo come soggetto di diritti. 3) In grammatica: prima, seconda, terza persona (io/tu/egli).',
+        etim:'Dal latino <em>persona</em>, dalla parola <strong>etrusca</strong> <em>phersu</em>: era in origine la <strong>maschera</strong> degli attori del teatro greco e romano. La maschera aveva un\'imboccatura che faceva <em>risuonare la voce</em>: <em>per-sonare</em> = "risuonare attraverso".',
+        fam:'personale · personaggio · personalità · impersonare · persona · personificare',
+        syn:'individuo, essere umano, soggetto',
+        ex:'L\'amico è una persona schietta come te: il termine generico ma rispettoso, ognuno è una "persona".',
+        reg:'comune',
+        curio:'<strong>STORIA STRAORDINARIA</strong>: <em>persona</em> in origine non significava "essere umano"! In etrusco <em>phersu</em> era la <strong>maschera</strong> teatrale, quella che gli attori indossavano sul palco. La maschera aveva un\'imboccatura speciale che faceva <em>risuonare</em> più forte la voce dell\'attore: da qui <em>per-sonare</em> = "risuonare attraverso". I Romani presero la parola dagli Etruschi (<em>persona</em>) e la usarono per indicare prima il <em>ruolo</em> dell\'attore, poi il <em>ruolo sociale</em> di un individuo, infine l\'<em>individuo stesso</em>. <strong>Personaggio</strong>, <strong>personalità</strong>, <strong>impersonare</strong> conservano il senso teatrale originario. Quando dici <em>"sei una persona simpatica"</em>, etimologicamente stai dicendo <em>"reciti un ruolo simpatico"</em>. <strong>Lezione</strong>: l\'identità umana, per gli antichi, era una <em>maschera</em>.'
+      },
+      { id:'schietta', lemma:'schietta', cat:'aggettivo · femminile', time:43,
+        def:'1) Sincera, franca, senza inganni o ipocrisie. 2) Pura, autentica, non mescolata (un vino schietto). 3) Detta di una persona: che dice quello che pensa senza giri di parole.',
+        etim:'Dal longobardo <em>slihts</em>, "liscio, semplice, puro", di origine germanica. Stessa radice del tedesco <em>schlicht</em> ("semplice") e dell\'inglese <em>slight</em> ("leggero"). Curiosamente, è parente del nostro <strong>schiacciare</strong> (= "rendere liscio premendo").',
+        fam:'schiettezza · schiettamente · schiacciare',
+        syn:'sincera, franca, leale, genuina, autentica', ant:'falsa, doppia, ipocrita, ambigua',
+        ex:'Una persona schietta come te: il valore più alto dell\'amicizia, secondo la canzone.',
+        reg:'comune con uso letterario',
+        curio:'Sorpresa etimologica: <strong>schietta</strong> e <strong>schiacciare</strong> sono parenti! Entrambi derivano dal germanico <em>slihts</em>, "liscio, piatto". Una persona <em>schietta</em> è etimologicamente <em>"liscia, senza pieghe"</em>: non nasconde niente sotto. <em>Schiacciare</em> = "rendere piatto, liscio". <strong>Modi di dire</strong>: <em>"parlare schietto"</em> = parlare senza giri di parole. <em>"Un vino schietto"</em> = un vino puro, non tagliato. Anche il <em>tedesco schlicht</em> conserva il senso di "semplice, senza ornamenti": uno stile <em>schietto</em> è uno stile essenziale, sobrio.'
+      },
+      { id:'verità', lemma:'verità', cat:'sostantivo · femminile', time:59,
+        def:'1) Ciò che corrisponde alla realtà, in contrapposizione alla menzogna. 2) In filosofia: corrispondenza tra pensiero e cosa. 3) Nei modi di dire: "dire la verità", "vuotare il sacco".',
+        etim:'Dal latino <em>veritas, veritatis</em>, da <em>verus</em> ("vero"), di origine indoeuropea. Stessa radice di <em>vero</em>, <em>verace</em>, <em>veridico</em>, <em>verismo</em>, <em>verificare</em>, <em>verosimile</em>.',
+        fam:'vero · verace · veridico · verismo · verificare · verosimile · veramente',
+        syn:'realtà, esattezza, sincerità, certezza', ant:'menzogna, falsità, bugia, inganno',
+        ex:'L\'amico sa il gusto amaro della verità: la verità non è sempre dolce, ma l\'amico vero la affronta.',
+        reg:'comune con uso filosofico',
+        curio:'<strong>"In vino veritas"</strong>: il celebre proverbio latino ("nel vino è la verità") fa il punto sul rapporto tra <em>verità</em> e disinibizione — chi beve dice ciò che pensa veramente. <strong>Filosofia</strong>: la <em>verità</em> è uno dei grandi temi della filosofia occidentale. Per Aristotele, è <em>"dire di ciò che è, che è, e di ciò che non è, che non è"</em>. Per Cristo: <em>"Io sono la Via, la Verità e la Vita"</em>. <strong>Modi di dire italiani</strong>: <em>"a dire la verità"</em>, <em>"per dirla tutta"</em>, <em>"a onor del vero"</em>. <em>"La verità delle volte è un fardello"</em>: cantava De André. Per Baldan Bembo invece è un "gusto amaro" — qualcosa che brucia in bocca ma fa bene.'
+      },
+      { id:'difendere', lemma:'difendere', cat:'verbo · infinito', time:63,
+        def:'1) Proteggere qualcuno o qualcosa da un pericolo o un attacco. 2) Sostenere una posizione, un\'idea (<em>"difendere la propria tesi"</em>). 3) In senso giudiziario: assistere come avvocato.',
+        etim:'Dal latino <em>defendere</em>: <em>de-</em> (da) + <em>fendere</em> ("colpire, percuotere"). Letteralmente: <strong>"respingere colpendo"</strong>. Stessa radice di <em>difesa</em>, <em>offendere</em> (= "colpire contro"), <em>fendere</em> (anche se in italiano è raro).',
+        fam:'difesa · difensore · difensivo · offendere · offesa · indifeso',
+        syn:'proteggere, riparare, sostenere, tutelare', ant:'attaccare, offendere, accusare',
+        ex:'Sa nasconderla per difenderti: l\'amico vero usa anche la bugia se serve a proteggerti.',
+        reg:'comune',
+        curio:'<strong>Famiglia perfetta di opposti</strong>: <strong>difendere</strong> e <strong>offendere</strong> sono parenti! Entrambi dal latino <em>fendere</em> ("colpire"). <em>Difendere</em> = <em>de-fendere</em>, "colpire <em>da</em> sé, respingere". <em>Offendere</em> = <em>ob-fendere</em>, "colpire <em>contro</em>". Sono due movimenti opposti del medesimo gesto. <strong>Indifeso</strong> = "<em>in-difeso</em>", chi non può respingere i colpi. Anche <em>"infendere"</em> in italiano antico significava "colpire dentro" (oggi raro). Nel diritto, l\'<em>avvocato della difesa</em> è chi <em>respinge le accuse</em> contro l\'imputato.'
+      },
+      { id:'bugiardo', lemma:'bugiardo', cat:'sostantivo · aggettivo · maschile', time:66,
+        def:'1) Persona che dice bugie. 2) Aggettivo: che mente, falso. 3) In senso figurato: ciò che inganna, che non corrisponde al vero (<em>"una promessa bugiarda"</em>).',
+        etim:'Da <em>bugia</em>, di origine probabilmente francese antica (<em>bouzie</em>, "menzogna"). Suffisso <em>-ardo</em> intensivo (germanico): indica chi pratica abitualmente l\'azione (come in <em>vigliacco</em>, <em>codardo</em>).',
+        fam:'bugia · bugiarderia · bugiardella · bugia (la candela)',
+        syn:'menzognero, falso, ingannatore, fraudolento', ant:'sincero, veritiero, schietto, onesto',
+        ex:'Un vero amico è anche bugiardo: il paradosso etico della canzone — la bugia per amore.',
+        reg:'comune',
+        curio:'<strong>Paradosso etico</strong>: la canzone dice una cosa apparentemente contraddittoria — l\'amico vero è anche bugiardo. Ma è una <em>bugia buona</em>, una <em>"bugia bianca"</em> come si dice in inglese (<em>white lie</em>). <strong>Modi di dire</strong>: <em>"le bugie hanno le gambe corte"</em> (= si scoprono presto), <em>"un bugiardo si riconosce dalla faccia"</em>. <strong>Suffisso -ardo</strong>: in italiano i nomi/aggettivi in <em>-ardo</em> indicano spesso un\'inclinazione marcata, di solito negativa: <em>bugiardo, codardo, vigliacco, leccardo, montanardo</em>. Sono parole di origine germanica (longobardo, francone), entrate nell\'italiano medievale.'
+      },
+      { id:'silenzio', lemma:'silenzio', cat:'sostantivo · maschile', time:74,
+        retorica:'personificazione',
+        def:'1) Assenza di suoni, di parole, di rumore. 2) Periodo in cui non si parla, ci si tace. 3) In musica: pausa, intervallo senza suono — il silenzio è parte della musica stessa.',
+        etim:'Dal latino <em>silentium</em>, da <em>silere</em> ("tacere"). Stessa radice di <em>silente</em>, <em>silenzioso</em>, e — sorpresa — di <em>desistere</em> (?, parentela incerta).',
+        fam:'silenzioso · silente · zittire · ammutolire · taciturno',
+        syn:'quiete, mutismo, taciuto, calma', ant:'rumore, frastuono, chiasso, baccano',
+        ex:'È un silenzio che vuol diventare musica: il silenzio dell\'amicizia non è vuoto, è una promessa di canto.',
+        reg:'comune con uso poetico',
+        curio:'<strong>Il silenzio in musica</strong>: in musica il silenzio NON è vuoto, è una <em>nota</em>! Le <strong>pause</strong> hanno simboli precisi nello spartito e durate calcolate (vedi scheda <em>pause</em> in "Vivo per lei"). Senza il silenzio, una composizione sarebbe un caos. <strong>Personificazione</strong>: la canzone dice <em>"un silenzio che vuol diventare musica"</em> — il silenzio non è inerte, ha una volontà, ha un desiderio. Questa figura retorica si chiama <em>personificazione</em>: dare a una cosa astratta i tratti di una persona viva. <strong>Modi di dire</strong>: <em>"un silenzio assordante"</em> (così pieno da essere come un rumore), <em>"il silenzio è d\'oro"</em> (prov. cinese: il valore di tacere al momento giusto).'
+      },
+      { id:'meglio', lemma:'meglio', cat:'avverbio · comparativo di "bene"', time:70,
+        retorica:'anafora',
+        def:'1) Comparativo di "bene": in modo migliore (corro meglio di te). 2) In una scelta: la cosa più conveniente, più giusta. 3) Sostantivo: ciò che è migliore (<em>"il meglio"</em>).',
+        etim:'Dal latino <em>melius</em>, comparativo di <em>bonus</em> ("buono"), di origine indoeuropea. Stessa famiglia di <em>migliore</em>, <em>migliorare</em>, <em>migliorìa</em>. Sopravvive nelle lingue romanze: francese <em>mieux</em>, spagnolo <em>mejor</em>.',
+        fam:'migliore · migliorare · migliorìa · bene · ottimo',
+        syn:'in modo migliore, più convenientemente', ant:'peggio, peggiormente',
+        ex:'L\'amico è qualcosa che più ce n\'è meglio è: l\'anafora ripetuta tre volte nel ritornello.',
+        reg:'comune',
+        curio:'<strong>Anafora poetica</strong>: la canzone ripete <em>"più ce n\'è meglio è"</em> e <em>"più si è meglio è"</em> come ritornello insistito. Questa figura retorica si chiama <strong>anafora</strong>: ripetere la stessa parola o struttura all\'inizio di versi successivi per creare ritmo, enfasi, memorabilità. Da <em>anafora</em> greco = "ripetizione". Le canzoni amano l\'anafora perché si memorizza facilmente. <strong>Esempio celebre</strong>: <em>"Per me si va ne la città dolente, / per me si va ne l\'etterno dolore, / per me si va tra la perduta gente"</em> (Dante, <em>Inferno</em> III). Anche il <em>"Veni, vidi, vici"</em> di Cesare è una forma di anafora (ripetizione della struttura). <strong>Italiano</strong>: <em>migliore</em>, <em>meglio</em>, <em>melius</em> (latino) condividono la stessa famiglia: il "<em>meglio</em>" non è mai una conquista finita, è un movimento di miglioramento continuo.'
+      },
+      { id:'coro', lemma:'coro', cat:'sostantivo · maschile', time:78,
+        def:'1) Gruppo di persone che cantano insieme. 2) Nel teatro greco antico: gruppo di danzatori-cantori che commentava l\'azione drammatica. 3) Nella basilica cristiana: lo spazio dove cantano i sacerdoti.',
+        etim:'Dal greco <em>chorós</em>, "luogo per la danza, danza collettiva". Stessa radice di <strong>coreografia</strong> ("scrittura della danza"), <strong>coreuta</strong> (membro del coro), <strong>cori</strong>.',
+        fam:'corale · coreografia · coreuta · coristi · in coro',
+        syn:'complesso vocale, gruppo cantante, schiera',
+        ex:'Da cantare in coro io con te: l\'amicizia come canto collettivo.',
+        reg:'comune con eredità classica',
+        curio:'<strong>Teatro greco antico</strong>: il <em>coro</em> (<em>chorós</em>) era un gruppo di 12-15 danzatori-cantori che, nelle tragedie e commedie greche, <strong>commentavano l\'azione</strong> recitata dagli attori. Erano una specie di "voce collettiva" che esprimeva sentimenti morali, religiosi, popolari. La parola <em>chorós</em> in origine significava <em>"luogo dove si danza"</em>: il coro era il <em>posto in scena</em> riservato alla danza. Da lì: <strong>coreografia</strong> = "scrittura della danza", <strong>coreuta</strong> = "membro del coro", <strong>corografia</strong> (descrizione di un luogo). <strong>Sorpresa</strong>: anche il <em>coro</em> delle chiese cristiane (lo spazio davanti all\'altare dove cantano i sacerdoti) conserva il senso greco: è il <em>"luogo del canto-danza sacro"</em>.'
+      },
+      { id:'compagnia', lemma:'compagnia', cat:'sostantivo · femminile', time:106,
+        def:'1) Gruppo di amici, comitiva. 2) Stare con qualcuno per non essere soli ("tenere compagnia"). 3) Gruppo organizzato (teatrale, militare, commerciale).',
+        etim:'Composto stupefacente: <em>cum-</em> (insieme) + <em>panis</em> (pane). Letteralmente: <strong>"chi divide il pane"</strong>. Stessa famiglia di <em>compagno</em> (etimologicamente "chi mangia con noi"), <em>accompagnare</em>, <em>companatico</em> ("ciò che si mangia con il pane").',
+        fam:'compagno · accompagnare · companatico · compagine · pane · panettiere',
+        syn:'comitiva, brigata, gruppo, comunità', ant:'solitudine, isolamento',
+        ex:'L\'amico è il più deciso della compagnia: chi conduce il gruppo dei pari.',
+        reg:'comune',
+        curio:'<strong>ETIMOLOGIA STRAORDINARIA</strong>: <strong>compagnia</strong>, <strong>compagno</strong>, <strong>accompagnare</strong> contengono il latino <em>panis</em> = "pane"! La <em>compagnia</em> etimologicamente è <em>"il gruppo di chi divide il pane"</em>. Il <em>compagno</em> è <em>"chi mangia il pane con noi"</em>. Anche il <em>companatico</em> ("ciò che si mette sul pane", come formaggio o salame) viene dalla stessa famiglia. <strong>Lezione antropologica</strong>: per gli antichi, condividere il pane era il gesto fondamentale dell\'amicizia. Mangiare insieme creava un legame sacro. Anche oggi, quando "facciamo compagnia" a qualcuno, etimologicamente <em>"dividiamo il pane con lui"</em>. <strong>Modi di dire</strong>: <em>"in cattiva compagnia"</em> = con persone disoneste, <em>"essere di buona compagnia"</em> = essere piacevole da frequentare.'
+      },
+      { id:'convincere', lemma:'convincere', cat:'verbo · futuro semplice', time:110,
+        def:'1) Persuadere qualcuno della verità di un\'idea o della convenienza di un\'azione. 2) Far cambiare idea con argomenti. 3) In senso giudiziario: provare la colpevolezza (<em>"convincere di reato"</em>).',
+        etim:'Dal latino <em>convincere</em>: <em>cum-</em> (insieme, totalmente) + <em>vincere</em>. Letteralmente: <strong>"vincere totalmente"</strong>, sbaragliare le obiezioni dell\'avversario. Stessa radice di <em>vincere</em>, <em>vittoria</em>, <em>invincibile</em>, <em>vinto</em>.',
+        fam:'vincere · vittoria · vinto · invincibile · convinzione · convinto',
+        syn:'persuadere, indurre, far credere, dimostrare', ant:'dissuadere, sconfessare, sconvolgere',
+        ex:'Ti convincerà a non arrenderti: l\'amico è chi ti vince le obiezioni quando vuoi mollare.',
+        reg:'comune',
+        curio:'Famiglia magnifica: <strong>convincere</strong>, <strong>vincere</strong>, <strong>vittoria</strong>, <strong>vinto</strong>, <strong>invincibile</strong>, <strong>convinzione</strong>. Tutti dal latino <em>vincere</em>. <em>Convincere</em> = "vincere insieme" — superare le resistenze dell\'altro fino a portarlo dalla propria parte. <strong>Modi di dire</strong>: <em>"prova provata"</em> = dimostrazione che convince oltre ogni dubbio. <em>"Mi hai convinto"</em> = "hai vinto le mie obiezioni". <strong>Latinismo</strong>: in diritto, <em>convincere di reato</em> = dimostrare la colpevolezza dell\'imputato (cioè "vincerlo" definitivamente nel processo).'
+      },
+      { id:'arrendersi', lemma:'arrendersi', cat:'verbo · infinito (riflessivo)', time:114,
+        def:'1) Cedere, smettere di combattere, accettare la sconfitta. 2) In senso figurato: rinunciare a un obiettivo difficile, perdere la motivazione.',
+        etim:'Composto: <em>a-</em> + <em>rendere</em> (sé stesso), dal latino <em>reddere</em>: <em>re-</em> + <em>dare</em>. Letteralmente: <strong>"darsi indietro"</strong>, restituire sé stessi al nemico. Stessa radice di <em>rendere</em>, <em>resa</em>, <em>reddito</em>.',
+        fam:'rendere · resa · reddito · rendimento · arrendevole',
+        syn:'cedere, capitolare, abbandonare', ant:'resistere, lottare, perseverare',
+        ex:'Ti convincerà a non arrenderti: il messaggio centrale della canzone — l\'amico è chi ti tiene in piedi.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>arrendersi</strong>, <strong>rendere</strong>, <strong>resa</strong>, <strong>reddito</strong>, <strong>rendimento</strong> sono tutti parenti. Tutti dal latino <em>reddere</em>, "dare indietro". L\'<em>arrendersi</em> è etimologicamente <em>"dare indietro sé stessi"</em> al nemico: una specie di restituzione. Il <em>reddito</em> è ciò che un\'attività <em>rende</em>, ti <em>restituisce</em>. Il <em>rendimento</em> di una macchina è quanto <em>rende</em> in rapporto a quanto consuma. <strong>Modi di dire</strong>: <em>"alzare bandiera bianca"</em> = arrendersi. <em>"Non arrenderti mai"</em> = continuare a lottare. La canzone usa il senso più nobile: l\'amico è chi ti dà la forza di <em>non restituirti</em> alla difficoltà.'
+      },
+      { id:'correre', lemma:'correre', cat:'verbo · infinito', time:126,
+        def:'1) Muoversi velocemente, andare di fretta. 2) Scorrere (di acqua, tempo, parole). 3) In senso figurato: agire in fretta, affrettarsi (<em>"corri ad aiutarlo"</em>).',
+        etim:'Dal latino <em>currere</em>, di origine indoeuropea. Stessa famiglia di <em>corsa</em>, <em>corso</em>, <em>corrente</em>, <em>discorso</em>, <em>percorso</em>, <em>concorso</em>, <em>soccorso</em>, <em>rincorrere</em> (vedi <em>La cura per me</em>).',
+        fam:'corsa · corrente · corso · discorso · concorso · soccorso · percorso',
+        syn:'precipitarsi, accorrere, scappare, affrettarsi', ant:'fermarsi, arrestarsi, indugiare',
+        ex:'Ti spinge a correre ti lascia vincere: l\'amico ti dà la spinta, ma poi ti lascia il merito.',
+        reg:'comune',
+        curio:'<strong>Modi di dire italiani con "correre"</strong>: <em>"correre dietro a qualcuno"</em> = inseguirlo amorosamente; <em>"correre voce"</em> = circolare una notizia (le voci "corrono" tra le persone); <em>"correre il rischio"</em> = osare nonostante il pericolo; <em>"correre ai ripari"</em> = agire in fretta per rimediare. <strong>Famiglia</strong>: dal latino <em>currere</em> nasce una galassia (vedi "rincorrere" nel catalogo). Anche il <em>corso</em> di un fiume, il <em>corso</em> di una strada, il <em>corso</em> degli studi: tutto "scorre" come un movimento.'
+      },
+      { id:'vincere', lemma:'vincere', cat:'verbo · infinito', time:128,
+        def:'1) Superare un avversario in una gara, una battaglia, una sfida. 2) In senso figurato: superare una difficoltà, una paura, un ostacolo. 3) Ottenere un premio (<em>"vincere alla lotteria"</em>).',
+        etim:'Dal latino <em>vincere</em>, di origine indoeuropea. Stessa radice di <em>vittoria</em>, <em>vinto</em>, <em>invincibile</em>, <em>convincere</em>. Anche l\'inglese <em>win</em>, il tedesco <em>gewinnen</em> condividono la radice indoeuropea.',
+        fam:'vittoria · vinto · invincibile · convincere · evincere · vincitore',
+        syn:'trionfare, superare, sconfiggere, prevalere', ant:'perdere, soccombere, essere sconfitto',
+        ex:'Ti spinge a correre ti lascia vincere: l\'amico mette te al primo posto.',
+        reg:'comune',
+        curio:'<strong>Famiglia perfetta</strong>: dal latino <em>vincere</em> nasce un\'intera galassia. <em>Vittoria</em> (il risultato), <em>vinto</em> (chi ha perso, participio passato passivo), <em>vincitore</em> (chi vince), <em>invincibile</em> ("che non si può vincere"), <em>convincere</em> ("vincere insieme, vincere totalmente"), <em>evincere</em> ("vincere fuori, dedurre"). <strong>Espressioni famose</strong>: <em>"Veni, vidi, vici"</em> ("Venni, vidi, vinsi") — Giulio Cesare al Senato romano dopo la battaglia di Zela (47 a.C.). <em>"La vittoria ha cento padri, la sconfitta è orfana"</em> (proverbio italiano). <em>"Vincere è bello, ma vincere bene è meglio"</em>.'
+      },
+      { id:'vivere', lemma:'vivere', cat:'verbo · infinito (e sostantivo)', time:122,
+        def:'1) Essere vivo, esistere come essere vivente. 2) Trascorrere l\'esistenza in un certo modo (<em>"vivere felici"</em>). 3) Sostantivo: l\'esistenza stessa, l\'esperienza (<em>"il saper vivere"</em>).',
+        etim:'Dal latino <em>vivere</em>, di origine indoeuropea. Stessa radice di <em>vita</em>, <em>vissuto</em>, <em>sopravvivere</em>, <em>convivere</em>, <em>rivivere</em>, <em>vivace</em>, <em>vivanda</em> ("ciò che fa vivere").',
+        fam:'vita · vissuto · sopravvivere · convivere · vivace · vivanda · vivaio · vivente',
+        syn:'esistere, esserci; (figurato): provare, sperimentare', ant:'morire, scomparire, mancare',
+        ex:'L\'amico ha il saper vivere che manca a te: la saggezza pratica dell\'esistenza.',
+        reg:'comune',
+        curio:'<strong>"Saper vivere"</strong>: l\'espressione italiana <em>"saper vivere"</em> indica la <strong>saggezza pratica</strong> di chi sa muoversi bene nella vita, sa godere dei piaceri senza esagerare, sa stare con gli altri con gusto e misura. È un\'eredità della filosofia greca (<em>eudaimonia</em>) e latina (<em>ars vivendi</em>). <strong>Famiglia</strong>: <em>vivanda</em> = "ciò che fa vivere", cioè il cibo nutriente. <em>Vivaio</em> = "luogo dove fa crescere ciò che vive" (piante, pesci). <em>Vivace</em> = "pieno di vita". <strong>Modi di dire</strong>: <em>"vivi e vegeto"</em> (= in piena salute), <em>"vivere alla giornata"</em> (= senza pensare al futuro), <em>"vivere e lasciar vivere"</em> (= tollerare le differenze).'
+      },
+      { id:'spingere', lemma:'spingere', cat:'verbo · presente indicativo', time:124,
+        def:'1) Fare forza contro qualcosa per muoverla in avanti. 2) Far andare avanti qualcuno (<em>"lo spinge a studiare"</em>). 3) Stimolare, incoraggiare (<em>"la passione mi spinge"</em>).',
+        etim:'Dal latino tardo <em>expingere</em>, "spingere fuori", da <em>ex-</em> + <em>pangere</em> ("piantare, ficcare"). Stessa radice di <em>spinta</em>, <em>respingere</em>, <em>sospingere</em>, <em>compungere</em> (?). Forma alternativa antica: <em>spignere</em>.',
+        fam:'spinta · respingere · sospingere · spintone · spingitoio',
+        syn:'sospingere, incalzare, stimolare, incoraggiare', ant:'tirare, trattenere, frenare',
+        ex:'Ti spinge a correre ti lascia vincere: l\'amico ti dà la spinta giusta al momento giusto.',
+        reg:'comune',
+        curio:'<strong>Modi di dire</strong>: <em>"dare una spinta"</em> = aiutare, dare un\'opportunità; <em>"essere spinto da qualcosa"</em> = essere motivato; <em>"spingersi oltre"</em> = osare di più. <strong>Famiglia</strong>: <strong>respingere</strong> = "spingere indietro" (rifiutare); <strong>sospingere</strong> = "spingere verso" (di una corrente che porta avanti). <strong>Forma antica</strong>: in italiano antico si diceva <em>spignere</em>: troviamo <em>"spignere"</em> in Dante e Boccaccio. La forma moderna <em>spingere</em> ha sostituito quella antica per evoluzione fonetica naturale. <strong>Curiosità</strong>: il <em>cinese push</em> ("spingere") è una delle prime parole che si imparano in inglese — è l\'opposto di <em>pull</em> ("tirare"), che si legge sulle porte di tutto il mondo.'
+      },
+      { id:'perdere', lemma:'perdere', cat:'verbo · futuro semplice', time:184,
+        def:'1) Smarrire qualcosa, non averla più. 2) Essere sconfitti in una gara o sfida. 3) In senso figurato: rinunciare a qualcosa di prezioso (<em>"perdere un amico"</em>).',
+        etim:'Dal latino <em>perdere</em>: <em>per-</em> (attraverso, completamente) + <em>dare</em>. Letteralmente: <strong>"dare via completamente"</strong>, dissipare. Stessa radice di <em>perdita</em>, <em>perduto</em>, <em>perditempo</em>.',
+        fam:'perdita · perduto · perditempo · sperperare (parente!) · spendere',
+        syn:'smarrire, dissipare, essere sconfitto', ant:'trovare, guadagnare, vincere',
+        ex:'Per niente al mondo io lo perderò: la promessa di lealtà eterna verso l\'amico.',
+        reg:'comune',
+        curio:'<strong>Famiglia ricca</strong>: <em>perdere</em> e <em>spendere</em> sono cugini etimologici! Entrambi indicano un "dare via" qualcosa, con sfumature diverse. <em>Sperperare</em> ("dissipare", "buttare via i soldi") deriva dalla stessa radice. <strong>Modi di dire</strong>: <em>"perdere la testa"</em> = perdere il controllo razionale, <em>"perdere tempo"</em> = sprecare il tempo, <em>"perdersi d\'animo"</em> = scoraggiarsi, <em>"perdere la faccia"</em> = essere disonorato in pubblico. <strong>Sorpresa</strong>: nella canzone, "non lo perderò" significa al tempo stesso <em>"non lo smarrirò"</em> (oggetto perso) e <em>"non lo abbandonerò"</em> (persona che si lascia). Una parola sola, due significati che si sovrappongono.'
+      },
+      { id:'litigare', lemma:'litigare', cat:'verbo · futuro indicativo', time:189,
+        def:'1) Discutere accesamente con qualcuno, avere una disputa. 2) In senso giudiziario: avere una causa in tribunale. 3) Sostantivo associato: <em>lite</em>, <em>litigio</em>.',
+        etim:'Dal latino <em>litigare</em>, da <em>lis, litis</em> ("contesa, disputa giudiziaria") + <em>agere</em> ("fare, condurre"). Letteralmente: <strong>"condurre una lite"</strong>. Stessa radice di <em>lite</em>, <em>litigio</em>, <em>litigioso</em>, <em>litigante</em>.',
+        fam:'lite · litigio · litigioso · litigante · pleito (spagnolo, parente!)',
+        syn:'discutere, bisticciare, contendere, disputare', ant:'concordare, accordarsi, riconciliarsi',
+        ex:'Litigheremo sì, e lo sa lui perché: il litigio non rovina l\'amicizia vera.',
+        reg:'comune',
+        curio:'<strong>Origine giuridica</strong>: in latino, la <em>lis</em> era la <strong>causa in tribunale</strong>, la disputa formale tra due parti davanti al giudice. <em>Litigare</em> significava letteralmente "intentare causa". Con il tempo la parola ha perso il sapore giuridico e indica oggi anche il litigio quotidiano. <em>Litigio</em>, <em>litigioso</em>, <em>litigante</em> conservano la stessa radice. <strong>Modi di dire</strong>: <em>"venire alle mani"</em> = passare dal litigio verbale a quello fisico (da evitare!); <em>"i panni sporchi si lavano in famiglia"</em> = non far sapere ai estranei dei nostri litigi familiari. <strong>Lezione della canzone</strong>: l\'amicizia vera è quella che <strong>resiste ai litigi</strong> — anzi, i veri amici litigano perché si dicono la verità senza paura.'
+      }
+    ]
+  },
+
+  {
+    id:'centro-cuore', titolo:'Te, al centro del mio cuore', artista:'Gen Verde', autore:'Gen Verde',
+    anno:1987, album:'È bello lodarti', durata:205, livello:1,
+    youtubeId:'31YiAQR9L8o', coverPalette:'battiato', coverLetter:'G',
+    parole:[
+      { id:'bisogno', lemma:'bisogno', cat:'sostantivo · maschile', time:9,
+        def:'1) Necessità essenziale, qualcosa di cui non si può fare a meno. 2) Mancanza che richiede di essere colmata (bisogno d\'amore, di pace). 3) Plurale "bisogni": le necessità della vita quotidiana.',
+        etim:'Probabilmente di origine germanica antica, dal francone <em>*bisunnia</em> ("cura, sollecitudine"). Entrato in italiano medievale, ha perso il senso di "cura" e mantenuto quello di "necessità". Stessa radice di <em>bisognare</em>, <em>bisognoso</em>.',
+        fam:'bisognare · bisognoso · abbisognare · bisognevole',
+        syn:'necessità, esigenza, urgenza, mancanza', ant:'soddisfazione, pienezza, abbondanza',
+        ex:'Ho bisogno di incontrarti nel mio cuore: l\'incipit dichiara subito una necessità profonda, non un capriccio.',
+        reg:'comune',
+        curio:'<strong>Differenza semantica</strong> in italiano: <em>bisogno</em> indica una <em>necessità essenziale</em> (acqua, cibo, affetto, riposo); <em>desiderio</em> indica un <em>volere</em> più libero (un viaggio, un regalo); <em>capriccio</em> indica un volere passeggero o irragionevole. Sono tre livelli diversi del "volere umano". <strong>Modi di dire</strong>: <em>"avere bisogno di qualcuno"</em> = dipenderne emotivamente; <em>"in caso di bisogno"</em> = se serve, in emergenza; <em>"fare i propri bisogni"</em> = espressione delicata per indicare le necessità fisiologiche.'
+      },
+      { id:'incontrare', lemma:'incontrare', cat:'verbo · infinito', time:11,
+        def:'1) Trovarsi a faccia a faccia con qualcuno, di solito casualmente. 2) Riunirsi con qualcuno per uno scopo. 3) In senso figurato: imbattersi in qualcosa (incontrare difficoltà).',
+        etim:'Composto: <em>in-</em> (verso) + <em>contro</em>, dal latino <em>contra</em> ("di fronte"). Letteralmente: <strong>"andare verso, andare di fronte"</strong>. Sorpresa: <em>incontro</em> ha la stessa radice di <em>scontro</em> — sono due esiti opposti dello stesso movimento.',
+        fam:'incontro · scontro · contro · contrario · contrastare · controllare',
+        syn:'imbattersi, trovarsi, riunirsi, conoscere', ant:'separarsi, dividersi, evitare',
+        ex:'Ho bisogno di incontrarti nel mio cuore: l\'incontro più importante è quello interiore.',
+        reg:'comune',
+        curio:'Sorpresa etimologica: <strong>incontro</strong> e <strong>scontro</strong> sono parenti! Entrambi composti con <em>contro</em>. Due persone si <em>incontrano</em> se si muovono <em>verso</em> di loro; si <em>scontrano</em> se collidono violentemente. La differenza è nell\'intenzione, non nel movimento fisico. Anche <em>contrario</em>, <em>contrastare</em>, <em>controllare</em>, <em>controllore</em> derivano dalla stessa radice. <strong>Modi di dire</strong>: <em>"andare incontro a qualcuno"</em> = avvicinarsi con disponibilità; <em>"farsi incontro"</em> = uscire ad accogliere; <em>"al primo incontro"</em> = nella prima conoscenza.'
+      },
+      { id:'stare', lemma:'stare', cat:'verbo · infinito', time:18,
+        def:'1) Trovarsi in un luogo o in una condizione (stare a casa, stare bene). 2) Restare, fermarsi, non muoversi. 3) Vivere in modo abituale (stare con qualcuno).',
+        etim:'Dal latino <em>stare</em>, di origine indoeuropea — una delle parole più antiche e basilari della lingua. Stessa radice di <em>stato</em>, <em>stazione</em>, <em>statua</em>, <em>stabile</em>, <em>distanza</em>, <em>costante</em>, <em>sostanza</em>, <em>resistere</em>.',
+        fam:'stato · stazione · statua · stabile · distanza · costante · sostanza · istante · resistere · esistere',
+        syn:'trovarsi, restare, dimorare, essere', ant:'muoversi, andarsene, partire',
+        ex:'Di stare insieme a Te: l\'esistere accanto a qualcuno come bisogno fondamentale.',
+        reg:'comune',
+        curio:'<strong>Famiglia immensa</strong>: dal latino <em>stare</em> nasce una galassia che descrive tutto l\'<strong>essere</strong> italiano. <em>Stato</em> (ciò che sta), <em>statua</em> (ciò che sta immobile), <em>stazione</em> (luogo dove ci si ferma), <em>distanza</em> (ciò che sta lontano), <em>costanza</em> (stare insieme nel tempo), <em>sostanza</em> (ciò che sta sotto). Anche <em>istante</em> = "ciò che sta sopra" (un attimo). <strong>Esistere</strong> = <em>ex-sistere</em> = "stare fuori" (uscire allo scoperto). <strong>Resistere</strong> = "stare di nuovo, persistere". Una sola radice indoeuropea, mille parole italiane. Il "<em>saper stare al mondo</em>" è una virtù del vivere.'
+      },
+      { id:'insieme', lemma:'insieme', cat:'avverbio (e sostantivo)', time:20,
+        def:'1) Avverbio: nel medesimo luogo o tempo, in compagnia (lavorare insieme). 2) Sostantivo: gruppo organizzato, totalità di cose (un insieme di amici). 3) In matematica: collezione di elementi.',
+        etim:'Dal latino <em>in simul</em>: <em>in</em> + <em>simul</em> ("contemporaneamente, nello stesso momento"). Letteralmente: <strong>"nel medesimo momento"</strong>. Stessa radice di <em>simile</em>, <em>simulare</em>, <em>simulacro</em>, <em>simmetria</em>, <em>simultaneo</em>, <em>assemblea</em>.',
+        fam:'simile · simulare · simulacro · simmetria · simultaneo · assemblea · assomigliare',
+        syn:'congiuntamente, in compagnia, contemporaneamente', ant:'separatamente, da soli, isolatamente',
+        ex:'Di stare insieme a Te: lo stare nello stesso momento, condividere lo spazio e il tempo.',
+        reg:'comune',
+        curio:'<strong>SORPRESA ETIMOLOGICA</strong>: <strong>insieme</strong>, <strong>simile</strong>, <strong>simultaneo</strong>, <strong>simmetria</strong>, <strong>assemblea</strong> sono tutti parenti! Tutti derivano dal latino <em>simul</em>, "nello stesso momento". L\'<em>insieme</em> è etimologicamente <em>"il contemporaneo"</em>, ciò che esiste in un solo momento condiviso. <em>Simile</em> = "che ha la stessa forma". <em>Simulare</em> = "fingere di essere uguale a". <em>Simmetria</em> = "stessa misura su entrambi i lati". <em>Assemblea</em> = "il riunirsi insieme". <strong>Lezione</strong>: stare <em>insieme</em> significa, letteralmente, <em>condividere il tempo</em> — il dono più prezioso che si può fare a qualcuno.'
+      },
+      { id:'unico', lemma:'unico', cat:'aggettivo · maschile', time:30,
+        def:'1) Solo uno, non ce ne sono altri. 2) Irripetibile, speciale, senza pari. 3) Sostantivo: il singolo, il solo (es. "sei l\'unico").',
+        etim:'Dal latino <em>unicus</em>, derivato di <em>unus</em> ("uno"). Stessa radice di <em>uno</em>, <em>unione</em>, <em>unità</em>, <em>unanime</em>, <em>universo</em>, <em>unico</em>, <em>uniforme</em>.',
+        fam:'uno · unione · unità · unanime · universo · uniforme · unirsi · ununico',
+        syn:'solo, singolo, irripetibile, esclusivo, ineguagliabile', ant:'molteplice, multiplo, plurale, comune',
+        ex:'Unica ragione Tu, unico sostegno Tu: la triplice anafora dell\'unicità totale.',
+        reg:'comune',
+        curio:'<strong>Famiglia magnifica</strong>: dal latino <em>unus</em> nasce una galassia di parole italiane fondamentali. <strong>Unione</strong> (mettere insieme in uno), <strong>unità</strong> (l\'essere uno), <strong>unanime</strong> ("con un\'unica anima" = tutti della stessa opinione), <strong>universo</strong> ("ruotato verso uno, in un\'unica direzione"), <strong>uniforme</strong> ("una sola forma"). Anche <strong>ununico</strong>, <strong>uno</strong> stesso! <strong>Modi di dire</strong>: <em>"unico nel suo genere"</em> = senza altri esemplari; <em>"l\'unico modo"</em> = l\'unica soluzione possibile. La canzone ripete <em>"unico"</em> tre volte: è un\'<em>anafora</em>, figura retorica per insistere su un concetto centrale.'
+      },
+      { id:'sostegno', lemma:'sostegno', cat:'sostantivo · maschile', time:34,
+        def:'1) Ciò che regge, che impedisce di cadere (un pilastro, una stampella). 2) In senso figurato: aiuto morale, conforto, supporto. 3) Nella vita: persona o cosa su cui si può contare.',
+        etim:'Dal verbo <em>sostenere</em>, dal latino <em>sustinere</em>: <em>sub-</em> (sotto) + <em>tenere</em>. Letteralmente: <strong>"tenere sotto"</strong>, reggere dal basso. Stessa radice di <em>sostenere</em>, <em>contenere</em>, <em>mantenere</em>, <em>trattenere</em>, <em>tenace</em>.',
+        fam:'sostenere · sostenitore · tenere · contenere · mantenere · trattenere · tenace · tenuta',
+        syn:'supporto, appoggio, conforto, puntello', ant:'abbandono, crollo, cedimento',
+        ex:'Unico sostegno Tu: qualcuno o qualcosa che regge il peso della vita.',
+        reg:'comune',
+        curio:'<strong>Famiglia ricca</strong>: tutte le parole con <em>-tenere</em> derivano dal latino <em>tenere</em>, "afferrare, reggere". <em>Sostenere</em> = "tenere sotto" (reggere dal basso). <em>Contenere</em> = "tenere insieme". <em>Mantenere</em> = "tenere con la mano" (latino <em>manu tenere</em>). <em>Trattenere</em> = "tenere indietro". <em>Tenace</em> = "che tiene forte". Anche <strong>tenuta</strong>, <strong>tenore</strong>, <strong>ritenere</strong>, <strong>astenere</strong> ("tenere lontano da") condividono la radice. In economia <em>il sostegno al reddito</em> è "ciò che regge l\'economia familiare".'
+      },
+      { id:'centro', lemma:'centro', cat:'sostantivo · maschile (parola chiave)', time:38,
+        def:'1) Punto medio di un cerchio o di una figura. 2) Luogo principale di una città o di un\'attività (centro storico, centro commerciale). 3) In senso figurato: il punto fondamentale di qualcosa ("il centro del problema").',
+        etim:'Dal greco <em>kéntron</em> = <strong>"punzone, pungiglione"</strong>! In origine era lo strumento <em>appuntito</em> (la punta del compasso) con cui si segnava il punto centrale di un cerchio. Da "punzone" è diventato "centro geometrico", poi "punto principale".',
+        fam:'centrale · centralino · centralizzare · centrismo · eccentrico · concentrato · decentrare',
+        syn:'mezzo, punto centrale, fulcro, nucleo, cuore', ant:'periferia, margine, contorno',
+        ex:'Al centro del mio cuore ci sei solo Tu: il titolo stesso fa del "centro" una metafora del massimo affetto.',
+        reg:'comune con uso scientifico',
+        curio:'<strong>SCOPERTA STUPEFACENTE</strong>: <strong>centro</strong> non era in origine un "punto medio"! In greco <em>kéntron</em> significava <strong>"punzone, pungiglione"</strong> — lo strumento appuntito con cui i geometri segnavano il punto medio di un cerchio piantandoci la punta del compasso. La parola passò poi a indicare <em>il punto stesso</em> dove la punta si era piantata. <strong>Famiglia straordinaria</strong>: <em>centrale</em> (di banca, elettrica, ecc.), <em>centralino</em> (il centro di smistamento telefonico), <em>centralizzare</em>, <em>centrismo</em> (in politica), <em>eccentrico</em> = "<em>ex-centrico</em>", fuori dal centro (= persona originale), <em>concentrato</em> = "tutto nel centro", <em>decentrato</em> = "via dal centro". Anche le <strong>API</strong> hanno il <em>pungiglione</em> = stessa radice greca. <strong>In poesia</strong>: dire che qualcuno è "al centro del mio cuore" significa metterlo nel <em>punto più importante</em>, nel <em>fulcro</em> dell\'esistenza. Geometria e affetto si toccano.'
+      },
+      { id:'intorno', lemma:'intorno', cat:'avverbio (e preposizione)', time:50,
+        def:'1) Tutto attorno, in giro (guardare intorno). 2) Vicino a qualcosa o qualcuno (intorno alla casa, intorno a Te). 3) Approssimativamente (intorno alle dieci, intorno al 1500).',
+        etim:'Composto italiano: <em>in</em> + <em>torno</em>, dal latino <em>tornus</em> ("tornio, strumento per girare"). Letteralmente: <strong>"in giro, in cerchio"</strong>. Stessa radice di <em>tornio</em>, <em>tornare</em>, <em>contornare</em>, <em>stornare</em>.',
+        fam:'attorno · torno · tornio · tornare · contornare · stornare · tornata',
+        syn:'attorno, in cerchio, circa, vicino', ant:'al centro, dentro, distante',
+        ex:'Anche il cielo gira intorno e non ha pace: il movimento cosmico contrapposto al punto fermo.',
+        reg:'comune',
+        curio:'<strong>Sorpresa etimologica</strong>: <strong>intorno</strong> e <strong>tornare</strong> sono parenti! Entrambi vengono dal latino <em>tornus</em> ("tornio", lo strumento che fa girare il legno per modellarlo). <em>Tornare</em> = "fare un giro completo e ritornare al punto di partenza". <em>Contornare</em> = "fare un giro intorno". Anche <em>intorno</em> = "in giro". <strong>Modo di dire</strong>: <em>"levarsi di torno"</em> = togliersi dai piedi (allontanarsi dalla "girellata" altrui). <em>"Andare di torno"</em> = girare qua e là senza meta.'
+      },
+      { id:'pace', lemma:'pace', cat:'sostantivo · femminile', time:53,
+        def:'1) Assenza di guerra, di conflitto. 2) Stato di calma e serenità interiore. 3) Accordo tra parti che si erano contrastate. 4) Religioso: stato di armonia con Dio.',
+        etim:'Dal latino <em>pax, pacis</em>, da una radice indoeuropea <em>pak-</em> = <strong>"fissare, legare"</strong>. La pace è etimologicamente <em>"un legame fermo, un patto stretto"</em>, NON solo assenza di conflitto. Stessa radice di <em>patto</em>, <em>pattuire</em>, <em>paciere</em>, <em>compatto</em>, <em>picchetto</em>.',
+        fam:'patto · pattuire · paciere · compatto · pacifico · pacificare · pace · picchetto',
+        syn:'tranquillità, serenità, calma, armonia, concordia', ant:'guerra, conflitto, agitazione, discordia',
+        ex:'Anche il cielo gira intorno e non ha pace: il movimento perpetuo cosmico, opposto alla quiete interiore.',
+        reg:'comune con uso religioso',
+        curio:'<strong>SORPRESA</strong>: <strong>pace</strong> non significa originariamente "calma", ma <strong>"legame fermo"</strong>! La radice indoeuropea <em>pak-</em> = "fissare, attaccare insieme". Per i Romani, la <em>pax</em> era un <em>patto formale</em> tra popoli: un legame stabile, non vuoto silenzio. <strong>Famiglia bellissima</strong>: <strong>patto</strong> (il legame), <strong>pattuire</strong> (stabilire un legame), <strong>paciere</strong> (chi rifà la pace tra due litiganti), <strong>compatto</strong> = "legato insieme" (un materiale compatto è denso, senza vuoti), <strong>picchetto</strong> = "paletto fissato in terra". Anche <em>pacifico</em>, <em>Oceano Pacifico</em>. La canzone gioca su questa idea: il cielo "non ha pace" perché non è fermo, mentre Tu sei il "punto fermo" che dà pace.'
+      },
+      { id:'fermo', lemma:'fermo', cat:'aggettivo · maschile', time:57,
+        def:'1) Che non si muove, immobile. 2) Stabile, sicuro, non vacillante. 3) Detto di carattere: deciso, costante (un giudizio fermo).',
+        etim:'Dal latino <em>firmus</em>, "saldo, stabile". Stessa radice di <em>firmare</em>, <em>conferma</em>, <em>fermezza</em>, <em>infermo</em> (= "non saldo, malato") e — sorpresa — di <em>firma</em>!',
+        fam:'firmare · firma · conferma · fermezza · affermare · infermo · fortificare',
+        syn:'stabile, immobile, saldo, deciso', ant:'mobile, vacillante, incerto, esitante',
+        ex:'C\'è un punto fermo, è quella stella là: un riferimento sicuro nel caos del mondo.',
+        reg:'comune',
+        curio:'<strong>Sorpresa etimologica</strong>: <strong>firmare</strong> e <strong>fermo</strong> sono parenti! Entrambi dal latino <em>firmus</em>, "saldo". <em>Firmare</em> in origine significava "rendere saldo, confermare con la propria mano" — la firma è etimologicamente <em>"ciò che rende stabile"</em> un documento. Anche <em>affermare</em> = "rendere saldo" (con la voce); <em>infermo</em> = "non saldo" (malato, instabile); <em>fortificare</em> = "rendere forte" (parente lontano). <strong>Modo di dire</strong>: <em>"tenere il punto fermo"</em> = restare sulla propria posizione, non cedere. Nella canzone <em>"punto fermo"</em> è la metafora del riferimento stabile in un mondo che gira.'
+      },
+      { id:'stella', lemma:'stella', cat:'sostantivo · femminile (parola chiave)', time:59,
+        retorica:'metafora',
+        def:'1) Corpo celeste luminoso del cielo notturno (il Sole è una stella!). 2) In senso figurato: persona famosa o di valore (stella del cinema, stella della classe). 3) Simbolo grafico a 5 o 6 punte.',
+        etim:'Dal latino <em>stella</em>, di origine indoeuropea (radice <em>ster-</em> = "spargere", forse perché le stelle sono "sparse" nel cielo). Stessa radice del greco <em>astḗr</em> ("stella"), dell\'inglese <em>star</em>, del tedesco <em>Stern</em>.',
+        fam:'stellare · costellazione · stellato · stellina · astro · astronomia · stelletta',
+        syn:'astro, corpo celeste; (figurato): celebrità, eccellenza',
+        ex:'C\'è un punto fermo, è quella stella là: il riferimento luminoso e fisso del cielo notturno.',
+        reg:'comune con eredità classica',
+        curio:'<strong>Metafora ricca</strong>: la <em>stella</em> in poesia è uno dei simboli più antichi e potenti. Per i navigatori dell\'antichità era la <strong>guida</strong>; per gli innamorati la <strong>bellezza inarrivabile</strong>; per i religiosi il <strong>segno divino</strong>. <strong>Famiglia internazionale</strong>: italiano <em>stella</em>, latino <em>stella</em>, inglese <em>star</em>, tedesco <em>Stern</em>, francese <em>étoile</em>, spagnolo <em>estrella</em>. Sono tutti parenti, dalla stessa radice indoeuropea. Anche <em>astro</em>, <em>astronomia</em>, <em>astronave</em> (vedi catalogo "Big Bang") condividono la stessa origine ma via greca. <strong>La stella polare</strong> ha guidato i viaggiatori per millenni: prolungando 5 volte la distanza fra le due stelle dell\'Orsa Maggiore, si arriva a lei — l\'unica stella che non si muove apparentemente nel cielo notturno.'
+      },
+      { id:'polare', lemma:'polare', cat:'aggettivo', time:65,
+        def:'1) Relativo ai poli della Terra (artico o antartico). 2) Detto della stella polare (α Ursae Minoris): la stella che indica il nord. 3) In senso figurato: estremo, opposto (opinioni polari).',
+        etim:'Dal greco <em>pólos</em> = <strong>"cardine, perno attorno cui qualcosa ruota"</strong>. Per i Greci antichi, il <em>pólos</em> era il punto immaginario attorno cui ruotava la sfera celeste. La <em>stella polare</em> = la stella vicino a quel punto fisso.',
+        fam:'polo · polarità · polarizzare · circumpolare · bipolare',
+        syn:'cardinale, estremo, opposto; (geografico): artico, settentrionale',
+        ex:'La stella polare è fissa ed è la sola: il punto attorno cui ruota tutto il cielo.',
+        reg:'comune con uso scientifico',
+        curio:'<strong>Storia dell\'orientamento</strong>: la <em>stella polare</em> è stata per millenni il <strong>punto di riferimento dei naviganti</strong>. A differenza delle altre stelle, sembra <em>non muoversi</em> nel cielo notturno — perché è quasi esattamente allineata con l\'asse di rotazione terrestre. Per gli antichi marinai era un dono divino: bastava puntare la prua verso di lei per andare a nord. La parola greca <em>pólos</em> significava <em>"perno, cardine"</em> (come quello di una porta). <strong>Curiosità astronomica</strong>: la stella polare di oggi (α Ursae Minoris) non era quella degli antichi Egizi! A causa della <em>precessione degli equinozi</em>, la "stella polare" cambia ogni qualche migliaio di anni. Ai tempi delle piramidi, la stella polare era <em>Thuban</em> (α Draconis). <strong>Modi di dire</strong>: <em>"essere la stella polare di qualcuno"</em> = essere il suo riferimento sicuro, la sua guida.'
+      },
+      { id:'ruota', lemma:'ruota', cat:'verbo · presente indicativo (e sostantivo)', time:85,
+        def:'1) Verbo: girare attorno a un punto o asse. 2) Sostantivo: organo circolare che permette il movimento (ruota di bici, di auto). 3) In senso figurato: cambiare ciclicamente (la ruota della fortuna).',
+        etim:'Dal latino <em>rota</em>, di origine indoeuropea — parola antichissima legata all\'invenzione della ruota stessa (IV millennio a.C.). Stessa radice di <em>rotondo</em>, <em>rotolare</em>, <em>rotare</em>, <em>ruolo</em> (sì, parente!), <em>rotaia</em>, <em>rotella</em>.',
+        fam:'rotondo · rotolare · rotare · ruolo · rotaia · rotella · rotatorio · roteare',
+        syn:'gira, volge, si muove circolarmente',
+        ex:'Tutto ruota attorno a Te: il movimento universale che ha però un punto fermo.',
+        reg:'comune',
+        curio:'<strong>SORPRESA STORICA</strong>: la <strong>ruota</strong> è una delle <em>invenzioni più antiche</em> dell\'umanità (intorno al 3500 a.C., in Mesopotamia). La parola <em>rota</em> in latino e nelle lingue romanze conserva la radice indoeuropea originale. <strong>Famiglia stupenda</strong>: <em>rotondo</em> ("a forma di ruota"), <em>rotolare</em>, <em>rotaia</em> (i binari del treno = "piccola ruota"), <em>rotella</em>. <strong>Sorpresa</strong>: anche <strong>ruolo</strong> deriva dalla stessa famiglia! In origine il <em>ruolo</em> era un <em>rotolo</em> di pergamena su cui erano scritti i nomi degli attori. Da "rotolo" è diventato "lista", poi "incarico, parte da recitare". <strong>Modi di dire</strong>: <em>"la ruota gira"</em> = la fortuna cambia; <em>"reinventare la ruota"</em> = fare con grande fatica cose già fatte; <em>"essere la quinta ruota del carro"</em> = essere superfluo, di troppo.'
+      },
+      { id:'splendere', lemma:'splendere', cat:'verbo · congiuntivo presente', time:103,
+        def:'1) Brillare di luce intensa (il sole splende). 2) In senso figurato: distinguersi per qualità eccellenti, eccellere (splendere di bellezza, di intelligenza).',
+        etim:'Dal latino <em>splendere</em>, di origine indoeuropea. Stessa radice di <em>splendore</em>, <em>splendido</em>, <em>resplendente</em>. Curiosamente, il latino aveva anche <em>splendor</em> e <em>splendidus</em> — radice viva ancora oggi in tutte le lingue romanze.',
+        fam:'splendore · splendido · risplendere · splendente · esplendere (raro)',
+        syn:'brillare, rifulgere, risplendere, scintillare', ant:'oscurarsi, spegnersi, offuscarsi',
+        ex:'Che Tu splenda sempre al centro del mio cuore: l\'augurio che la luce dell\'amato non si spenga mai.',
+        reg:'comune con uso letterario',
+        curio:'<strong>Famiglia poetica</strong>: <strong>splendere</strong>, <strong>splendore</strong>, <strong>splendido</strong> formano un trio bellissimo della poesia italiana. <em>Splendido</em> è uno degli aggettivi più caldi della lingua: dice <em>"così luminoso che attrae lo sguardo"</em>. Anche <strong>risplendere</strong> = "splendere di nuovo, splendere intensamente". <strong>Etimologia</strong>: la radice indoeuropea <em>splend-</em> indicava lo splendore del fuoco o del metallo lucido. <strong>Modi di dire</strong>: <em>"splendere di gioia"</em> = avere il viso illuminato dalla felicità; <em>"un\'idea splendida"</em> = un\'idea geniale; <em>"in piena salute, splende"</em> = sta benissimo. Nella canzone <em>"che Tu splenda sempre"</em> è una preghiera (forma del congiuntivo, modo del desiderio).'
+      },
+      { id:'significato', lemma:'significato', cat:'sostantivo · maschile', time:110,
+        def:'1) Senso, ciò che una parola, un segno o un evento vuole dire. 2) Importanza, valore (un gesto pieno di significato). 3) In linguistica: il contenuto concettuale di un segno linguistico.',
+        etim:'Da <em>significare</em>, composto latino: <em>signum</em> ("segno") + <em>facere</em> ("fare"). Letteralmente: <strong>"fare segno, indicare con un segno"</strong>. Stessa radice di <em>segno</em>, <em>significare</em>, <em>insegna</em>, <em>insegnare</em> (parente!).',
+        fam:'segno · significare · insegna · insegnare · designare · assegnare · segnale',
+        syn:'senso, valore, importanza, contenuto', ant:'insignificante, vuoto, banale',
+        ex:'Il significato allora sarai Tu: il senso ultimo della vita è la persona amata.',
+        reg:'comune con uso filosofico',
+        curio:'<strong>Famiglia stupenda</strong>: <strong>insegnare</strong> deriva da <em>signum</em>! Letteralmente significava <em>"fare segno a qualcuno"</em>, "indicare". L\'<em>insegna</em> di un negozio è il <em>segno</em> che indica cosa si vende. Anche <strong>designare</strong> = "fare un segno verso (qualcuno)" → scegliere. <strong>Assegnare</strong> = "dare un segno a (qualcuno)" → destinare. <strong>Modi di dire</strong>: <em>"avere un significato profondo"</em> = essere importante; <em>"perdere ogni significato"</em> = diventare vuoto. <strong>Filosofia</strong>: in filosofia il <em>significato</em> è uno dei grandi temi (semantica, ermeneutica). Per gli stoici, ogni cosa nel mondo ha un significato che dobbiamo scoprire. La canzone dichiara che il significato della vita è "Tu" — risposta esistenziale al "che senso ha tutto questo?".'
+      },
+      { id:'soltanto', lemma:'soltanto', cat:'avverbio', time:120,
+        retorica:'anafora',
+        def:'1) Solamente, soltanto, nient\'altro che (è soltanto un sogno). 2) Esclusivamente (soltanto Te). 3) Almeno, neppure (non l\'ho soltanto visto).',
+        etim:'Composto italiano: <em>solo</em> + <em>tanto</em>. Letteralmente: "in tanta solitudine, in tale unicità". Stessa famiglia di <em>solo</em>, <em>solamente</em>, <em>solitario</em>, <em>solitudine</em>, <em>desolato</em>.',
+        fam:'solo · solamente · solitario · solitudine · desolato · isolato',
+        syn:'solamente, esclusivamente, unicamente, semplicemente', ant:'molto, tanto, ampiamente, oltre',
+        ex:'Quello che farò sarà soltanto amore: l\'unico contenuto possibile delle azioni future.',
+        reg:'comune',
+        curio:'<strong>Anafora con "unico"</strong>: la canzone usa <em>soltanto</em> in un contesto di <strong>anafora</strong> con le parole <em>"unico Tu / unica Tu"</em> ripetute più volte. L\'<em>anafora</em> (dal greco <em>anaphorà</em> = "ripetizione") è una figura retorica che ripete la stessa parola o struttura all\'inizio di versi successivi. <strong>Esempio celebre</strong>: Dante nell\'Inferno: <em>"Per me si va... Per me si va... Per me si va..."</em>. <strong>Famiglia</strong>: <em>solo</em>, <em>solitario</em>, <em>solitudine</em>, <em>desolato</em> ("reso solo"), <em>isolato</em> ("messo in un\'isola, separato"). Anche <em>solenne</em> deriva dalla stessa radice (= "che si fa una volta sola all\'anno", una cerimonia importante).'
+      },
+      { id:'tendere', lemma:'tendere', cat:'verbo · presente indicativo (3a persona)', time:188,
+        def:'1) Allungare, stendere (tendere la mano, la corda). 2) Aspirare a qualcosa, dirigersi verso (tendere a un obiettivo). 3) Avere la tendenza a (tendere all\'ottimismo).',
+        etim:'Dal latino <em>tendere</em>, "stendere, dirigersi verso", di origine indoeuropea. Stessa radice di <em>tensione</em>, <em>intendere</em>, <em>attendere</em>, <em>pretendere</em>, <em>tendenza</em>, <em>estensione</em>.',
+        fam:'tensione · intendere · attendere · pretendere · tendenza · estensione · intenzione · ostentare',
+        syn:'allungare, aspirare, dirigersi, mirare', ant:'rinunciare, ritirarsi, accontentarsi',
+        ex:'L\'anima mia tende a Dio come al suo centro: la citazione di Sant\'Agostino sulla naturale aspirazione dell\'anima.',
+        reg:'comune con uso filosofico',
+        curio:'<strong>SANT\'AGOSTINO</strong>: la frase <em>"L\'anima mia tende a Dio come al suo centro e si riposa in Lui"</em> è una libera citazione dalle <strong>Confessioni</strong> di Sant\'Agostino (Libro I, 1): <em>"Fecisti nos ad te et inquietum est cor nostrum donec requiescat in te"</em> = "Ci hai fatti per Te, e inquieto è il nostro cuore finché non riposa in Te" (397-401 d.C.). È una delle frasi più famose della filosofia cristiana, che esprime la <em>tensione</em> dell\'anima verso Dio. <strong>Famiglia ricca</strong>: <em>tendere</em> dà origine a <strong>tensione</strong> (lo stato di chi è teso), <strong>intendere</strong> ("tendere dentro" = capire), <strong>attendere</strong> ("tendere verso" = aspettare), <strong>pretendere</strong> ("tendere prima" = esigere). Tutte gravitano attorno all\'idea di <em>protendersi verso qualcosa</em>.'
+      },
+      { id:'riposare', lemma:'riposare', cat:'verbo · presente indicativo (3a persona)', time:191,
+        def:'1) Recuperare le forze attraverso il sonno o la quiete. 2) In senso figurato: trovare pace, smettere di agitarsi. 3) Religioso: essere in pace con Dio dopo la morte ("riposare in pace").',
+        etim:'Composto: <em>ri-</em> + <em>posare</em>, dal latino tardo <em>pausare</em>, da <em>pausa</em> (dal greco <em>paûsis</em>, "cessazione"). Letteralmente: <strong>"posarsi di nuovo, fare una pausa ripetuta"</strong>. Stessa radice di <em>pausa</em>, <em>posa</em>, <em>posizione</em>, <em>posare</em>.',
+        fam:'pausa · posa · posare · posizione · riposo · proposito · imposizione',
+        syn:'rilassarsi, distendersi, trovar pace, calmarsi', ant:'agitarsi, affaticarsi, attivarsi',
+        ex:'Si riposa in Lui: la quiete finale dell\'anima che trova il suo centro.',
+        reg:'comune con uso religioso',
+        curio:'<strong>Famiglia ricca</strong>: <strong>riposare</strong>, <strong>pausa</strong>, <strong>posizione</strong>, <strong>proposito</strong>, <strong>imposizione</strong> sono tutti parenti! Tutti dal latino <em>pausare</em> (dal greco <em>paûsis</em> = "cessazione"). <em>Pausa</em> è già nel catalogo (vedi "Vivo per lei"): in musica indica un silenzio. <em>Riposare</em> è etimologicamente <em>"fare una pausa di nuovo"</em>, fermarsi dopo l\'attività. <strong>Modi di dire</strong>: <em>"riposare in pace"</em> = espressione usata per chi è morto (significa "essere finalmente in calma con Dio"); <em>"dormire della grossa"</em> = riposare profondamente; <em>"il settimo giorno si riposò"</em> = dalla Genesi (Dio creò il mondo in sei giorni, il settimo riposò — da qui la <strong>domenica</strong> come giorno di riposo).'
+      }
+    ]
   }
 ];
 
@@ -3385,6 +4485,7 @@ function vai(viewName, payload){
   if(viewName === 'catalogo') renderCatalogo();
   if(viewName === 'lettura' && payload) apriCanzone(payload);
   if(viewName === 'quiz') avviaQuiz();
+  if(viewName === 'dizionario'){ buildDizionario(); bindDizionarioEvents(); }
 }
 document.querySelectorAll('[data-go]').forEach(el=>el.addEventListener('click', ()=>vai(el.dataset.go)));
 document.getElementById('cta-home').addEventListener('click', ()=>vai('catalogo'));
@@ -3698,6 +4799,422 @@ function renderQuizFine(){
   document.getElementById('rifai-quiz').onclick = avviaQuiz;
   document.getElementById('torna-canzone').onclick = ()=>vai('lettura', canzoneCorrente.id);
 }
+
+/* ===========================================================
+ * DIZIONARIO — A-Z sfogliabile + Quiz "Mettiti alla prova"
+ * =========================================================== */
+
+let dizParole = null;
+let dizFiltroCanzone = '';
+let dizFiltroBadge = '';
+let dizFiltroQuery = '';
+let dizFiltroLettera = '';
+
+function buildDizionario(){
+  // Costruisce la lista piatta delle 330 parole con riferimento alla canzone
+  if(!dizParole){
+    dizParole = [];
+    CANZONI.forEach(c => {
+      c.parole.forEach(p => {
+        dizParole.push({...p, canzoneId:c.id, canzoneTitolo:c.titolo, canzoneArtista:c.artista});
+      });
+    });
+    dizParole.sort((a,b) => a.lemma.toLowerCase().localeCompare(b.lemma.toLowerCase(),'it'));
+  }
+  // Stats
+  document.getElementById('diz-stats').innerHTML = `
+    <span><b>${dizParole.length}</b></span>
+    <span>parole imparate</span>
+    <span style="opacity:0.6">da ${CANZONI.length} canzoni</span>
+  `;
+  // Popola dropdown canzoni
+  const selC = document.getElementById('diz-canzone');
+  if(selC.options.length <= 1){
+    CANZONI.forEach(c => {
+      const opt = document.createElement('option');
+      opt.value = c.id; opt.textContent = c.titolo;
+      selC.appendChild(opt);
+    });
+  }
+  renderDizAZNav();
+  renderDizGrid();
+}
+
+function renderDizAZNav(){
+  const lettere = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const presenti = new Set(dizParole.map(p => p.lemma[0].toUpperCase()));
+  const nav = document.getElementById('diz-az-nav');
+  nav.innerHTML = `<button class="diz-az-letter ${dizFiltroLettera===''?'has-words':''}" data-letter="" style="${dizFiltroLettera===''?'background:var(--surface);color:var(--accent)':''}">Tutte</button>` + 
+    lettere.map(l => {
+      const has = presenti.has(l);
+      const active = dizFiltroLettera === l;
+      return `<button class="diz-az-letter ${has?'has-words':''}" data-letter="${l}" ${!has?'disabled':''} style="${active?'background:var(--accent);color:white':''}">${l}</button>`;
+    }).join('');
+  nav.querySelectorAll('.diz-az-letter').forEach(btn => {
+    btn.addEventListener('click', () => {
+      dizFiltroLettera = btn.dataset.letter;
+      renderDizAZNav();
+      renderDizGrid();
+    });
+  });
+}
+
+function renderDizGrid(){
+  const grid = document.getElementById('diz-grid');
+  const empty = document.getElementById('diz-empty');
+  let parole = dizParole.slice();
+  
+  if(dizFiltroLettera){
+    parole = parole.filter(p => p.lemma[0].toUpperCase() === dizFiltroLettera);
+  }
+  if(dizFiltroCanzone){
+    parole = parole.filter(p => p.canzoneId === dizFiltroCanzone);
+  }
+  if(dizFiltroBadge){
+    parole = parole.filter(p => p[dizFiltroBadge]);
+  }
+  if(dizFiltroQuery){
+    const q = dizFiltroQuery.toLowerCase();
+    parole = parole.filter(p => 
+      p.lemma.toLowerCase().includes(q) || 
+      p.canzoneTitolo.toLowerCase().includes(q) || 
+      (p.def && p.def.toLowerCase().includes(q))
+    );
+  }
+  
+  if(parole.length === 0){
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+  
+  grid.innerHTML = parole.map(p => {
+    const badges = [];
+    if(p.anglicismo) badges.push('<span class="diz-card-badge anglicismo">EN</span>');
+    if(p.retorica) badges.push(`<span class="diz-card-badge retorica">Φ ${p.retorica}</span>`);
+    if(p.trappola) badges.push(`<span class="diz-card-badge trappola">⚠ trappola</span>`);
+    if(p.gergale) badges.push(`<span class="diz-card-badge gergale">⚒ tecnico</span>`);
+    if(p.nomeproprio) badges.push(`<span class="diz-card-badge nomeproprio">★ nome</span>`);
+    return `
+      <div class="diz-card" data-id="${p.id}" data-canzone="${p.canzoneId}">
+        <div class="diz-card-lemma">${p.lemma}</div>
+        <div class="diz-card-cat">${p.cat}</div>
+        ${badges.length ? `<div class="diz-card-badges">${badges.join('')}</div>` : ''}
+        <div class="diz-card-canzone">da <em>${p.canzoneTitolo}</em></div>
+      </div>
+    `;
+  }).join('');
+  
+  grid.querySelectorAll('.diz-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const id = card.dataset.id;
+      const canzoneId = card.dataset.canzone;
+      const c = CANZONI.find(x => x.id === canzoneId);
+      const p = c.parole.find(x => x.id === id);
+      apriDizModal(p, c);
+    });
+  });
+}
+
+function apriDizModal(p, c){
+  let bg = document.getElementById('diz-modal-bg');
+  if(!bg){
+    bg = document.createElement('div');
+    bg.className = 'diz-modal-bg';
+    bg.id = 'diz-modal-bg';
+    document.body.appendChild(bg);
+    bg.addEventListener('click', (e) => {
+      if(e.target === bg) chiudiDizModal();
+    });
+  }
+  const badges = [];
+  if(p.anglicismo) badges.push('<span class="diz-card-badge anglicismo">EN · Anglicismo</span>');
+  if(p.retorica) badges.push(`<span class="diz-card-badge retorica">Φ ${p.retorica}</span>`);
+  if(p.trappola) badges.push(`<span class="diz-card-badge trappola">⚠ ${p.trappola}</span>`);
+  if(p.gergale) badges.push(`<span class="diz-card-badge gergale">⚒ ${p.gergale}</span>`);
+  if(p.nomeproprio) badges.push(`<span class="diz-card-badge nomeproprio">★ ${p.nomeproprio}</span>`);
+  
+  bg.innerHTML = `
+    <div class="diz-modal" onclick="event.stopPropagation()">
+      <button class="diz-modal-close" onclick="chiudiDizModal()">✕</button>
+      <div class="diz-modal-lemma">${p.lemma}</div>
+      <div class="diz-modal-cat">${p.cat}</div>
+      ${badges.length ? `<div style="margin-bottom:18px;display:flex;gap:6px;flex-wrap:wrap">${badges.join('')}</div>` : ''}
+      <div class="diz-modal-canzone">da <em>${c.titolo}</em> · ${c.artista} · ${c.anno}</div>
+      ${p.def ? `<div class="diz-modal-section"><h4>Definizione</h4><p>${p.def}</p></div>` : ''}
+      ${p.etim ? `<div class="diz-modal-section"><h4>Etimologia</h4><p>${p.etim}</p></div>` : ''}
+      ${p.fam ? `<div class="diz-modal-section"><h4>Famiglia di parole</h4><p>${p.fam}</p></div>` : ''}
+      ${p.syn ? `<div class="diz-modal-section"><h4>Sinonimi${p.ant?' / Contrari':''}</h4><p>${p.syn}${p.ant?' · <em>opposti:</em> '+p.ant:''}</p></div>` : ''}
+      ${p.ex ? `<div class="diz-modal-section"><h4>Nella canzone</h4><p style="font-style:italic">${p.ex}</p></div>` : ''}
+      ${p.curio ? `<div class="diz-modal-section"><h4>Curiosità</h4><p>${p.curio}</p></div>` : ''}
+    </div>
+  `;
+  bg.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function chiudiDizModal(){
+  const bg = document.getElementById('diz-modal-bg');
+  if(bg){ bg.classList.remove('active'); document.body.style.overflow=''; }
+}
+
+/* === Eventi filtri === */
+function bindDizionarioEvents(){
+  const search = document.getElementById('diz-search');
+  const canzone = document.getElementById('diz-canzone');
+  const badge = document.getElementById('diz-badge');
+  const clear = document.getElementById('diz-clear');
+  
+  if(search.dataset.bound) return;
+  search.dataset.bound = '1';
+  
+  let timer;
+  search.addEventListener('input', () => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      dizFiltroQuery = search.value.trim();
+      renderDizGrid();
+    }, 180);
+  });
+  canzone.addEventListener('change', () => {
+    dizFiltroCanzone = canzone.value;
+    renderDizGrid();
+  });
+  badge.addEventListener('change', () => {
+    dizFiltroBadge = badge.value;
+    renderDizGrid();
+  });
+  clear.addEventListener('click', () => {
+    search.value = ''; canzone.value = ''; badge.value = '';
+    dizFiltroQuery = dizFiltroCanzone = dizFiltroBadge = dizFiltroLettera = '';
+    renderDizAZNav();
+    renderDizGrid();
+  });
+  
+  // Tabs
+  document.querySelectorAll('.diz-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.tab;
+      document.querySelectorAll('.diz-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.diz-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelector(`.diz-panel[data-panel="${target}"]`).classList.add('active');
+      if(target === 'prova') renderProvaIntro();
+    });
+  });
+}
+
+/* === QUIZ "Mettiti alla prova" === */
+let provaState = null;
+
+function renderProvaIntro(){
+  const shell = document.getElementById('diz-prova-shell');
+  shell.innerHTML = `
+    <div class="diz-prova-intro">
+      <h2>Mettiti alla prova</h2>
+      <p>Dieci domande casuali dalle ${dizParole.length} parole imparate. Ogni domanda usa una meccanica diversa: riconoscere la canzone, capire il significato, completare il verso.</p>
+      <button class="diz-prova-start" onclick="iniziaProva()">Cominciamo</button>
+    </div>
+  `;
+}
+
+function iniziaProva(){
+  if(!dizParole) buildDizionario();
+  // Seleziona 10 parole random ben distribuite
+  const pool = dizParole.slice();
+  const selezionate = [];
+  while(selezionate.length < 10 && pool.length > 0){
+    const idx = Math.floor(Math.random() * pool.length);
+    selezionate.push(pool.splice(idx, 1)[0]);
+  }
+  provaState = {
+    domande: selezionate.map(p => costruisciDomanda(p)),
+    indice: 0,
+    punteggio: 0,
+    risposte: []
+  };
+  mostraDomanda();
+}
+
+function costruisciDomanda(parola){
+  // Sceglie tipo random tra 1-3
+  const tipo = Math.floor(Math.random() * 3) + 1;
+  if(tipo === 1) return costruisciTipoCanzone(parola);
+  if(tipo === 2) return costruisciTipoSignificato(parola);
+  return costruisciTipoVerso(parola);
+}
+
+function costruisciTipoCanzone(parola){
+  // "Da quale canzone viene la parola X?"
+  const canzoneGiusta = parola.canzoneTitolo;
+  const altreCanzoni = CANZONI.filter(c => c.titolo !== canzoneGiusta).map(c => c.titolo);
+  shuffle(altreCanzoni);
+  const opzioni = [canzoneGiusta, ...altreCanzoni.slice(0, 3)];
+  shuffle(opzioni);
+  return {
+    tipo: 'canzone',
+    tipoLabel: 'Da quale canzone?',
+    parola,
+    prompt: `Da quale canzone è tratta la parola <em>${parola.lemma}</em>?`,
+    opzioni,
+    rispostaGiusta: canzoneGiusta,
+    spiegazione: `<em>${parola.lemma}</em> è una parola di <strong>"${canzoneGiusta}"</strong> di ${parola.canzoneArtista || ''}. ${parola.def ? 'Significa: ' + parola.def.split('.')[0] + '.' : ''}`
+  };
+}
+
+function costruisciTipoSignificato(parola){
+  // "Qual è il significato di X?"
+  const defGiusta = parola.def ? parola.def.split('.')[0] + '.' : `Termine usato in "${parola.canzoneTitolo}"`;
+  const altreDef = dizParole
+    .filter(p => p.id !== parola.id && p.def && p.def !== parola.def)
+    .map(p => p.def.split('.')[0] + '.');
+  shuffle(altreDef);
+  const opzioni = [defGiusta, ...altreDef.slice(0, 3)];
+  shuffle(opzioni);
+  return {
+    tipo: 'significato',
+    tipoLabel: 'Cosa significa?',
+    parola,
+    prompt: `Cosa significa <em>${parola.lemma}</em>?`,
+    opzioni,
+    rispostaGiusta: defGiusta,
+    spiegazione: `<em>${parola.lemma}</em>: ${parola.def || 'termine della canzone "' + parola.canzoneTitolo + '"'} ${parola.etim ? '<br><br><strong>Etimologia:</strong> ' + parola.etim : ''}`
+  };
+}
+
+function costruisciTipoVerso(parola){
+  // "Completa il verso"
+  if(!parola.ex){
+    // Fallback al tipo significato se non c'è l'esempio
+    return costruisciTipoSignificato(parola);
+  }
+  // Sostituisci la parola con _____ nell'esempio (case-insensitive)
+  const lemmaBase = parola.lemma.toLowerCase();
+  let versoCieco = parola.ex;
+  // Cerca match flessibile (la parola può apparire con piccole variazioni)
+  const regex = new RegExp('\\b' + lemmaBase.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\w*', 'i');
+  if(!regex.test(versoCieco)){
+    // Fallback significato
+    return costruisciTipoSignificato(parola);
+  }
+  versoCieco = versoCieco.replace(regex, '<span class="blank">______</span>');
+  
+  const altrePar = dizParole
+    .filter(p => p.id !== parola.id && p.cat && parola.cat && p.cat.split('·')[0].trim() === parola.cat.split('·')[0].trim())
+    .map(p => p.lemma);
+  shuffle(altrePar);
+  let opzioni = [parola.lemma, ...altrePar.slice(0, 3)];
+  if(opzioni.length < 4){
+    // Riempi con parole qualsiasi
+    const altre = dizParole.filter(p => p.id !== parola.id && !opzioni.includes(p.lemma)).map(p => p.lemma);
+    shuffle(altre);
+    opzioni = [...opzioni, ...altre.slice(0, 4 - opzioni.length)];
+  }
+  shuffle(opzioni);
+  return {
+    tipo: 'verso',
+    tipoLabel: 'Completa il verso',
+    parola,
+    prompt: `Nella canzone <em>"${parola.canzoneTitolo}"</em>: <br><br><span style="font-style:italic;color:var(--ink-soft)">${versoCieco}</span>`,
+    opzioni,
+    rispostaGiusta: parola.lemma,
+    spiegazione: `La parola mancante è <strong>${parola.lemma}</strong>. ${parola.def ? parola.def.split('.')[0] + '.' : ''}`
+  };
+}
+
+function shuffle(arr){
+  for(let i = arr.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function mostraDomanda(){
+  const shell = document.getElementById('diz-prova-shell');
+  const d = provaState.domande[provaState.indice];
+  const progress = ((provaState.indice) / provaState.domande.length) * 100;
+  
+  shell.innerHTML = `
+    <div class="diz-prova-question">
+      <div class="diz-prova-meta">
+        <span>Domanda ${provaState.indice + 1} di ${provaState.domande.length}</span>
+        <span class="diz-prova-meta-score">Punti: ${provaState.punteggio}</span>
+      </div>
+      <div class="diz-prova-progress"><div class="diz-prova-progress-bar" style="width:${progress}%"></div></div>
+      <span class="diz-prova-type">${d.tipoLabel}</span>
+      <h3 class="diz-prova-prompt">${d.prompt}</h3>
+      <div class="diz-prova-options">
+        ${d.opzioni.map((o, i) => `<button class="diz-prova-option" data-opt="${escHtml(o)}" onclick="rispondi(this)">${o}</button>`).join('')}
+      </div>
+      <div class="diz-prova-feedback" id="diz-prova-feedback"></div>
+      <button class="diz-prova-next" id="diz-prova-next" style="display:none" onclick="prossimaDomanda()">${provaState.indice === provaState.domande.length - 1 ? 'Vedi risultati →' : 'Prossima →'}</button>
+    </div>
+  `;
+}
+
+function escHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function rispondi(btn){
+  const d = provaState.domande[provaState.indice];
+  const scelta = btn.dataset.opt;
+  const giusta = d.rispostaGiusta;
+  const corretto = scelta === giusta || (btn.textContent === giusta);
+  
+  document.querySelectorAll('.diz-prova-option').forEach(b => {
+    b.classList.add('disabled');
+    if(b.textContent === giusta) b.classList.add('correct');
+    else if(b === btn && !corretto) b.classList.add('wrong');
+  });
+  
+  if(corretto) provaState.punteggio++;
+  provaState.risposte.push({domanda:d, scelta, corretto});
+  
+  const fb = document.getElementById('diz-prova-feedback');
+  fb.classList.add('show', corretto ? 'ok' : 'ko');
+  fb.innerHTML = `
+    <strong>${corretto ? 'Esatto!' : 'Non proprio...'}</strong>
+    ${d.spiegazione}
+  `;
+  document.getElementById('diz-prova-next').style.display = 'block';
+}
+
+function prossimaDomanda(){
+  provaState.indice++;
+  if(provaState.indice >= provaState.domande.length){
+    mostraFineProva();
+  } else {
+    mostraDomanda();
+  }
+}
+
+function mostraFineProva(){
+  const shell = document.getElementById('diz-prova-shell');
+  const n = provaState.punteggio;
+  const tot = provaState.domande.length;
+  let msg, emoji;
+  if(n === tot){ msg = 'Perfetto! Tutte giuste. Sei un'+'a' + 'mante delle parole.'; }
+  else if(n >= 8){ msg = 'Ottimo lavoro! Conosci davvero bene il vocabolario.'; }
+  else if(n >= 6){ msg = 'Bene! Ti mancano ancora alcune parole — torna a sfogliare il dizionario.'; }
+  else if(n >= 4){ msg = 'Buon inizio. Riprova: ogni parola che incontri vale doppio.'; }
+  else { msg = 'Nessun problema: il dizionario è ricco, le parole si imparano poco alla volta.'; }
+  
+  shell.innerHTML = `
+    <div class="diz-prova-end">
+      <div class="diz-prova-end-score">${n}/${tot}</div>
+      <div class="diz-prova-end-of">risposte corrette</div>
+      <div class="diz-prova-end-msg">${msg}</div>
+      <div class="diz-prova-end-buttons">
+        <button class="primary" onclick="iniziaProva()">Altre 10 domande</button>
+        <button class="secondary" onclick="renderProvaIntro()">Torna all'inizio</button>
+      </div>
+    </div>
+  `;
+}
+
+// Aggancio routing fatto direttamente dentro vai()
 
 renderCatalogo();
 document.body.classList.add('home-active');
